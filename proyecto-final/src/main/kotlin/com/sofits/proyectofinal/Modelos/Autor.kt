@@ -7,9 +7,9 @@ import javax.persistence.*
 
 @Entity
 class Autor (var nombre:String,
-             var Biografia:String,
-             var imagen:String,
-             var nacimiento:LocalDate,
+             var Biografia:String? = null,
+             var imagen:String? = null,
+             var nacimiento:LocalDate? = null,
              @OneToMany(mappedBy = "autor") val libros: MutableSet<Libro> = mutableSetOf(),
              @ManyToMany(mappedBy = "likeUsuarioAutor",fetch = FetchType.EAGER)
              var likeAutorUsuario:MutableSet<Usuario> = mutableSetOf(),

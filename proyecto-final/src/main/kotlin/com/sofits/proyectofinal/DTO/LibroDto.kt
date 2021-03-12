@@ -9,7 +9,11 @@ data class LibroDtoInicio(
     val titulo:String,
     val usuario:List<UserLibroDto> = mutableListOf()
 )
+data class LibroDtoDetailAutor(
+    val id: UUID,
+    val titulo: String
+)
+fun Libro.toDtoAutor(): LibroDtoInicio = LibroDtoInicio(id!!,titulo,libroUsuario.map { it.usuarioLibro.toDtoLibro() })
 
-fun Libro.toDtoAutor(): LibroDtoInicio {
-    return LibroDtoInicio(id!!,titulo,libroUsuario.map { it.usuarioLibro.toDtoLibro() })
-}
+
+fun Libro.toDetailAutor() = LibroDtoDetailAutor(id!!,titulo)
