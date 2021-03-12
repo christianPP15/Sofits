@@ -13,7 +13,7 @@ class Usuario(
     @Column(unique = true)private var email: String,
     private var password: String,
     var nombreCompleto: String,
-    var activo: Boolean,
+    var fechaNacimiento:LocalDate,
     @Column
     @Convert(converter = RolesConverter::class)
     var roles: List<String>,
@@ -24,6 +24,7 @@ class Usuario(
 
     private val enabled: Boolean = true,
     private val credentialsNonExpired: Boolean = true,
+    var activo: Boolean =true,
     @OneToMany(mappedBy = "usuarioValorado",fetch = FetchType.EAGER) var usuariosValorados: MutableSet<ValoracionesUsuarios> = mutableSetOf(),
     @OneToMany(mappedBy = "usuarioAValorar",fetch = FetchType.EAGER) var usuariosAValorar: MutableSet<ValoracionesUsuarios> = mutableSetOf(),
     @OneToMany(mappedBy = "usuarioLibro",fetch = FetchType.EAGER) var usuarioLibro: MutableSet<UsuarioTieneLibro> = mutableSetOf(),
@@ -39,7 +40,7 @@ class Usuario(
         inverseJoinColumns = [JoinColumn(name = "libro_id")]
     )
     var likeUsuarioLibro:MutableSet<Libro> = mutableSetOf(),
-    @Id @GeneratedValue val id: UUID
+    @Id @GeneratedValue val id: UUID?=null
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>? =
         roles.map { SimpleGrantedAuthority("ROLE_$it") }.toMutableList()
@@ -85,4 +86,6 @@ class Usuario(
     }
 }
 
-interface UsuarioRepository : JpaRepository<Usuario,UUID>
+interface UsuarioRepository : JpaRepository<Usuario,UUID>{
+    fun findByEmail(email : String) : Optional<Usuario>
+}
