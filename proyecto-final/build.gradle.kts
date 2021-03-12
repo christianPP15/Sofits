@@ -25,6 +25,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly(group= "io.jsonwebtoken", name= "jjwt-impl", version= "0.11.2")
+	implementation(group= "io.jsonwebtoken", name= "jjwt-api", version= "0.11.2")
+	runtimeOnly( group= "io.jsonwebtoken", name= "jjwt-jackson", version= "0.11.2")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 }
