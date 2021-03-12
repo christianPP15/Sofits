@@ -49,3 +49,14 @@ data class CreateUserDTO(
     @get:NotNull(message = "{user.nacimiento.notNull}")
     var fechaNacimiento: String
 )
+data class JwtUserResponseLogin(
+    val token: String,
+    val refreshToken: String,
+    val user: UserDTOlogin
+)
+
+data class JWTUserResponseRegister(
+    val token: String,
+    val refreshToken: String,
+    val user: UserDTORegisterModel
+)
