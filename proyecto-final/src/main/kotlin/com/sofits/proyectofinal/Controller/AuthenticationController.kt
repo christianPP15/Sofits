@@ -1,6 +1,8 @@
 package com.sofits.proyectofinal.Controller
 
 import com.sofits.proyectofinal.DTO.*
+import com.sofits.proyectofinal.ErrorControl.UserAlreadyExit
+import com.sofits.proyectofinal.ErrorControl.UserNotFoundById
 import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.Seguridad.jwt.BearerTokenExtractor
 import com.sofits.proyectofinal.Seguridad.jwt.JwtTokenProvider
@@ -59,7 +61,7 @@ class AuthenticationController() {
             if (jwtTokenProvider.validateRefreshToken(refreshToken)) {
                 val userId = jwtTokenProvider.getUserIdFromJWT(refreshToken)
                 val user: Usuario = userService.findById(userId).orElseThrow {
-                    UsernameNotFoundException("No se ha podido encontrar el usuario a partir de su ID")
+                    UserNotFoundById(userId)
                 }
                 val jwtToken = jwtTokenProvider.generateToken(user)
                 val jwtRefreshToken = jwtTokenProvider.generateRefreshToken(user)
@@ -74,15 +76,9 @@ class AuthenticationController() {
 
     }
 
-    @GetMapping("/auth/logout")
-    fun logout() : ResponseEntity<Any> {
-        SecurityContextHolder.clearContext()
-        return ResponseEntity.noContent().build()
-    }
-
     @PostMapping("/auth/register")
     fun nuevoUsuario(@Valid @RequestBody newUser : CreateUserDTO): ResponseEntity<JWTUserResponseRegister> {
-        var user=userService.create(newUser).orElseThrow { ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre de usuario ${newUser.email} ya existe") }
+        var user=userService.create(newUser).orElseThrow { UserAlreadyExit(newUser.email) }
         val authentication=do_authenticate(newUser.email,newUser.password)
         SecurityContextHolder.getContext().authentication = authentication
         val user1 = authentication.principal as Usuario
@@ -107,14 +103,3 @@ data class LoginRequest(
     @get:NotBlank(message = "{user.password.notBlank}") val password: String
 )
 
-data class JwtUserResponseLogin(
-    val token: String,
-    val refreshToken: String,
-    val user: UserDTOlogin
-)
-
-data class JWTUserResponseRegister(
-    val token: String,
-    val refreshToken: String,
-    val user: UserDTORegisterModel
-)
