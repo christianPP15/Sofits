@@ -1,6 +1,10 @@
 package com.sofits.proyectofinal.Modelos
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import java.io.Serializable
 import java.util.*
 import javax.persistence.*
@@ -27,4 +31,8 @@ class UsuarioTieneLibro(@EmbeddedId val id:UsuarioTieneLibroId,
                             var intercambiado:Boolean=false,)
 
 
-interface UsuarioTieneLibroRepository: JpaRepository<UsuarioTieneLibro,UsuarioTieneLibroId>
+interface UsuarioTieneLibroRepository: JpaRepository<UsuarioTieneLibro,UsuarioTieneLibroId>{
+
+    @Query("select e from UsuarioTieneLibro e where usuarioLibro = :USUARIO")
+    fun getAllBooksFromUser(pageable: Pageable,@Param("USUARIO") usuario:Usuario) : Page<UsuarioTieneLibro>
+}
