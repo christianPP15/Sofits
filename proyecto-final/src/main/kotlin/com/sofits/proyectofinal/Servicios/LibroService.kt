@@ -13,11 +13,13 @@ import com.sofits.proyectofinal.Modelos.LibroRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Service
 import java.util.*
 
+@Service
 class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UUID, LibroRepository>(){
 
-    fun getAllLibros(pageable: Pageable) =ResponseEntity.ok(repositorio.findAll(pageable).takeIf { !it.isEmpty } ?: throw LibrosNotExists())
+    fun getAllLibros(pageable: Pageable) =ResponseEntity.ok(repositorio.findAll(pageable).map { it.toDetailLibro() }.takeIf { !it.isEmpty } ?: throw LibrosNotExists())
 
     fun getById(id:UUID) = repositorio.findById(id).map { it.toDetailLibro() }.orElseThrow { LibroNotExist(id) }
 
