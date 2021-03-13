@@ -11,3 +11,7 @@ data class UserAlreadyExit(val email:String) : EntityNotFoundExceptionControl("E
 data class AutorNotExist(val id:UUID) : EntityNotFoundExceptionControl("No existe un autor con id $id")
 
 data class AutorsNotExists(val mensaje: String="No existen autores aún") : EntityNotFoundExceptionControl(mensaje)
+
+data class LibroNotExist(val id: UUID): EntityNotFoundExceptionControl("No existe un libro con id $id")
+
+data class LibrosNotExists(val mensaje: String="No existen libros aún") : EntityNotFoundExceptionControl(mensaje)

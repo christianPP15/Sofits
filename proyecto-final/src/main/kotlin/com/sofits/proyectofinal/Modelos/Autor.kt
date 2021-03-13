@@ -10,7 +10,7 @@ class Autor (var nombre:String,
              var Biografia:String? = null,
              var imagen:String? = null,
              var nacimiento:LocalDate? = null,
-             @OneToMany(mappedBy = "autor") val libros: MutableSet<Libro> = mutableSetOf(),
+             @OneToMany(mappedBy = "autor",orphanRemoval = true) val libros: MutableSet<Libro> = mutableSetOf(),
              @ManyToMany(mappedBy = "likeUsuarioAutor",fetch = FetchType.EAGER)
              var likeAutorUsuario:MutableSet<Usuario> = mutableSetOf(),
              @Id @GeneratedValue val id:UUID?=null){

@@ -19,14 +19,14 @@ class ProyectoFinalApplication{
 			generoLiterarioRepository.save(genero)
 			val autor=Autor("Carlos ruiz","adwdwd","dwdwd", LocalDate.of(1900,3,15))
 			autorRepository.save(autor)
-			val libro=Libro("Marina","Libro guapisimo","Bueno","adw","Español",1)
+			val libro=Libro("Marina","Libro guapisimo")
 			libroRepository.save(libro)
 			autor.libros.add(libro)
 			libro.autor=autor
 			autorRepository.save(autor)
 			libroRepository.save(libro)
 			val id=UsuarioTieneLibroId(user1.id!!,libro.id!!)
-			val libroUsuario=UsuarioTieneLibro(id,user1,libro,"pepe")
+			val libroUsuario=UsuarioTieneLibro(id,user1,libro,"pepe","Buen estado","dwdwad","Ingles",3)
 			usuarioTieneLibroRepository.save(libroUsuario)
 		}
 	}

@@ -19,7 +19,12 @@ class UsuarioTieneLibro(@EmbeddedId val id:UsuarioTieneLibroId,
                            @MapsId("libro_id")
                            @JoinColumn(name = "Libro_id")
                            var libroUsuario:Libro,
-                           @Lob var DescripccionLibro:String)
+                           @Lob var DescripccionLibro:String,
+                            var estado:String,
+                            var portada:String,
+                            var idioma:String,
+                            var edicion:Int,
+                            var intercambiado:Boolean=false,)
 
 
 interface UsuarioTieneLibroRepository: JpaRepository<UsuarioTieneLibro,UsuarioTieneLibroId>
