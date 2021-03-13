@@ -9,15 +9,15 @@ class Libro(var titulo:String,
             @Lob var descripcion:String,
             var estado:String,
             var portada:String,
-            var intercambiado:Boolean,
             var idioma:String,
             var edicion:Int,
+            var intercambiado:Boolean=false,
             @ManyToOne var autor: Autor?=null,
             @OneToMany(mappedBy = "libroUsuario",fetch = FetchType.EAGER) var libroUsuario: MutableSet<UsuarioTieneLibro> = mutableSetOf(),
             @ManyToMany(mappedBy = "likeUsuarioLibro",fetch = FetchType.EAGER)
             var likeLibroUsuario:MutableSet<Usuario> = mutableSetOf(),
             @OneToMany val generos: MutableSet<GeneroLiterario> = mutableSetOf<GeneroLiterario>(),
-            @Id @GeneratedValue val id:UUID){
+            @Id @GeneratedValue val id:UUID?=null){
 
     override fun equals(other: Any?): Boolean {
         if (this === other)

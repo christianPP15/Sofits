@@ -1,24 +1,23 @@
 package com.sofits.proyectofinal.ErrorControl
 
-import com.sun.istack.Nullable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.lang.Nullable
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import javax.persistence.EntityNotFoundException
 
 
 @RestControllerAdvice
 class GlobalRestControllerAdvice : ResponseEntityExceptionHandler() {
 
 
-    @ExceptionHandler(value = [EntityNotFoundException::class])
-    fun handleExceptionEntityNotFound(ex: EntityNotFoundException): ResponseEntity<ApiError> =
+    @ExceptionHandler(value = [EntityNotFoundExceptionControl::class])
+    fun handleExceptionEntityNotFound(ex: EntityNotFoundExceptionControl): ResponseEntity<ApiError> =
         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiError(HttpStatus.BAD_REQUEST, ex.message))
 
 

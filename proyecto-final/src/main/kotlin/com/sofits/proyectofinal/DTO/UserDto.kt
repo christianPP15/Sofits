@@ -26,13 +26,18 @@ data class UserDTO(
     var roles: String,
     val id: UUID? = null
 )
+data class UserLibroDto(
+    val id: UUID?,
+    val nombre:String
+)
+fun Usuario.toDtoLibro() : UserLibroDto = UserLibroDto(id,nombreUsuario)
 
-fun Usuario.toUserDTO() = UserDTO(username, nombreCompleto, roles.joinToString(), id)
+fun Usuario.toUserDTO() = UserDTO(username, nombreUsuario, roles.joinToString(), id)
 
 
-fun Usuario.UserDTOLogin() = UserDTOlogin(username,nombreCompleto, id)
+fun Usuario.UserDTOLogin() = UserDTOlogin(username,nombreUsuario, id)
 
-fun Usuario.UserDTORegister() = UserDTORegisterModel(username,nombreCompleto,fechaNacimiento,id)
+fun Usuario.UserDTORegister() = UserDTORegisterModel(username,nombreUsuario,fechaNacimiento,id)
 
 data class CreateUserDTO(
     @get:NotBlank(message = "{user.email.notBlank}")
