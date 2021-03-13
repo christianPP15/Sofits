@@ -20,9 +20,17 @@ data class AutoresDetail(
     val nacimiento:LocalDate? = null,
     val libros: List<LibroDtoDetailAutor> = mutableListOf()
 )
+data class AutorDatosBiograficos(
+    val id: UUID,
+    val nombre: String,
+    val biografia: String?=null,
+    val nacimiento: String?=null
+)
 fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDtoAutor() })
 
 fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDetailAutor() })
+
+fun Autor.toCrateDto()= AutorDatosBiograficos(id!!,nombre,Biografia,nacimiento.toString())
 
 data class createAutor(
     @get:NotBlank(message = "{autor.nombre.notBlank}")
@@ -35,6 +43,5 @@ data class createAutorComplete(
     val biografia: String,
     @get:NotBlank(message = "{autor.imagen.notBlank}")
     val imagen:String,
-    @get:Past(message = "{autor.fecha.anterior}")
-    val nacimiento: LocalDate? = null
+    val nacimiento: String? = null
 )

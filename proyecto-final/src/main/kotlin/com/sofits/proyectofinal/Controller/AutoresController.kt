@@ -28,4 +28,17 @@ class AutoresController (val autoresServicio:AutorService){
     @PostMapping("/")
     fun agregarAutorCompleto(@Valid @RequestBody created: createAutorComplete)=
         ResponseEntity.status(201).body(autoresServicio.addAutorCompleto(created))
+
+    @PutMapping("/user/{id}")
+    fun updateAutorPorUsuario(@Valid @RequestBody create: createAutor,@PathVariable("id") id: UUID) =
+        autoresServicio.updateByUsuario(id,create)
+
+    @PutMapping("/{id}")
+    fun updateComplete(@Valid @RequestBody create: createAutorComplete,@PathVariable("id") id: UUID) = autoresServicio.updateComplete(id,create)
+
+    @DeleteMapping("/{id}")
+    fun deleteAutor(@PathVariable("id") id: UUID) = autoresServicio.deleteAutor(id)
+
+
+
 }
