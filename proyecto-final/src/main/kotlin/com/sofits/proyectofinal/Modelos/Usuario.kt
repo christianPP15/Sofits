@@ -12,7 +12,7 @@ import javax.persistence.*
 class Usuario(
     @Column(unique = true)private var email: String,
     private var password: String,
-    var nombreCompleto: String,
+    var nombreUsuario: String,
     var fechaNacimiento:LocalDate,
     @Column
     @Convert(converter = RolesConverter::class)

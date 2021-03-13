@@ -18,8 +18,8 @@ class UsuarioTieneLibro(@EmbeddedId val id:UsuarioTieneLibroId,
                            @ManyToOne
                            @MapsId("libro_id")
                            @JoinColumn(name = "Libro_id")
-                           var libroUsuario:Usuario,
-                           @Lob var DescripccionLibro:Int)
+                           var libroUsuario:Libro,
+                           @Lob var DescripccionLibro:String)
 
 
 interface UsuarioTieneLibroRepository: JpaRepository<UsuarioTieneLibro,UsuarioTieneLibroId>

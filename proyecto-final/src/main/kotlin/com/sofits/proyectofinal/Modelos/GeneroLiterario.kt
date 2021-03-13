@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne
 
 @Entity
 class GeneroLiterario (var nombre:String,
-                       @Id @GeneratedValue val id:UUID){
+                       @Id @GeneratedValue val id:UUID?=null){
     override fun equals(other: Any?): Boolean {
         if (this === other)
             return true
