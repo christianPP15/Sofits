@@ -26,6 +26,11 @@ data class AutorDatosBiograficos(
     val biografia: String?=null,
     val nacimiento: String?=null
 )
+data class AutorDeLibro(
+    val id: UUID,
+    val nombre: String
+)
+fun Autor.toLibroCreate() = AutorDeLibro(id!!,nombre)
 fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDtoAutor() })
 
 fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDetailAutor() })

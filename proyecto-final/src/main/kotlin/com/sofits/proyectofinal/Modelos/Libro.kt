@@ -6,12 +6,7 @@ import javax.persistence.*
 
 @Entity
 class Libro(var titulo:String,
-            @Lob var descripcion:String,
-            var estado:String,
-            var portada:String,
-            var idioma:String,
-            var edicion:Int,
-            var intercambiado:Boolean=false,
+            @Lob var descripcion:String? ,
             @ManyToOne var autor: Autor?=null,
             @OneToMany(mappedBy = "libroUsuario",fetch = FetchType.EAGER) var libroUsuario: MutableSet<UsuarioTieneLibro> = mutableSetOf(),
             @ManyToMany(mappedBy = "likeUsuarioLibro",fetch = FetchType.EAGER)
