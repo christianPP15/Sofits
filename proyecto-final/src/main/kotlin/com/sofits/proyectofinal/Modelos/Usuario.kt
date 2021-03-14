@@ -71,7 +71,7 @@ class Usuario(
         likeUsuarioAutor.add(autorAdd)
         autorAdd.likeAutorUsuario.add(this)
     }
-    fun eliminarAutorMeGusta(autorRemove: Autor){
+    fun removeAutorMeGusta(autorRemove: Autor){
         likeUsuarioAutor.remove(autorRemove)
         autorRemove.likeAutorUsuario.remove(this)
     }
