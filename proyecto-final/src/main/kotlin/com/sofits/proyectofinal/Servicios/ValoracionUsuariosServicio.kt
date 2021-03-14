@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import java.util.*
 
+@Service
 class ValoracionUsuariosServicio (val usuariosServicio: UserService) : BaseService<ValoracionesUsuarios,ValoracionesUsuariosId,ValoracionesUsuariosRepository>(){
 
 
