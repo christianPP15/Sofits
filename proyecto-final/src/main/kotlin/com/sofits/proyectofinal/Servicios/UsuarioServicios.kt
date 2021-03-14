@@ -6,6 +6,7 @@ import com.sofits.proyectofinal.Modelos.UsuarioRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Service
@@ -19,7 +20,8 @@ class UserService(
             return Optional.empty()
         return Optional.of(
             with(newUser) {
-                repo.save(Usuario(email, encoder.encode(password), fullName, LocalDate.parse(newUser.fechaNacimiento) ,listOf("USER")))
+                repo.save(Usuario(email, encoder.encode(password), nombre, LocalDate.parse(newUser.fechaNacimiento,
+                    DateTimeFormatter.ofPattern("d/MM/yyyy")) ,listOf("USER")))
             }
 
         )

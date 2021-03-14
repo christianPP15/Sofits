@@ -1,5 +1,6 @@
 package com.sofits.proyectofinal.ErrorControl
 
+import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
 import java.util.*
 
 open class EntityNotFoundExceptionControl(val msg: String) : RuntimeException(msg)
@@ -15,3 +16,5 @@ data class AutorsNotExists(val mensaje: String="No existen autores aún") : Enti
 data class LibroNotExist(val id: UUID): EntityNotFoundExceptionControl("No existe un libro con id $id")
 
 data class LibrosNotExists(val mensaje: String="No existen libros aún") : EntityNotFoundExceptionControl(mensaje)
+
+data class PublicacionNotExist(val id:UsuarioTieneLibroId): EntityNotFoundExceptionControl("No existen publicaciones para el id $id")

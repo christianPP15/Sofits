@@ -4,6 +4,7 @@ import com.sofits.proyectofinal.DTO.createAutor
 import com.sofits.proyectofinal.DTO.createAutorComplete
 import com.sofits.proyectofinal.Servicios.AutorService
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.query.Param
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -20,6 +21,9 @@ class AutoresController (val autoresServicio:AutorService){
 
     @GetMapping("/{id}")
     fun obtenerDetallesAutor(@PathVariable("id") id:UUID) = ResponseEntity.ok().body(autoresServicio.obtenerAutor(id))
+
+    @GetMapping("/{nombre}")
+    fun findAutorByNombre(@Param("nombre") nombre:String) = autoresServicio.findByNombre(nombre)
 
     @PostMapping("/user")
     fun agregarAutorPorUsuario(@Valid @RequestBody create: createAutor) =

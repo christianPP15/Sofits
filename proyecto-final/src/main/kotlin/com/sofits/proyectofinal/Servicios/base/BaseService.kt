@@ -37,4 +37,8 @@ abstract class BaseService<T, ID, R : JpaRepository<T, ID>> {
     fun deleteById(id: ID) {
         repositorio!!.deleteById(id)
     }
+
+    fun existsById(id: ID):Boolean{
+        return repositorio!!.existsById(id)
+    }
 }

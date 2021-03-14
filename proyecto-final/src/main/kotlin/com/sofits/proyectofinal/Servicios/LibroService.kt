@@ -32,14 +32,13 @@ class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UU
         repositorio.save(libro)
         return ResponseEntity.status(201).body(libro.toDetailLibro())
     }
-    fun editLibro(id: UUID,create: createLibro){
-        val libro=repositorio.findById(id).map { libro->
+    fun editLibro(id: UUID,create: createLibro) = repositorio.findById(id).map { libro->
             libro.titulo=create.titulo
             libro.descripcion=create.descripcion
             repositorio.save(libro).toDetailLibro()
         }.orElseThrow { AutorNotExist(id) }
 
-    }
+
     fun removeLibro(id: UUID) : ResponseEntity<Any>{
         val libro= repositorio.findById(id).orElseThrow { LibroNotExist(id) }
         val autor= autorRepository.findById(libro.autor!!.id!!).orElseThrow { AutorNotExist(id) }
