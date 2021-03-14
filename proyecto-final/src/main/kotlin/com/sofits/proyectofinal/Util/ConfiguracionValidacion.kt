@@ -13,7 +13,7 @@ class ConfiguracionValidacion {
     fun messageSource() : MessageSource {
         var messageSource = ReloadableResourceBundleMessageSource()
 
-        messageSource.setBasename("classpath:messages")
+        messageSource.setBasename("classpath:message")
         messageSource.setDefaultEncoding("UTF-8")
         return messageSource
     }

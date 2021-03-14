@@ -44,7 +44,7 @@ data class CreateUserDTO(
     @get:Email(message = "{user.email.valid}")
     var email:String,
     @get:NotBlank(message = "{user.fullname.notBlank}")
-    var fullName: String,
+    var nombre: String,
     @get:NotBlank(message = "{user.password.notBlank}")
     @get:Size(message = "{user.password.min}",min = 5)
     val password: String,

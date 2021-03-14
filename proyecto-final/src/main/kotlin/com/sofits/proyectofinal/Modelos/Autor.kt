@@ -1,6 +1,8 @@
 package com.sofits.proyectofinal.Modelos
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
@@ -31,4 +33,7 @@ class Autor (var nombre:String,
     }
 }
 
-interface AutorRepository : JpaRepository<Autor,UUID>
+interface AutorRepository : JpaRepository<Autor,UUID>{
+
+    fun findByNombreIgnoreCase (nombre: String) : Optional<Autor>
+}

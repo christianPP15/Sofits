@@ -51,4 +51,5 @@ class AutorService : BaseService<Autor,UUID,AutorRepository>(){
             repositorio.deleteById(id)
         return ResponseEntity.noContent().build()
     }
+    fun findByNombre(nombre:String) = ResponseEntity.ok(repositorio.findByNombreIgnoreCase(nombre).map { it.toDetail() }.orElseThrow { AutorsNotExists() })
 }
