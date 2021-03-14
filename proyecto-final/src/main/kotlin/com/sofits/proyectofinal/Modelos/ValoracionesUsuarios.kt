@@ -1,6 +1,8 @@
 package com.sofits.proyectofinal.Modelos
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import java.io.Serializable
 import java.util.*
 import javax.persistence.*
@@ -21,4 +23,11 @@ class ValoracionesUsuarios(@EmbeddedId val id:ValoracionesUsuariosId,
                             var nota:Int)
 
 
-interface ValoracionesUsuariosRepository : JpaRepository<ValoracionesUsuarios,ValoracionesUsuariosId>
+interface ValoracionesUsuariosRepository : JpaRepository<ValoracionesUsuarios,ValoracionesUsuariosId>{
+
+    @Query("select e from ValoracionesUsuarios e where e.usuarioAValorar = :USUARIOVALORADO")
+    fun getValorationFromOneUser(@Param("USUARIOVALORADO") usuarioValorado:Usuario) : List<ValoracionesUsuarios>
+
+    @Query("select e from ValoracionesUsuarios e where e.usuarioValorado= :USUARIOVALORADO and e.usuarioAValorar= :USUARIOVALORANDO")
+    fun userLikeAnotherUser(@Param("USUARIOVALORADO") usuarioValorado:Usuario,@Param("USUARIOVALORANDO") usuarioValorando: Usuario) : Optional<ValoracionesUsuarios>
+}

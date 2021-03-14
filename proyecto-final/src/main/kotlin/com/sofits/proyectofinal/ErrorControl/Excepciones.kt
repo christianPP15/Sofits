@@ -18,3 +18,6 @@ data class LibroNotExist(val id: UUID): EntityNotFoundExceptionControl("No exist
 data class LibrosNotExists(val mensaje: String="No existen libros aún") : EntityNotFoundExceptionControl(mensaje)
 
 data class PublicacionNotExist(val id:UsuarioTieneLibroId): EntityNotFoundExceptionControl("No existen publicaciones para el id $id")
+
+data class ValoracionNotExist(val idUsuarioValorado: UUID, val idUsuarioValorando:UUID)
+    : EntityNotFoundExceptionControl("No existe valoración para el usuario con id $idUsuarioValorado y el $idUsuarioValorando")
