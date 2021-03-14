@@ -13,7 +13,7 @@ class ValoracionesController (val valoracionesServicio: ValoracionUsuariosServic
     @GetMapping("/{id}")
     fun obtenerValoracionesParaUnUsuario(@PathVariable("id") id:UUID) =valoracionesServicio.obtenerValoracionesDeUnUsuario(id)
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/exits")
     fun userLikeOtherUser(@AuthenticationPrincipal user:Usuario?,@PathVariable("id") id:UUID ) =
         user.let { valoracionesServicio.userLikeOtherUser(user!!,id) }
 
