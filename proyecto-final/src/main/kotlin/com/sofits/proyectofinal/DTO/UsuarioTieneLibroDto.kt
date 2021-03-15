@@ -2,6 +2,8 @@ package com.sofits.proyectofinal.DTO
 
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
+import com.sofits.proyectofinal.upload.ImagenWithoutHash
+import com.sofits.proyectofinal.upload.toDto
 import java.util.*
 
 
@@ -11,7 +13,8 @@ data class LibrosUsuariosResponse(
     val descripcion: String,
     val estado:String,
     val edicion:Int,
-    val intercambiado:Boolean
+    val intercambiado:Boolean,
+    val imagenWithoutHash: ImagenWithoutHash?
 )
 data class AgregarLibroAUsuario(
     val idLibro:UUID,
@@ -28,6 +31,6 @@ data class EditarLibroAUsuario(
     val edicion:String,
 )
 
-fun UsuarioTieneLibro.toDto()= LibrosUsuariosResponse(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,intercambiado)
+fun UsuarioTieneLibro.toDto()= LibrosUsuariosResponse(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,intercambiado,imagen?.toDto())
 
 

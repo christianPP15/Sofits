@@ -25,10 +25,11 @@ class UsuarioTieneLibro(@EmbeddedId val id:UsuarioTieneLibroId,
                         var libroUsuario:Libro,
                         @Lob var DescripccionLibro:String,
                         var estado:String,
-                        var portada: String?,
                         var idioma:String,
                         var edicion:Int,
-                        var intercambiado:Boolean=false)
+                        var intercambiado:Boolean=false,
+                        @OneToOne(cascade = [CascadeType.ALL]) var imagen: Imagenes? = null
+)
 
 
 interface UsuarioTieneLibroRepository: JpaRepository<UsuarioTieneLibro,UsuarioTieneLibroId>{

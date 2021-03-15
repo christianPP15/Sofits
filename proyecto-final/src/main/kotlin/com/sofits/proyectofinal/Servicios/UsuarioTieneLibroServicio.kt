@@ -12,16 +12,19 @@ import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.nio.file.attribute.UserPrincipalNotFoundException
 import java.util.*
 
 @Service
 class UsuarioTieneLibroServicio(val libroService: LibroService) :
     BaseService<UsuarioTieneLibro, UsuarioTieneLibroId, UsuarioTieneLibroRepository>() {
-
+    @Autowired
+    lateinit var  servicioImagenes: ImagenServicio
 
     fun getMyBooks(pageable: Pageable, user: Usuario?) =
         ResponseEntity.ok(repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDto() }.takeIf { user != null }
@@ -34,7 +37,7 @@ class UsuarioTieneLibroServicio(val libroService: LibroService) :
                 ?: throw LibrosNotExists()
         )
 
-    fun addBookUser(user: Usuario, libroAgregar: AgregarLibroAUsuario): ResponseEntity<LibrosUsuariosResponse> {
+    fun addBookUser(user: Usuario, libroAgregar: AgregarLibroAUsuario,file: MultipartFile): ResponseEntity<LibrosUsuariosResponse> {
         val book = libroService.findById(libroAgregar.idLibro).orElseThrow { LibroNotExist(libroAgregar.idLibro) }
         val idLibroUsuario = UsuarioTieneLibroId(user.id!!, book.id!!)
         val usuarioLibro = UsuarioTieneLibro(
@@ -43,10 +46,11 @@ class UsuarioTieneLibroServicio(val libroService: LibroService) :
             book,
             libroAgregar.DescripccionLibro,
             libroAgregar.estado,
-            null,
             libroAgregar.idioma,
             libroAgregar.edicion.toInt()
         )
+        val imagen=servicioImagenes.save(file)
+        usuarioLibro.imagen=imagen
         return ResponseEntity.status(201).body(repositorio.save(usuarioLibro).toDto())
     }
 

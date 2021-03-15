@@ -3,11 +3,14 @@ package com.sofits.proyectofinal.Controller
 import com.sofits.proyectofinal.DTO.AgregarLibroAUsuario
 import com.sofits.proyectofinal.DTO.EditarLibroAUsuario
 import com.sofits.proyectofinal.Modelos.Usuario
+import com.sofits.proyectofinal.Servicios.ImagenServicio
 import com.sofits.proyectofinal.Servicios.UsuarioTieneLibroServicio
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @RestController
@@ -23,8 +26,8 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
         usuarioTieneLibroServicio.getAllBooksEquals(pageable, id)
 
     @PostMapping("/")
-    fun addBookUser(@AuthenticationPrincipal user: Usuario?,@RequestBody libro: AgregarLibroAUsuario) =
-        user.let { usuarioTieneLibroServicio.addBookUser(user!!,libro) }
+    fun addBookUser(@AuthenticationPrincipal user: Usuario?,@RequestPart("libro") libro: AgregarLibroAUsuario,@RequestPart("file") file: MultipartFile) =
+        user.let { usuarioTieneLibroServicio.addBookUser(user!!,libro,file) }
 
     @PutMapping("/{id}/estado")
     fun changeEstado(@AuthenticationPrincipal user: Usuario?,@PathVariable("id") id: UUID) =
