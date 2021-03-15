@@ -67,8 +67,15 @@ class WebSecurityConfiguration(
             .and()
             .authorizeRequests()
             .antMatchers("/h2-console/**","/v2/swagger.ui.html","/v2/api-docs").permitAll()
+            .antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**").permitAll()
             .antMatchers(HttpMethod.POST, "/auth/login", "/auth/token", "/user/","/auth/register").permitAll()
             .anyRequest().hasRole("USER")
+
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
