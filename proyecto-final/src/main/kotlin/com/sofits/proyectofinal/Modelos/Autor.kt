@@ -10,9 +10,9 @@ import javax.persistence.*
 @Entity
 class Autor (var nombre:String,
              var Biografia:String? = null,
-             var imagen:String? = null,
              var nacimiento:LocalDate? = null,
-             @OneToMany(mappedBy = "autor",cascade = arrayOf(CascadeType.ALL),orphanRemoval = true,fetch = FetchType.EAGER) val libros: MutableSet<Libro> = mutableSetOf(),
+             @OneToOne(cascade = [CascadeType.ALL]) var imagen:Imagenes? = null,
+             @OneToMany(mappedBy = "autor",cascade = [CascadeType.ALL],orphanRemoval = true,fetch = FetchType.EAGER) val libros: MutableSet<Libro> = mutableSetOf(),
              @ManyToMany(mappedBy = "likeUsuarioAutor",fetch = FetchType.EAGER)
              var likeAutorUsuario:MutableSet<Usuario> = mutableSetOf(),
              @Id @GeneratedValue val id:UUID?=null){

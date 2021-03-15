@@ -3,7 +3,9 @@ package com.sofits.proyectofinal.Controller
 import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.UserAlreadyExit
 import com.sofits.proyectofinal.ErrorControl.UserNotFoundById
+import com.sofits.proyectofinal.Modelos.ImagenesRepository
 import com.sofits.proyectofinal.Modelos.Usuario
+import com.sofits.proyectofinal.Modelos.UsuarioRepository
 import com.sofits.proyectofinal.Seguridad.jwt.BearerTokenExtractor
 import com.sofits.proyectofinal.Seguridad.jwt.JwtTokenProvider
 import com.sofits.proyectofinal.Servicios.ImagenServicio
@@ -35,7 +37,8 @@ class AuthenticationController() {
     lateinit var userService: UserService
     @Autowired
     lateinit var  servicioImagenes: ImagenServicio
-
+    @Autowired
+    lateinit var usuarioRepository: UsuarioRepository
     @PostMapping("/auth/login")
     fun login(@Valid @RequestBody loginRequest : LoginRequest) : ResponseEntity<JwtUserResponseLogin> {
         val authentication = do_authenticate(loginRequest.username,loginRequest.password)
@@ -81,6 +84,7 @@ class AuthenticationController() {
         var user=userService.create(newUser).orElseThrow { UserAlreadyExit(newUser.email) }
         val imagen = servicioImagenes.save(file)
         user.imagen=imagen
+        usuarioRepository.save(user)
         val authentication=do_authenticate(newUser.email,newUser.password)
         SecurityContextHolder.getContext().authentication = authentication
         val user1 = authentication.principal as Usuario

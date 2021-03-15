@@ -66,7 +66,7 @@ class WebSecurityConfiguration(
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/h2-console/**","/v2/swagger.ui.html","/v2/api-docs").permitAll()
             .antMatchers(HttpMethod.POST, "/auth/login", "/auth/token", "/user/","/auth/register").permitAll()
             .anyRequest().hasRole("USER")
 

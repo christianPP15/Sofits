@@ -1,6 +1,9 @@
 package com.sofits.proyectofinal.DTO
 
+import com.sofits.proyectofinal.Modelos.Imagenes
 import com.sofits.proyectofinal.Modelos.Usuario
+import com.sofits.proyectofinal.upload.ImagenWithoutHash
+import com.sofits.proyectofinal.upload.toDto
 import java.time.LocalDate
 import java.util.*
 import javax.validation.constraints.Email
@@ -12,12 +15,14 @@ import javax.validation.constraints.Size
 data class UserDTOlogin(
     var email : String,
     var nombre: String,
+    var imagen: ImagenWithoutHash?,
     val id: UUID? = null
 )
 data class UserDTORegisterModel(
     val email: String,
     val nombre: String,
     val fechaNacimiento: LocalDate,
+    val imagen: ImagenWithoutHash?,
     val id: UUID? = null
 )
 data class UserDTO(
@@ -35,9 +40,9 @@ fun Usuario.toDtoLibro() : UserLibroDto = UserLibroDto(id,nombreUsuario)
 fun Usuario.toUserDTO() = UserDTO(username, nombreUsuario, roles.joinToString(), id)
 
 
-fun Usuario.UserDTOLogin() = UserDTOlogin(username,nombreUsuario, id)
+fun Usuario.UserDTOLogin() = UserDTOlogin(username,nombreUsuario,imagen?.toDto(), id)
 
-fun Usuario.UserDTORegister() = UserDTORegisterModel(username,nombreUsuario,fechaNacimiento,id)
+fun Usuario.UserDTORegister() = UserDTORegisterModel(username,nombreUsuario,fechaNacimiento,imagen?.toDto(),id)
 
 data class CreateUserDTO(
     @get:NotBlank(message = "{user.email.notBlank}")

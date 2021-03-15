@@ -1,5 +1,6 @@
 package com.sofits.proyectofinal.Controller
 
+import com.sofits.proyectofinal.DTO.CreateUserDTO
 import com.sofits.proyectofinal.DTO.createAutor
 import com.sofits.proyectofinal.DTO.createAutorComplete
 import com.sofits.proyectofinal.Servicios.AutorService
@@ -8,6 +9,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 import javax.validation.Valid
 
@@ -30,8 +32,8 @@ class AutoresController (val autoresServicio:AutorService){
         ResponseEntity.status(201).body(autoresServicio.usuarioAddAutor(create))
 
     @PostMapping("/")
-    fun agregarAutorCompleto(@Valid @RequestBody created: createAutorComplete)=
-        ResponseEntity.status(201).body(autoresServicio.addAutorCompleto(created))
+    fun agregarAutorCompleto(@Valid @RequestPart("nuevoAutor") created: createAutorComplete, @RequestPart("file") file: MultipartFile)=
+        ResponseEntity.status(201).body(autoresServicio.addAutorCompleto(created,file))
 
     @PutMapping("/user/{id}")
     fun updateAutorPorUsuario(@Valid @RequestBody create: createAutor,@PathVariable("id") id: UUID) =

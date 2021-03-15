@@ -1,11 +1,19 @@
 package com.sofits.proyectofinal.upload
 
+import com.sofits.proyectofinal.Modelos.Imagenes
+import java.util.*
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
 
 
 data class ImgurImageAttribute(var id: String?, var deletehash : String?)
 
+data class ImagenWithoutHash(
+    val id:UUID?,
+    val idImagen:String?
+)
+
+fun Imagenes.toDto()= ImagenWithoutHash(id,img!!.id)
 
 @Converter(autoApply = true)
 class ImgurImageAttributeToStringConverter() : AttributeConverter<ImgurImageAttribute, String?> {

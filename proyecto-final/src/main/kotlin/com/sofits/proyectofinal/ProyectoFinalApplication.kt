@@ -17,7 +17,7 @@ class ProyectoFinalApplication{
 			usuRepo.save(user1)
 			val genero=GeneroLiterario("fantasia")
 			generoLiterarioRepository.save(genero)
-			val autor=Autor("Carlos ruiz","adwdwd","dwdwd", LocalDate.of(1900,3,15))
+			val autor=Autor("Carlos ruiz","adwdwd", LocalDate.of(1900,3,15))
 			autorRepository.save(autor)
 			val libro=Libro("Marina","Libro guapisimo")
 			libroRepository.save(libro)

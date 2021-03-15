@@ -31,6 +31,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	implementation(group= "io.springfox", name= "springfox-swagger2", version= "3.0.0")
+	implementation(group= "io.springfox", name= "springfox-boot-starter", version= "3.0.0")
+	implementation(group= "io.springfox", name= "springfox-swagger-ui", version= "3.0.0")
+
 }
 
 tasks.withType<KotlinCompile> {
