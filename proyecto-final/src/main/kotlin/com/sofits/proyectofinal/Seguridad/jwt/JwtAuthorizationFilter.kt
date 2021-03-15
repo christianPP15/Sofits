@@ -34,6 +34,7 @@ class JwtAuthorizationFilter() : OncePerRequestFilter() {
     private val log: Logger = LoggerFactory.getLogger(JwtAuthorizationFilter::class.java)
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+        // TODO Se puede mejorar el manejo de errores para entroncarlo con un @RestControllerAdvice
         try {
             bearerTokenExtractor.getJwtFromRequest(request).ifPresent { token ->
                 if (jwtTokenProvider.validateAuthToken(token)) {
@@ -47,11 +48,12 @@ class JwtAuthorizationFilter() : OncePerRequestFilter() {
 
                 }
             }
-            filterChain.doFilter(request, response)
+            //filterChain.doFilter(request, response)
         } catch (ex : Exception) {
             log.info("No se ha podido establecer la autenticación del usuario en el contexto de seguridad")
-            log.info(ex.message)
-            //throw UsernameNotFoundException(ex.message)
+            throw ex
+        } finally {
+            filterChain.doFilter(request, response)
         }
 
     }
