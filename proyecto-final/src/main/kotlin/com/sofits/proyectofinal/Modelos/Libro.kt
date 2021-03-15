@@ -1,6 +1,7 @@
 package com.sofits.proyectofinal.Modelos
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import java.util.*
 import javax.persistence.*
 
@@ -32,4 +33,7 @@ class Libro(var titulo:String,
 }
 
 
-interface LibroRepository: JpaRepository<Libro,UUID>
+interface LibroRepository: JpaRepository<Libro,UUID> , JpaSpecificationExecutor<Libro?>{
+
+
+}

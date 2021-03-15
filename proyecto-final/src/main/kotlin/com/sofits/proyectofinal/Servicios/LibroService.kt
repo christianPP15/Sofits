@@ -11,7 +11,9 @@ import com.sofits.proyectofinal.Modelos.AutorRepository
 import com.sofits.proyectofinal.Modelos.Libro
 import com.sofits.proyectofinal.Modelos.LibroRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
@@ -46,5 +48,38 @@ class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UU
         autorRepository.save(autor)
         repositorio.delete(libro)
         return ResponseEntity.noContent().build()
+    }
+
+    fun findByArgs(titulo:Optional<String>, autor:Optional<String>, genero: Optional<String>, pageable: Pageable): Page<Libro?> {
+
+        val specTitulo : Specification<Libro> =
+            Specification { root, query, criteriaBuilder ->
+                if (titulo.isEmpty){
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("titulo")),"%" + titulo.get() + "%")
+                }else{
+                    criteriaBuilder.isTrue(criteriaBuilder.literal(true))
+                }
+            }
+
+        val specAutor : Specification<Libro> =
+            Specification { root, query, criteriaBuilder ->
+                if (autor.isEmpty){
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("autor.nombre")),"%" + autor.get() + "%")
+                }else{
+                    criteriaBuilder.isTrue(criteriaBuilder.literal(true))
+                }
+            }
+
+        val specGenero : Specification<Libro> =
+            Specification { root, query, criteriaBuilder ->
+                if (genero.isEmpty){
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("generos.nombre")),"%" + genero.get() + "%")
+                }else{
+                    criteriaBuilder.isTrue(criteriaBuilder.literal(true))
+                }
+            }
+
+        val consulta = specTitulo.and(specAutor).and(specGenero)
+        return this.repositorio.findAll(consulta,pageable)
     }
 }

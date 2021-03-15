@@ -21,3 +21,5 @@ data class PublicacionNotExist(val id:UsuarioTieneLibroId): EntityNotFoundExcept
 
 data class ValoracionNotExist(val idUsuarioValorado: UUID, val idUsuarioValorando:UUID)
     : EntityNotFoundExceptionControl("No existe valoración para el usuario con id $idUsuarioValorado y el $idUsuarioValorando")
+
+data class SearchProductoNoResultException(val mensaje: String ="No se encuentra productos con esas características"): EntityNotFoundExceptionControl(mensaje)
