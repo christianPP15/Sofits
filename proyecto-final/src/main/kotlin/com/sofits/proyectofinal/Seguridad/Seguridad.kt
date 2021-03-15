@@ -72,6 +72,7 @@ class WebSecurityConfiguration(
                 "/swagger-resources/**",
                 "/configuration/security",
                 "/swagger-ui.html",
+                "/swagger-ui",
                 "/webjars/**").permitAll()
             .antMatchers(HttpMethod.POST, "/auth/login", "/auth/token", "/user/","/auth/register").permitAll()
             .anyRequest().hasRole("USER")
