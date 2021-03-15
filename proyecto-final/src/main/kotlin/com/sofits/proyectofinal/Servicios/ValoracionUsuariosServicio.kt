@@ -11,6 +11,7 @@ import com.sofits.proyectofinal.Modelos.ValoracionesUsuariosId
 import com.sofits.proyectofinal.Modelos.ValoracionesUsuariosRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.PathVariable
 import java.util.*
 

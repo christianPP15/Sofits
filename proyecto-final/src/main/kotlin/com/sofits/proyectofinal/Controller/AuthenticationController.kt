@@ -6,6 +6,7 @@ import com.sofits.proyectofinal.ErrorControl.UserNotFoundById
 import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.Seguridad.jwt.BearerTokenExtractor
 import com.sofits.proyectofinal.Seguridad.jwt.JwtTokenProvider
+import com.sofits.proyectofinal.Servicios.ImagenServicio
 import com.sofits.proyectofinal.Servicios.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -14,11 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UsernameNotFoundException
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.server.ResponseStatusException
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
@@ -35,6 +33,8 @@ class AuthenticationController() {
     lateinit var bearerTokenExtractor: BearerTokenExtractor
     @Autowired
     lateinit var userService: UserService
+    @Autowired
+    lateinit var  servicioImagenes: ImagenServicio
 
     @PostMapping("/auth/login")
     fun login(@Valid @RequestBody loginRequest : LoginRequest) : ResponseEntity<JwtUserResponseLogin> {
@@ -77,8 +77,10 @@ class AuthenticationController() {
     }
 
     @PostMapping("/auth/register")
-    fun nuevoUsuario(@Valid @RequestBody newUser : CreateUserDTO): ResponseEntity<JWTUserResponseRegister> {
+    fun nuevoUsuario(@Valid @RequestPart("newUser") newUser : CreateUserDTO, @RequestPart("file") file: MultipartFile): ResponseEntity<JWTUserResponseRegister> {
         var user=userService.create(newUser).orElseThrow { UserAlreadyExit(newUser.email) }
+        val imagen = servicioImagenes.save(file)
+        user.imagen=imagen
         val authentication=do_authenticate(newUser.email,newUser.password)
         SecurityContextHolder.getContext().authentication = authentication
         val user1 = authentication.principal as Usuario
