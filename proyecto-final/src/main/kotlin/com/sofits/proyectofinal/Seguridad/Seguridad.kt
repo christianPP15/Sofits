@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.authentication.logout.LogoutFilter
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -50,6 +51,7 @@ class WebSecurityConfiguration(
     private val userDetailsService: UserDetailsService,
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
     private val jwtAuthorizationFilter: JwtAuthorizationFilter,
+    private val filterChainExceptionHandler : FilterChainExceptionHandler,
     private val passwordEncoder: PasswordEncoder
 ) : WebSecurityConfigurerAdapter() {
 
@@ -78,7 +80,7 @@ class WebSecurityConfiguration(
 
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
-
+        http.addFilterBefore(filterChainExceptionHandler, LogoutFilter::class.java)
 
         http.headers().frameOptions().disable()
 

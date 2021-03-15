@@ -85,7 +85,7 @@ class JwtTokenProvider(@Value("\${JWT.SECRET}") private val jwtSecreto : String,
                     else -> info("Error indeterminado")
                 }
             }
-            //throw ex
+            throw ex
         }
         return false
     }
