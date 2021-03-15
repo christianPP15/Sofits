@@ -24,6 +24,7 @@ class Usuario(
     private val enabled: Boolean = true,
     private val credentialsNonExpired: Boolean = true,
     var activo: Boolean =true,
+    var urlAuxiliar:String?=null,
     @OneToMany(mappedBy = "usuarioValorado",fetch = FetchType.EAGER) var usuariosValorados: MutableSet<ValoracionesUsuarios> = mutableSetOf(),
     @OneToMany(mappedBy = "usuarioAValorar",fetch = FetchType.EAGER) var usuariosAValorar: MutableSet<ValoracionesUsuarios> = mutableSetOf(),
     @OneToMany(mappedBy = "usuarioLibro",fetch = FetchType.EAGER) var usuarioLibro: MutableSet<UsuarioTieneLibro> = mutableSetOf(),
