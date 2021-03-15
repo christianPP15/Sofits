@@ -30,7 +30,7 @@ abstract class BaseService<T, ID, R : JpaRepository<T, ID>> {
         return repositorio!!.save(t)
     }
 
-    fun delete(t: T) {
+    open fun delete(t: T) {
         repositorio!!.delete(t)
     }
 

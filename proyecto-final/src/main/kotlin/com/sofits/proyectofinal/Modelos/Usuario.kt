@@ -17,11 +17,10 @@ class Usuario(
     @Column
     @Convert(converter = RolesConverter::class)
     var roles: List<String>,
+    @OneToOne(cascade = [CascadeType.ALL]) var imagen: Imagenes?,
     var fechaAlta: LocalDate = LocalDate.now(),
     private val nonExpired: Boolean = true,
-
     private val nonLocked: Boolean = true,
-
     private val enabled: Boolean = true,
     private val credentialsNonExpired: Boolean = true,
     var activo: Boolean =true,

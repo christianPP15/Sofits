@@ -13,7 +13,7 @@ class ProyectoFinalApplication{
 	@Bean
 	fun init(usuRepo:UsuarioRepository, passwordEncoder: PasswordEncoder,generoLiterarioRepository: GeneroLiterarioRepository,libroRepository: LibroRepository,usuarioTieneLibroRepository: UsuarioTieneLibroRepository,autorRepository: AutorRepository): CommandLineRunner {
 		return CommandLineRunner {
-			val user1= Usuario("christianPP",passwordEncoder.encode("1234"),"Christian Payo Parra", LocalDate.of(2001,9,3),listOf("ADMIN","USER"))
+			val user1= Usuario("christianPP",passwordEncoder.encode("1234"),"Christian Payo Parra", LocalDate.of(2001,9,3),listOf("ADMIN","USER"),null)
 			usuRepo.save(user1)
 			val genero=GeneroLiterario("fantasia")
 			generoLiterarioRepository.save(genero)
