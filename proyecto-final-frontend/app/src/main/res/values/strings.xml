@@ -3,4 +3,10 @@
     <string name="title_inicio">Inicio</string>
     <string name="title_autores">Autores</string>
     <string name="title_perfil">Perfil</string>
+    <string name="input_email">Email</string>
+    <string name="password_input">Password</string>
+    <string name="opcion_registro">¿No tienes cuenta? Registrate</string>
+    <string name="TOKEN">token_almacen</string>
+    <string name="TOKEN_USER">token_usuario</string>
+    <string name="TOKEN_REFRESCO">token_usuario_refresco</string>
 </resources>
