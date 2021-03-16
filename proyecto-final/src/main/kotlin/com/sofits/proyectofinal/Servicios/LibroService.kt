@@ -6,7 +6,10 @@ import com.sofits.proyectofinal.DTO.toDetailLibro
 import com.sofits.proyectofinal.ErrorControl.AutorNotExist
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
-import com.sofits.proyectofinal.Modelos.*
+import com.sofits.proyectofinal.Modelos.AutorRepository
+import com.sofits.proyectofinal.Modelos.GeneroLiterario
+import com.sofits.proyectofinal.Modelos.Libro
+import com.sofits.proyectofinal.Modelos.LibroRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -14,6 +17,15 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
+import javax.persistence.criteria.CriteriaQuery
+import javax.persistence.criteria.ListJoin
+import javax.persistence.criteria.Root
+
+
+
+
+
+
 
 @Service
 class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UUID, LibroRepository>(){
@@ -72,6 +84,9 @@ class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UU
                 if (genero.isEmpty){
                     criteriaBuilder.like(criteriaBuilder.lower(root.get("generos.nombre")),"%" + genero.get() + "%")
                 }else{
+                    val query: CriteriaQuery<Libro> = criteriaBuilder.createQuery(Libro::class.java)
+                    val libro: Root<Libro> = query.from(Libro::class.java)
+                    val libros: ListJoin<Libro, GeneroLiterario> = libro.join(Libro.generos)
                     criteriaBuilder.isTrue(criteriaBuilder.literal(true))
                 }
             }
