@@ -17,15 +17,10 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
-import javax.persistence.criteria.CriteriaQuery
-import javax.persistence.criteria.ListJoin
-import javax.persistence.criteria.Root
-
-
-
-
-
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ListJoin;
+import javax.persistence.criteria.Root;
 
 @Service
 class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UUID, LibroRepository>(){
@@ -79,19 +74,22 @@ class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UU
                 }
             }
 
-        val specGenero : Specification<Libro> =
+       /* val specGenero : Specification<Libro> =
             Specification { root, query, criteriaBuilder ->
                 if (genero.isEmpty){
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("generos.nombre")),"%" + genero.get() + "%")
-                }else{
-                    val query: CriteriaQuery<Libro> = criteriaBuilder.createQuery(Libro::class.java)
+                    val cq: CriteriaQuery<Libro> = criteriaBuilder.createQuery(Libro::class.java)
                     val libro: Root<Libro> = query.from(Libro::class.java)
-                    val libros: ListJoin<Libro, GeneroLiterario> = libro.join(Libro.generos)
+                    val generos: ListJoin<Libro, GeneroLiterario> = libro.join(Libro::generos)
+                    cq.select(libro)
+                            .where(criteriaBuilder.equal(generos.get(GeneroLiterario::nombre),genero.get()))
+
+                    //criteriaBuilder.like(criteriaBuilder.lower(root.get("generos.nombre")),"%" + genero.get() + "%")
+                }else{
                     criteriaBuilder.isTrue(criteriaBuilder.literal(true))
                 }
-            }
+            }*/
 
-        val consulta = specTitulo.and(specAutor).and(specGenero)
+        val consulta = specTitulo.and(specAutor)
         return this.repositorio.findAll(consulta,pageable)
     }
 }
