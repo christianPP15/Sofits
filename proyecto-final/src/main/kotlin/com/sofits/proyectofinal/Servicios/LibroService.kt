@@ -6,10 +6,7 @@ import com.sofits.proyectofinal.DTO.toDetailLibro
 import com.sofits.proyectofinal.ErrorControl.AutorNotExist
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
-import com.sofits.proyectofinal.Modelos.Autor
-import com.sofits.proyectofinal.Modelos.AutorRepository
-import com.sofits.proyectofinal.Modelos.Libro
-import com.sofits.proyectofinal.Modelos.LibroRepository
+import com.sofits.proyectofinal.Modelos.*
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
