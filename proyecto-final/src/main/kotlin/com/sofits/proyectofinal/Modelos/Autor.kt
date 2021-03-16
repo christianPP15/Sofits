@@ -10,11 +10,11 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-class Autor (@ApiModelProperty(value = "Nombre del autor",dataType = "String",position = 2)
+class Autor (@ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.String",position = 2)
              var nombre:String,
-             @ApiModelProperty(value = "Biografía del autor",dataType = "String",position = 3)
+             @ApiModelProperty(value = "Biografía del autor",dataType = "java.lang.String",position = 3)
              var Biografia:String? = null,
-             @ApiModelProperty(value = "Fecha de nacimiento del autor",dataType = "LocalDate",position = 4)
+             @ApiModelProperty(value = "Fecha de nacimiento del autor",dataType = "java.util.LocalDate",position = 4)
              var nacimiento:LocalDate? = null,
              @ApiModelProperty(value = "Imagen del autor que ayude a reconocerlo",dataType = "Imagenes",position = 5)
              @OneToOne(cascade = [CascadeType.ALL])
@@ -25,7 +25,7 @@ class Autor (@ApiModelProperty(value = "Nombre del autor",dataType = "String",po
              @ApiModelProperty(value = "Me gustas recibidos por los usuarios",dataType = "Usuario",position = 7)
              @ManyToMany(mappedBy = "likeUsuarioAutor",fetch = FetchType.EAGER)
              var likeAutorUsuario:MutableSet<Usuario> = mutableSetOf(),
-             @ApiModelProperty(value = "Identificador de la entidad",dataType = "UUID", position = 1 ,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
+             @ApiModelProperty(value = "Identificador de la entidad",dataType = "java.util.UUID", position = 1 ,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
              @Id @GeneratedValue val id:UUID?=null){
     override fun equals(other: Any?): Boolean {
         if (this === other)

@@ -11,29 +11,29 @@ import javax.persistence.*
 
 @Entity
 class Usuario(
-    @ApiModelProperty(value = "Email del usuario",dataType = "String",position = 2,example = "example@gmail.com")
+    @ApiModelProperty(value = "Email del usuario",dataType = "java.lang.String",position = 2,example = "example@gmail.com")
     @Column(unique = true)private var email: String,
-    @ApiModelProperty(value = "Contraseña del usuario",dataType = "String",position = 3,example = "password")
+    @ApiModelProperty(value = "Contraseña del usuario",dataType = "java.lang.String",position = 3,example = "password")
     private var password: String,
-    @ApiModelProperty(value = "Nombre de usuario",dataType = "String",position = 4,example = "Usuario ejemplo")
+    @ApiModelProperty(value = "Nombre de usuario",dataType = "java.lang.String",position = 4,example = "Usuario ejemplo")
     var nombreUsuario: String,
-    @ApiModelProperty(value = "Fecha de nacimiento del usuario",dataType = "LocalDate",position = 5,example = "15/04/2001")
+    @ApiModelProperty(value = "Fecha de nacimiento del usuario",dataType = "java.util.LocalDate",position = 5,example = "15/04/2001")
     var fechaNacimiento:LocalDate,
-    @ApiModelProperty(value = "Roles del usuario",dataType = "String",position = 6,example = "['USER']")
+    @ApiModelProperty(value = "Roles del usuario",dataType = "java.lang.String",position = 6,example = "['USER']")
     @Column
     @Convert(converter = RolesConverter::class)
     var roles: List<String>,
     @ApiModelProperty(value = "Imagen del usuario",dataType = "Imagenes",position = 7)
     @OneToOne(cascade = [CascadeType.ALL]) var imagen: Imagenes?,
-    @ApiModelProperty(value = "Fecha de creación del Usuario",dataType = "LocalDate",position = 8,example = "15/04/2001")
+    @ApiModelProperty(value = "Fecha de creación del Usuario",dataType = "java.util.LocalDate",position = 8,example = "15/04/2001")
     var fechaAlta: LocalDate = LocalDate.now(),
-    @ApiModelProperty(value = "Cuenta del usuario expirada",dataType = "Boolean",position = 9,example = "true")
+    @ApiModelProperty(value = "Cuenta del usuario expirada",dataType = "java.lang.Boolean",position = 9,example = "true")
     private val nonExpired: Boolean = true,
-    @ApiModelProperty(value = "Cuenta del usuario bloqueado",dataType = "Boolean",position = 10,example = "false")
+    @ApiModelProperty(value = "Cuenta del usuario bloqueado",dataType = "java.lang.Boolean",position = 10,example = "false")
     private val nonLocked: Boolean = true,
-    @ApiModelProperty(value = "Cuenta del usuario disponible",dataType = "Boolean",position = 11,example = "true")
+    @ApiModelProperty(value = "Cuenta del usuario disponible",dataType = "java.lang.Boolean",position = 11,example = "true")
     private val enabled: Boolean = true,
-    @ApiModelProperty(value = "Credenciales del usuario activa",dataType = "Boolean",position = 12,example = "false")
+    @ApiModelProperty(value = "Credenciales del usuario activa",dataType = "java.lang.Boolean",position = 12,example = "false")
     private val credentialsNonExpired: Boolean = true,
     @ApiModelProperty(value = "Usuario activo",dataType = "Boolean",position = 13,example = "true")
     var activo: Boolean =true,
@@ -60,7 +60,7 @@ class Usuario(
         inverseJoinColumns = [JoinColumn(name = "libro_id")]
     )
     var likeUsuarioLibro:MutableSet<Libro> = mutableSetOf(),
-    @ApiModelProperty(value = "Identificador del usuario",dataType = "UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
+    @ApiModelProperty(value = "Identificador del usuario",dataType = "java.util.UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
     @Id @GeneratedValue val id: UUID?=null
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>? =

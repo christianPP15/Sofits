@@ -11,9 +11,9 @@ import java.util.*
 import javax.persistence.*
 
 @Embeddable
-class UsuarioTieneLibroId(@ApiModelProperty(value = "Usuario al que pertenece el libro",dataType = "UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
+class UsuarioTieneLibroId(@ApiModelProperty(value = "Usuario al que pertenece el libro",dataType = "java.util.UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
                           val usuario_id: UUID,
-                          @ApiModelProperty(value = "Libro que esta subiendo el usuario",dataType = "UUID",position = 2,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
+                          @ApiModelProperty(value = "Libro que esta subiendo el usuario",dataType = "java.util.UUID",position = 2,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
                           val libro_id: UUID) : Serializable
 
 
@@ -30,15 +30,15 @@ class UsuarioTieneLibro(@ApiModelProperty(value = "Identificador formado por el 
                            @MapsId("libro_id")
                            @JoinColumn(name = "Libro_id")
                         var libroUsuario:Libro,
-                        @ApiModelProperty(value = "Descripción otorgada por el usuario",dataType = "String",position = 4,example = "Descripción del usuario sobre el libro")
+                        @ApiModelProperty(value = "Descripción otorgada por el usuario",dataType = "java.lang.String",position = 4,example = "Descripción del usuario sobre el libro")
                         @Lob var DescripccionLibro:String,
-                        @ApiModelProperty(value = "Estado en la que se encuentra el libro",dataType = "String",position = 5,example = "Perfecto estado")
+                        @ApiModelProperty(value = "Estado en la que se encuentra el libro",dataType = "java.lang.String",position = 5,example = "Perfecto estado")
                         var estado:String,
                         @ApiModelProperty(value = "Idioma del libro",dataType = "String",position = 6,example = "Español")
                         var idioma:String,
                         @ApiModelProperty(value = "Edición del libro",dataType = "Int",position = 7,example = "3")
                         var edicion:Int,
-                        @ApiModelProperty(value = "Indicador de si el libro ya ha sido transferido o no",dataType = "Boolean",position = 8,example = "false")
+                        @ApiModelProperty(value = "Indicador de si el libro ya ha sido transferido o no",dataType = "java.lang.Boolean",position = 8,example = "false")
                         var intercambiado:Boolean=false,
                         @ApiModelProperty(value = "Imagen del libro subida por el usuario",dataType = "Imagenes",position = 9)
                         @OneToOne(cascade = [CascadeType.ALL]) var imagen: Imagenes? = null

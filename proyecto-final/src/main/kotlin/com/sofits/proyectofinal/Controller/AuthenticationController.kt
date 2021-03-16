@@ -113,7 +113,6 @@ class AuthenticationController() {
         var user=userService.create(newUser).orElseThrow { UserAlreadyExit(newUser.email) }
         val imagen = servicioImagenes.save(file)
         user.imagen=imagen
-        user.urlAuxiliar="https://eu.ui-avatars.com/api/?name="+user.username
         usuarioRepository.save(user)
         val authentication=do_authenticate(newUser.email,newUser.password)
         SecurityContextHolder.getContext().authentication = authentication

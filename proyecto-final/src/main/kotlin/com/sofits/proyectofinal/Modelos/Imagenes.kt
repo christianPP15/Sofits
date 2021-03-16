@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne
 @Entity
 class Imagenes(@ApiModelProperty(value = "Datos para interactuar con la imagen",dataType = "ImgurImageAttribute",position = 2)
                var img: ImgurImageAttribute?=null,
-               @ApiModelProperty(value = "Identificador de la imagen",dataType = "UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
+               @ApiModelProperty(value = "Identificador de la imagen",dataType = "java.util.UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
                @Id @GeneratedValue val id:UUID?=null){
     override fun equals(other: Any?): Boolean {
         if (this === other)

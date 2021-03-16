@@ -9,9 +9,9 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity
-class GeneroLiterario (@ApiModelProperty(value = "Nombre del género literario",dataType = "String",position = 2,example = "Fantasía")
+class GeneroLiterario (@ApiModelProperty(value = "Nombre del género literario",dataType = "java.lang.String",position = 2,example = "Fantasía")
                        var nombre:String,
-                       @ApiModelProperty(value = "Identificador del género literario",dataType = "UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
+                       @ApiModelProperty(value = "Identificador del género literario",dataType = "java.util.UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
                        @Id @GeneratedValue val id:UUID?=null){
     override fun equals(other: Any?): Boolean {
         if (this === other)
