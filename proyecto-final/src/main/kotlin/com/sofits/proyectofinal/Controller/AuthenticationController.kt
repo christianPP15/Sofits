@@ -1,6 +1,8 @@
 package com.sofits.proyectofinal.Controller
 
 import com.sofits.proyectofinal.DTO.*
+import com.sofits.proyectofinal.ErrorControl.ApiError
+import com.sofits.proyectofinal.ErrorControl.ApiSubError
 import com.sofits.proyectofinal.ErrorControl.UserAlreadyExit
 import com.sofits.proyectofinal.ErrorControl.UserNotFoundById
 import com.sofits.proyectofinal.Modelos.ImagenesRepository
@@ -10,6 +12,10 @@ import com.sofits.proyectofinal.Seguridad.jwt.BearerTokenExtractor
 import com.sofits.proyectofinal.Seguridad.jwt.JwtTokenProvider
 import com.sofits.proyectofinal.Servicios.ImagenServicio
 import com.sofits.proyectofinal.Servicios.UserService
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -39,8 +45,19 @@ class AuthenticationController() {
     lateinit var  servicioImagenes: ImagenServicio
     @Autowired
     lateinit var usuarioRepository: UsuarioRepository
+
+
+    @ApiOperation(value = "Obtener las credenciales de acceso e información del usuario",
+        notes = "Mecanismo para generar un token de acceso y de refresco que permitirá realizar el resto de peticiones")
+    @ApiResponses(value = [
+        ApiResponse(code = 201, message = "Created", response = UserDTOlogin::class),
+        ApiResponse(code = 401,message = "Unauthorized",response = ApiError::class),
+        ApiResponse(code = 400,message = "Bad Request",response = ApiSubError::class)
+    ])
     @PostMapping("/auth/login")
-    fun login(@Valid @RequestBody loginRequest : LoginRequest) : ResponseEntity<JwtUserResponseLogin> {
+    fun login(@Valid @RequestBody
+              @ApiParam(value = "Objeto de tipo LoginRequest con el username y password del usuario para realizar el login",required = true,type = "LoginRequest")
+              loginRequest : LoginRequest) : ResponseEntity<JwtUserResponseLogin> {
         val authentication = do_authenticate(loginRequest.username,loginRequest.password)
 
         SecurityContextHolder.getContext().authentication = authentication
@@ -79,8 +96,20 @@ class AuthenticationController() {
 
     }
 
+
+    @ApiOperation(value = "Registrar al usuario en la web y obtener sus credenciales de acceso",
+        notes = "Mecanismo para registrar al usuario en la aplicación y generar un token de acceso y de refresco que permitirá realizar el resto de peticiones")
+    @ApiResponses(value = [
+        ApiResponse(code = 201, message = "Created", response = UserDTOlogin::class),
+        ApiResponse(code = 401,message = "Unauthorized",response = ApiError::class),
+        ApiResponse(code = 400,message = "Bad Request",response = ApiSubError::class)
+    ])
     @PostMapping("/auth/register")
-    fun nuevoUsuario(@Valid @RequestPart("newUser") newUser : CreateUserDTO, @RequestPart("file") file: MultipartFile): ResponseEntity<JWTUserResponseRegister> {
+    fun nuevoUsuario(@Valid
+                    @ApiParam(value = "Objeto con la información necesaria del usuario para llevar a cabo el registro", required = true,type = "CreateUserDTO")
+                     @RequestPart("newUser") newUser : CreateUserDTO,
+                     @ApiParam(value = "Imagen de perfil del usuario",required = false,type = "MultipartFile")
+                     @RequestPart("file") file: MultipartFile): ResponseEntity<JWTUserResponseRegister> {
         var user=userService.create(newUser).orElseThrow { UserAlreadyExit(newUser.email) }
         val imagen = servicioImagenes.save(file)
         user.imagen=imagen
