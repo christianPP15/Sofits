@@ -31,18 +31,24 @@ class LoginActivity : AppCompatActivity() {
         botonLogin.setOnClickListener {
             val user:LoginRequest? = sendLoginRequest()
             if (user!=null){
-                loginViewModel.completeLogin(user)
-                loginViewModel.loginData.observe(LifecycleOwner, Observer {
-                        datosUsuario->
+                var loginData:LoginResponse
+                loginViewModel.doLoginComplete(user)
+                loginViewModel.loginData.observe(this, Observer {
+                        datosUsuario-> loginData=datosUsuario
+                        if (loginData!=null){
+                            val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
+                            with(shared.edit()) {
+                                putString(getString(R.string.TOKEN_USER), loginData.token)
+                                putString(getString(R.string.TOKEN_REFRESCO),loginData.refreshToken)
+                                commit()
+                            }
+                            val navegar = Intent(this,MainActivity::class.java)
+                            startActivity(navegar)
+                        }else{
+
+                        }
                 })
-                val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
-                with(shared.edit()) {
-                    putString(getString(R.string.TOKEN_USER), respuesta.token)
-                    putString(getString(R.string.TOKEN_REFRESCO),respuesta.refreshToken)
-                    commit()
-                }
-                val navegar = Intent(this,MainActivity::class.java)
-                startActivity(navegar)
+
             }
         }
     }
