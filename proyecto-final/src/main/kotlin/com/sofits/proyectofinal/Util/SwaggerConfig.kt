@@ -13,11 +13,18 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
-
+/**
+ * Clase que configura y activa la documentación de Swagger 2
+ * @author christianPP15
+ * @see Configuration
+ * @see EnableSwagger2
+ */
 @Configuration
 @EnableSwagger2
 class SwaggerConfig {
-
+    /**
+     * Bean para iniciar el servicio de Swagger 2
+     */
     @Bean
     fun api() = Docket(DocumentationType.SWAGGER_2)
             .select()
@@ -26,6 +33,9 @@ class SwaggerConfig {
             .build()
         .apiInfo(ApiInfo())
 
+    /**
+     * Bean para configurar la información principal de Swagger 2
+     */
     @Bean
     fun ApiInfo() = ApiInfoBuilder().title("Sofits API")
         .description("API de gestión de una aplicación cuyo fin es el intercambio de libros")

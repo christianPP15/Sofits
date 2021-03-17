@@ -4,10 +4,17 @@ import org.springframework.data.domain.Page
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder
 
-
+/**
+ * Componente que permite facilitar el uso de la páginación en nuestra api
+ * mandando los enlaces terminados para navegar entre las páginas
+ * @author lmlopezmagana
+ * @see
+ */
 @Component
 class PaginationLinksUtils {
-
+    /**
+     * Métodos que crea las cabeceras de los enlaces
+     */
     fun createLinkHeader(page: Page<*>, uriBuilder: UriComponentsBuilder): String? {
         val linkHeader = StringBuilder()
         linkHeader.append("")
@@ -33,16 +40,24 @@ class PaginationLinksUtils {
         return linkHeader.toString()
     }
 
+    /**
+     * Método que construye la uri
+     */
     private fun constructUri(newPageNumber: Int, size: Int, uriBuilder: UriComponentsBuilder): String {
         return uriBuilder.replaceQueryParam("page", newPageNumber).replaceQueryParam("size", size).build().encode()
             .toUriString()
     }
 
-
+    /**
+     * Método constructor del link
+     */
     private fun buildLinkHeader(uri: String, rel: String): String? {
         return "<$uri>; rel=\"$rel\""
     }
 
+    /**
+     * Métodos para agregar comás para separar los enlaces
+     */
     private fun appendCommaIfNecessary(linkHeader: StringBuilder) {
         if (linkHeader.isNotEmpty()) {
             linkHeader.append(", ")
