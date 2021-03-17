@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.MainActivity
@@ -31,22 +33,31 @@ class LoginActivity : AppCompatActivity() {
         botonLogin.setOnClickListener {
             val user:LoginRequest? = sendLoginRequest()
             if (user!=null){
-                var loginData:LoginResponse
+                var loginData:LoginResponse?
                 loginViewModel.doLoginComplete(user)
-                loginViewModel.loginData.observe(this, Observer {
-                        datosUsuario-> loginData=datosUsuario
-                        if (loginData!=null){
-                            val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
-                            with(shared.edit()) {
-                                putString(getString(R.string.TOKEN_USER), loginData.token)
-                                putString(getString(R.string.TOKEN_REFRESCO),loginData.refreshToken)
-                                commit()
-                            }
-                            val navegar = Intent(this,MainActivity::class.java)
-                            startActivity(navegar)
-                        }else{
+                loginViewModel.loginData.observe(this, Observer { response->
+                    when(response){
+                        is Resource.Success ->{
+                            loginData= response.data
+                            if (loginData!=null){
+                                val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
+                                with(shared.edit()) {
+                                    putString(getString(R.string.TOKEN_USER), loginData!!.token)
+                                    putString(getString(R.string.TOKEN_REFRESCO),loginData!!.refreshToken)
+                                    commit()
+                                }
+                                val navegar = Intent(this,MainActivity::class.java)
+                                startActivity(navegar)
+                            }else{
 
+                            }
                         }
+                        is Resource.Error ->{
+                            val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
+                            toast.show()
+                        }
+                    }
+
                 })
 
             }
