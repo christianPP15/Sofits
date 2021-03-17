@@ -1,9 +1,15 @@
 package com.sofits.proyectofinal.Controller
 
 import com.sofits.proyectofinal.DTO.CreateUserDTO
+import com.sofits.proyectofinal.DTO.UserDTOlogin
 import com.sofits.proyectofinal.DTO.createAutor
 import com.sofits.proyectofinal.DTO.createAutorComplete
+import com.sofits.proyectofinal.ErrorControl.ApiError
+import com.sofits.proyectofinal.ErrorControl.ApiSubError
 import com.sofits.proyectofinal.Servicios.AutorService
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.query.Param
 import org.springframework.data.web.PageableDefault
@@ -25,7 +31,7 @@ class AutoresController (val autoresServicio:AutorService){
     fun obtenerDetallesAutor(@PathVariable("id") id:UUID) = ResponseEntity.ok().body(autoresServicio.obtenerAutor(id))
 
     @GetMapping("/{nombre}")
-    fun findAutorByNombre(@Param("nombre") nombre:String) = autoresServicio.findByNombre(nombre)
+    fun findAutorByNombre(@Param("nombre") nombre:String) = ResponseEntity.ok(autoresServicio.findByNombre(nombre))
 
     @PostMapping("/user")
     fun agregarAutorPorUsuario(@Valid @RequestBody create: createAutor) =
@@ -41,6 +47,7 @@ class AutoresController (val autoresServicio:AutorService){
 
     @PutMapping("/{id}")
     fun updateComplete(@Valid @RequestBody create: createAutorComplete,@PathVariable("id") id: UUID) = autoresServicio.updateComplete(id,create)
+
 
     @DeleteMapping("/{id}")
     fun deleteAutor(@PathVariable("id") id: UUID) = autoresServicio.deleteAutor(id)

@@ -34,7 +34,7 @@ dependencies {
 	implementation(group= "io.springfox", name= "springfox-swagger2", version= "3.0.0")
 	implementation(group= "io.springfox", name= "springfox-boot-starter", version= "3.0.0")
 	implementation(group= "io.springfox", name= "springfox-swagger-ui", version= "3.0.0")
-
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
 }
 
 tasks.withType<KotlinCompile> {
