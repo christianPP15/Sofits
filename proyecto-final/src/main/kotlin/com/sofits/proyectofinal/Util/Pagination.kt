@@ -15,7 +15,15 @@ class PaginationLinksUtils {
     /**
      * Métodos que crea las cabeceras de los enlaces
      */
-    fun createLinkHeader(page: Page<*>, uriBuilder: UriComponentsBuilder): String? {
+    fun createLinkHeader(
+        /**
+         * Page genérico para formar los enlaces
+         */
+        page: Page<*>,
+        /**
+         * Constructor de uris
+         */
+        uriBuilder: UriComponentsBuilder): String? {
         val linkHeader = StringBuilder()
         linkHeader.append("")
         if (page.hasNext()) {
@@ -43,7 +51,19 @@ class PaginationLinksUtils {
     /**
      * Método que construye la uri
      */
-    private fun constructUri(newPageNumber: Int, size: Int, uriBuilder: UriComponentsBuilder): String {
+    private fun constructUri(
+        /**
+         * Atributo que indica que número de página es
+         */
+        newPageNumber: Int,
+        /**
+         * Atributo que representa el tamaño de la página
+         */
+        size: Int,
+        /**
+         * Constructor que contruye las uris
+         */
+        uriBuilder: UriComponentsBuilder): String {
         return uriBuilder.replaceQueryParam("page", newPageNumber).replaceQueryParam("size", size).build().encode()
             .toUriString()
     }
