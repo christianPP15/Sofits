@@ -1,31 +1,38 @@
 package com.sofits.proyectofinal.Controller
 
-import com.sofits.proyectofinal.DTO.CreateUserDTO
-import com.sofits.proyectofinal.DTO.UserDTOlogin
-import com.sofits.proyectofinal.DTO.createAutor
-import com.sofits.proyectofinal.DTO.createAutorComplete
+import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.ApiError
 import com.sofits.proyectofinal.ErrorControl.ApiSubError
 import com.sofits.proyectofinal.Servicios.AutorService
+import com.sofits.proyectofinal.Util.PaginationLinksUtils
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.query.Param
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
 @RestControllerAdvice
 @RequestMapping("/autores")
-class AutoresController (val autoresServicio:AutorService){
+class AutoresController (val autoresServicio:AutorService,private val paginationLinksUtils: PaginationLinksUtils){
 
     @GetMapping("/")
-    fun obtenerLibrosAutores(@PageableDefault(size = 10,page = 0) pageable: Pageable)=
-        ResponseEntity.status(200).body(autoresServicio.obtenerLibrosAutoresServicio(pageable))
+    fun obtenerLibrosAutores(@PageableDefault(size = 10,page = 0) pageable: Pageable,request: HttpServletRequest): ResponseEntity<Page<AutoresDto>> {
+        val autores=autoresServicio.obtenerLibrosAutoresServicio(pageable)
+        val uriBuilder = UriComponentsBuilder.fromHttpUrl(request.requestURL.toString())
+
+        return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(autores, uriBuilder))
+            .body(autores)
+    }
+
 
     @GetMapping("/{id}")
     fun obtenerDetallesAutor(@PathVariable("id") id:UUID) = ResponseEntity.ok().body(autoresServicio.obtenerAutor(id))
