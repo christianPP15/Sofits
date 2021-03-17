@@ -20,7 +20,7 @@ class Autor (@ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.
              @OneToOne(cascade = [CascadeType.ALL])
              var imagen:Imagenes? = null,
              @ApiModelProperty(value = "Libros escritos por el autor",dataType = "Libro",position = 6)
-             @OneToMany(mappedBy = "autor",cascade = [CascadeType.ALL],orphanRemoval = true,fetch = FetchType.EAGER)
+             @OneToMany(mappedBy = "autor")
              val libros: MutableSet<Libro> = mutableSetOf(),
              @ApiModelProperty(value = "Me gustas recibidos por los usuarios",dataType = "Usuario",position = 7)
              @ManyToMany(mappedBy = "likeUsuarioAutor",fetch = FetchType.EAGER)
@@ -41,6 +41,14 @@ class Autor (@ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.
         if (id == null)
             return super.hashCode()
         return id.hashCode()
+    }
+    fun addLibro(libro: Libro){
+        libros.add(libro)
+        libro.autor=this
+    }
+    fun removeLibro(libro: Libro){
+        libros.remove(libro)
+        libro.autor=null
     }
 }
 
