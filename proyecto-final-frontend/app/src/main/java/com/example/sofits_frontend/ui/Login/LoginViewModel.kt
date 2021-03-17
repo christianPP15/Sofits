@@ -8,9 +8,7 @@ import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.repository.SofitsRepository
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 import retrofit2.Response
 
 
@@ -24,7 +22,6 @@ class LoginViewModel : ViewModel() {
         loginResponse.value=Resource.Loading()
         val respuesta = sofitsRepository.loaguearte(loginRequest)
         loginResponse.value = handleLoginResponse(respuesta)
-        println(loginResponse.value.toString())
     }
 
     private fun handleLoginResponse(respuesta: Response<LoginResponse>): Resource<LoginResponse> {

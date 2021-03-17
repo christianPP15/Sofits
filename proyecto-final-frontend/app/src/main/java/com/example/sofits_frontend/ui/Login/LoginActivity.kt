@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
@@ -15,25 +14,20 @@ import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
-import com.example.sofits_frontend.repository.SofitsRepository
-import kotlinx.coroutines.*
-import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var respuesta:LoginResponse
     lateinit var loginViewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        actionBar?.hide()
         loginViewModel=ViewModelProvider(this).get(LoginViewModel::class.java)
         val botonLogin = findViewById<Button>(R.id.button_login)
         botonLogin.setOnClickListener {
             val user:LoginRequest? = sendLoginRequest()
             if (user!=null){
-                var loginData:LoginResponse?
+                var loginData: LoginResponse?
                 loginViewModel.doLoginComplete(user)
                 loginViewModel.loginData.observe(this, Observer { response->
                     when(response){
