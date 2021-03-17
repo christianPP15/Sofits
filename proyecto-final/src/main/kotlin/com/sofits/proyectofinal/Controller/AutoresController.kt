@@ -37,7 +37,7 @@ class AutoresController (val autoresServicio:AutorService,private val pagination
     @GetMapping("/{id}")
     fun obtenerDetallesAutor(@PathVariable("id") id:UUID) = ResponseEntity.ok().body(autoresServicio.obtenerAutor(id))
 
-    @GetMapping("/{nombre}")
+    @GetMapping("/nombre/{nombre}")
     fun findAutorByNombre(@Param("nombre") nombre:String) = ResponseEntity.ok(autoresServicio.findByNombre(nombre))
 
     @PostMapping("/user")

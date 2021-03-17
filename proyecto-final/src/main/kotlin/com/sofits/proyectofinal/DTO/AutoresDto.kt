@@ -16,7 +16,7 @@ data class AutoresDto(
     @ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.String",position = 2)
     val nombre:String,
     @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 3)
-    val libros: List<LibroDtoInicio> = mutableListOf()
+    val libros: List<LibroDtoDetailAutor> = mutableListOf()
 )
 data class AutoresDetail(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
@@ -29,7 +29,7 @@ data class AutoresDetail(
     @JsonFormat(pattern="yyyy-MM-dd")
     val nacimiento:LocalDate? = null,
     @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 5)
-    val libros: List<LibroDtoDetailAutor> = mutableListOf()
+    val libros: List<LibroDtoInicio> = mutableListOf()
 )
 data class AutorDatosBiograficos(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
@@ -51,9 +51,9 @@ data class AutorDeLibro(
     val nombre: String
 )
 fun Autor.toLibroCreate() = AutorDeLibro(id!!,nombre)
-fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDtoAutor() })
+fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDetailAutor() })
 
-fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDetailAutor() })
+fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDtoAutor() })
 
 fun Autor.toCrateDto()= AutorDatosBiograficos(id!!,nombre,Biografia,nacimiento.toString(),imagen?.toDto())
 

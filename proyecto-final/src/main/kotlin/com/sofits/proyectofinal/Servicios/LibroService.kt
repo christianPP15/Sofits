@@ -1,8 +1,6 @@
 package com.sofits.proyectofinal.Servicios
 
-import com.sofits.proyectofinal.DTO.LibroDetail
-import com.sofits.proyectofinal.DTO.createLibro
-import com.sofits.proyectofinal.DTO.toDetailLibro
+import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.AutorNotExist
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
@@ -24,7 +22,7 @@ class LibroService(val autorRepository: AutorRepository) : BaseService<Libro, UU
 
     fun getAllLibros(pageable: Pageable) = repositorio.findAll(pageable).map { it.toDetailLibro() }.takeIf { !it.isEmpty } ?: throw LibrosNotExists()
 
-    fun getById(id:UUID) = repositorio.findById(id).map { it.toDetailLibro() }.orElseThrow { LibroNotExist(id) }
+    fun getById(id:UUID) = repositorio.findById(id).map { it.toDtoAutor() }.orElseThrow { LibroNotExist(id) }
 
     fun addLibro(id: UUID,create: createLibro): LibroDetail {
         val autor = autorRepository.findById(id).orElseThrow { AutorNotExist(id) }
