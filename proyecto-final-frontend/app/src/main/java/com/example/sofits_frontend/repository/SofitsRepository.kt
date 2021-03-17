@@ -10,5 +10,5 @@ class SofitsRepository {
 
     private val sofitsService = MyApp.networkContainer.sofitsService
 
-    suspend fun doLogin(loginRequest: LoginRequest) : Response<LoginResponse> = sofitsService.doLogin(loginRequest)
+    suspend fun loaguearte(loginRequest: LoginRequest) : Response<LoginResponse> = sofitsService.doLogin(loginRequest)
 }

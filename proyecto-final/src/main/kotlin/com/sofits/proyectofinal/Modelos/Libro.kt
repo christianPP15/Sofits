@@ -2,6 +2,9 @@ package com.sofits.proyectofinal.Modelos
 
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -19,7 +22,12 @@ class Libro(@ApiModelProperty(value = "Título del libro",dataType = "java.lang.
             @ManyToMany(mappedBy = "likeUsuarioLibro",fetch = FetchType.EAGER)
             var likeLibroUsuario:MutableSet<Usuario> = mutableSetOf(),
             @ApiModelProperty(value = "Géneros de los libros",dataType = "GeneroLiterario",position = 7)
-            @OneToMany val generos: MutableSet<GeneroLiterario> = mutableSetOf<GeneroLiterario>(),
+            @ManyToMany(fetch = FetchType.EAGER,targetEntity = GeneroLiterario::class)
+            @JoinTable(
+                    joinColumns = [JoinColumn(name = "libro_id")],
+                    inverseJoinColumns = [JoinColumn(name = "genero_id")]
+            )
+            val generos: MutableSet<GeneroLiterario> = mutableSetOf<GeneroLiterario>(),
             @ApiModelProperty(value = "Identificador del libro",dataType = "java.util.UUID",position = 1,example = "91aeceab-6f89-4fec-a6ff-4674ed2e7604")
             @Id @GeneratedValue val id:UUID?=null){
 
@@ -41,4 +49,7 @@ class Libro(@ApiModelProperty(value = "Título del libro",dataType = "java.lang.
 }
 
 
-interface LibroRepository: JpaRepository<Libro,UUID>
+interface LibroRepository: JpaRepository<Libro,UUID> , JpaSpecificationExecutor<Libro?>{
+
+
+}
