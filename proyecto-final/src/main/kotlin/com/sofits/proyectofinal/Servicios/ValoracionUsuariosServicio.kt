@@ -19,7 +19,7 @@ import java.util.*
 class ValoracionUsuariosServicio (val usuariosServicio: UserService) : BaseService<ValoracionesUsuarios,ValoracionesUsuariosId,ValoracionesUsuariosRepository>(){
 
 
-    fun obtenerValoracionesDeUnUsuario(id:UUID) {
+    fun obtenerValoracionesDeUnUsuario(id:UUID): ValoracionDtoResult {
         val user = usuariosServicio.findById(id).orElseThrow { UserNotFoundById(id) }
         val result = repositorio.getValorationFromOneUser(user)
         var media=0.0
@@ -27,30 +27,28 @@ class ValoracionUsuariosServicio (val usuariosServicio: UserService) : BaseServi
             result.map { media += it.nota }
             media/=result.size
         }
-        ResponseEntity.ok(ValoracionDtoResult(result.map { it.toDto() },media))
+        return ValoracionDtoResult(result.map { it.toDto() },media)
     }
 
     fun userLikeOtherUser(user: Usuario,id:UUID) =
-        ResponseEntity
-            .ok(repositorio.userLikeAnotherUser(user,usuariosServicio.findById(id).orElseThrow { UserNotFoundById(id) })
-                .orElseThrow { ValoracionNotExist(user.id!!,id) })
+        repositorio.userLikeAnotherUser(user,usuariosServicio.findById(id).orElseThrow { UserNotFoundById(id) })
+                .orElseThrow { ValoracionNotExist(user.id!!,id) }.toDto()
 
-    fun addValoracion(user: Usuario,id: UUID,nota:Int): ResponseEntity<ValoracionDto> {
+    fun addValoracion(user: Usuario,id: UUID,nota:Int): ValoracionDto {
         val idValoracion= ValoracionesUsuariosId(user.id!!,id)
         val valoracion= ValoracionesUsuarios(idValoracion,user,usuariosServicio.findById(id).orElseThrow { UserNotFoundById(id) },nota)
-        return ResponseEntity.status(201).body(repositorio.save(valoracion).toDto())
+        return repositorio.save(valoracion).toDto()
     }
-    fun deleteValoracion(user: Usuario,id: UUID): ResponseEntity<Any>{
+    fun deleteValoracion(user: Usuario,id: UUID){
         val idValoracion= ValoracionesUsuariosId(user.id!!,id)
         if (repositorio.existsById(idValoracion))
             repositorio.deleteById(idValoracion)
-        return ResponseEntity.noContent().build()
+
     }
 
-    fun updateValoracion(user: Usuario,id: UUID,nota:Int): ResponseEntity<Any>{
+    fun updateValoracion(user: Usuario,id: UUID,nota:Int): ValoracionDto {
         val idValoracion= ValoracionesUsuariosId(user.id!!,id)
         val valoracion= repositorio.findById(idValoracion).orElseThrow { ValoracionNotExist(user.id!!,id) }
-        repositorio.save(valoracion)
-        return ResponseEntity.noContent().build()
+        return repositorio.save(valoracion).toDto()
     }
 }

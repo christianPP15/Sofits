@@ -35,42 +35,39 @@ class UserService(
 
     fun findById(id : UUID) = repo.findById(id)
 
-    fun addMeGustaLibro(user:Usuario,id: UUID) : ResponseEntity<Any>{
+    fun addMeGustaLibro(user:Usuario,id: UUID): LibroDetail {
         val libro=libroService.findById(id).orElseThrow { LibroNotExist(id) }
         if (!user.likeUsuarioLibro.contains(libro))
             user.addLibroMeGusta(libro)
         repo.save(user)
-        libroService.save(libro)
-        return ResponseEntity.noContent().build()
+        return libroService.save(libro).toDetailLibro()
+
     }
 
-    fun removeMeGustaLibro(user:Usuario,id: UUID) : ResponseEntity<Any>{
+    fun removeMeGustaLibro(user:Usuario,id: UUID){
         val libro=libroService.findById(id).orElseThrow { LibroNotExist(id) }
         if (user.likeUsuarioLibro.contains(libro))
             user.removeLibroMeGusta(libro)
         repo.save(user)
         libroService.save(libro)
-        return ResponseEntity.noContent().build()
     }
 
-    fun addMeGustaAutor(user:Usuario,id: UUID) : ResponseEntity<Any>{
+    fun addMeGustaAutor(user:Usuario,id: UUID): AutoresDetail {
         val autor=autorService.findById(id).orElseThrow { LibroNotExist(id) }
         if (!user.likeUsuarioAutor.contains(autor))
             user.addAutorMeGusta(autor)
         repo.save(user)
-        autorService.save(autor)
-        return ResponseEntity.noContent().build()
+        return autorService.save(autor).toDetail()
     }
-    fun removeMeGustaAutor(user:Usuario,id: UUID) : ResponseEntity<Any>{
+    fun removeMeGustaAutor(user:Usuario,id: UUID) {
         val autor=autorService.findById(id).orElseThrow { LibroNotExist(id) }
         if (user.likeUsuarioAutor.contains(autor))
             user.removeAutorMeGusta(autor)
         repo.save(user)
         autorService.save(autor)
-        return ResponseEntity.noContent().build()
     }
 
-    fun misAutoresFavoritos(user: Usuario) = ResponseEntity.ok().body(user.likeUsuarioAutor.map { it.toCrateDto() })
+    fun misAutoresFavoritos(user: Usuario) = user.likeUsuarioAutor.map { it.toCrateDto() }
 
-    fun misLibrosFavoritos(user: Usuario) = ResponseEntity.ok().body(user.likeUsuarioLibro.map { it.toDetailLibro() })
+    fun misLibrosFavoritos(user: Usuario) = user.likeUsuarioLibro.map { it.toDetailLibro() }
 }
