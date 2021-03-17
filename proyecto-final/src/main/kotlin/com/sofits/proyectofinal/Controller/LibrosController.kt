@@ -27,21 +27,10 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/libro")
 class LibrosController(val libroService: LibroService,private val pagination: PaginationLinksUtils) {
-    @Autowired
-    lateinit var paginationLinksUtils: PaginationLinksUtils
 
-    @ApiOperation(
-        value = "Obtener todos los libros públicados en la aplicación",
-        notes = "Este controlador permite obtener de forma paginada una lista de los libros registrados en la aplicación, si no encuentra ningun libro devuelve un 400"
-    )
-    @ApiResponses(
-        value = [
-            ApiResponse(code = 200, message = "Ok", response = LibroDetail::class),
-            ApiResponse(code = 401, message = "Unauthorized", response = ApiError::class),
-            ApiResponse(code = 400, message = "Bad Request", response = ApiError::class)
-        ]
-    )
-    @GetMapping("/")
+
+
+    /*@GetMapping("/")
     fun getAllLibros(
         @RequestParam("titulo") titulo: Optional<String>,
         @RequestParam("autor") autor: Optional<String>,
@@ -58,13 +47,23 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
 
             return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(dtoList, uriBuilder))
                 .body(dtoList)
-        }
-
-        /*fun getAllLibros(@PageableDefault(size = 10, page = 0) pageable: Pageable, request: HttpServletRequest) {
+        }*/
+        @ApiOperation(
+            value = "Obtener todos los libros públicados en la aplicación",
+            notes = "Este controlador permite obtener de forma paginada una lista de los libros registrados en la aplicación, si no encuentra ningun libro devuelve un 400"
+        )
+        @ApiResponses(
+            value = [
+                ApiResponse(code = 200, message = "Ok", response = LibroDetail::class),
+                ApiResponse(code = 401, message = "Unauthorized", response = ApiError::class),
+                ApiResponse(code = 400, message = "Bad Request", response = ApiError::class)
+            ]
+        )
+        fun getAllLibros(@PageableDefault(size = 10, page = 0) pageable: Pageable, request: HttpServletRequest) {
             val uriBuilder = UriComponentsBuilder.fromHttpUrl(request.requestURL.toString())
             val result = libroService.getAllLibros(pageable)
             ResponseEntity.ok().header("link", pagination.createLinkHeader(result, uriBuilder)).body(result)
-        }*/
+        }
 
         @ApiOperation(
             value = "Obtener un libro publicado en base a su idenficador",
@@ -152,5 +151,5 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
             libroService.removeLibro(id)
             return ResponseEntity.noContent().build()
         }
-    }
+
 }
