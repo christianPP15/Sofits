@@ -22,11 +22,9 @@ data class LibrosUsuariosResponse(
     @ApiModelProperty(value = "El libro ha sido intercambiado o no",dataType = "java.lang.Boolean",position = 6)
     val intercambiado:Boolean,
     @ApiModelProperty(value = "Imagen del libro",dataType = "ImagenWithoutHash",position = 7)
-    val imagenWithoutHash: ImagenWithoutHash?
+    val imagen: ImagenWithoutHash?
 )
 data class AgregarLibroAUsuario(
-    @ApiModelProperty(value = "Identificador del libro que agregar",dataType = "java.util.UUID",position = 1)
-    val idLibro:UUID,
     @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 2)
     val DescripccionLibro:String,
     @ApiModelProperty(value = "Estado de conservación del libro",dataType = "java.lang.String",position = 3)

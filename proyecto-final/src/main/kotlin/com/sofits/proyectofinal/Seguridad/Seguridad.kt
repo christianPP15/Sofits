@@ -76,8 +76,10 @@ class WebSecurityConfiguration(
                 "/swagger-ui.html",
                 "/swagger-ui/**",
                 "/webjars/**").permitAll()
+                .antMatchers("/autores/**","/libro/**","/user/book/{userId}/{LibroId}").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/auth/login", "/auth/token", "/user/","/auth/register").permitAll()
             .anyRequest().hasRole("USER")
+
 
 
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
