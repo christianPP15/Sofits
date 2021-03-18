@@ -3,10 +3,7 @@ package com.sofits.proyectofinal.Servicios
 import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.AutorNotExist
 import com.sofits.proyectofinal.ErrorControl.AutorsNotExists
-import com.sofits.proyectofinal.Modelos.Autor
-import com.sofits.proyectofinal.Modelos.AutorRepository
-import com.sofits.proyectofinal.Modelos.LibroRepository
-import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroRepository
+import com.sofits.proyectofinal.Modelos.*
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
@@ -20,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 
 @Service
-class AutorService(val usuarioLibro: UsuarioTieneLibroRepository,val libroRepository: LibroRepository) : BaseService<Autor,UUID,AutorRepository>(){
+class AutorService(val usuarioLibro: UsuarioTieneLibroRepository,val libroRepository: LibroRepository,val userRepository: UsuarioRepository) : BaseService<Autor,UUID,AutorRepository>(){
     @Autowired
     lateinit var  servicioImagenes: ImagenServicio
 
@@ -52,8 +49,14 @@ class AutorService(val usuarioLibro: UsuarioTieneLibroRepository,val libroReposi
                 autor.alta=false
                 autor.libros.map { libro->
                     libro.alta=false
-                    libro.libroUsuario.map { usuarioLibro.delete(it) }
                     libroRepository.save(libro)
+                    libro.likeLibroUsuario.map { like->
+                        like.removeLibroMeGusta(libro)
+                        userRepository.save(like)
+                    }
+                    libro.libroUsuario.map {
+                        usuarioLibro.deleteById(it.id)
+                    }
                 }
                 repositorio.save(autor)
             }

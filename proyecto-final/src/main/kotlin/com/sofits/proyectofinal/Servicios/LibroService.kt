@@ -41,6 +41,7 @@ class LibroService(val autorRepository: AutorRepository,
     fun removeLibro(id: UUID) {
         val libro= repositorio.findById(id).orElseThrow { LibroNotExist(id) }
         libro.alta=false
+        repositorio.save(libro)
         libro.likeLibroUsuario.map { like->
             like.removeLibroMeGusta(libro)
             userRepository.save(like)
@@ -48,7 +49,6 @@ class LibroService(val autorRepository: AutorRepository,
         libro.libroUsuario.map {
             usuarioLibro.deleteById(it.id)
         }
-        repositorio.save(libro)
     }
 
     fun findByArgs(titulo:Optional<String>, autor:Optional<String>, genero: Optional<String>, pageable: Pageable): Page<Libro?> {
