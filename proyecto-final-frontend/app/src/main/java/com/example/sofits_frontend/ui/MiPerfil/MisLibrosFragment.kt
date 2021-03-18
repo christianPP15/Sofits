@@ -13,15 +13,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.MyApp
+import javax.inject.Inject
 
 class MisLibrosFragment : Fragment() {
-
+    @Inject lateinit var misLibrosViewModel: MisLibrosViewModel
     private var columnCount = 2
     private lateinit var misLibrosRecyclerViewAdapter: MyMisLibrosRecyclerViewAdapter
-    private lateinit var misLibrosViewModel: MisLibrosViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        misLibrosViewModel=ViewModelProvider(this).get(MisLibrosViewModel::class.java)
+        (activity?.applicationContext as MyApp).appComponent.inject(this)
     }
 
     override fun onCreateView(

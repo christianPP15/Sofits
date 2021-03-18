@@ -11,9 +11,11 @@ import com.example.sofits_frontend.Api.response.MiPerfilResponse.MiPerfilRespons
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class MisLibrosViewModel : ViewModel(){
-    private var sofitsRepository: SofitsRepository = SofitsRepository()
+class MisLibrosViewModel @Inject constructor(val sofitsRepository: SofitsRepository) : ViewModel(){
+
+
     var MyInfoResponse: MutableLiveData<Resource<MiPerfilResponse>> = MutableLiveData()
 
     val MyInfoData: LiveData<Resource<MiPerfilResponse>>

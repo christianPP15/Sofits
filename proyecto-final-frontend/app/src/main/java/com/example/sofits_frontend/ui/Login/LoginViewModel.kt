@@ -11,10 +11,11 @@ import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
 
-class LoginViewModel : ViewModel() {
-    private var sofitsRepository: SofitsRepository = SofitsRepository()
+class LoginViewModel @Inject constructor(val sofitsRepository: SofitsRepository) : ViewModel() {
+
     var loginResponse: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
     val loginData: LiveData<Resource<LoginResponse>>
         get() = loginResponse

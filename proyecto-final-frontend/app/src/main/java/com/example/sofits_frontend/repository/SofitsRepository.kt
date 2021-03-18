@@ -1,6 +1,7 @@
 package com.example.sofits_frontend.repository
 
 import com.example.sofits_frontend.Api.ApiError
+import com.example.sofits_frontend.Api.SofitsService
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
@@ -11,12 +12,12 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Response
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Named
 
-class SofitsRepository {
 
-    private val sofitsService = MyApp.networkContainer.sofitsService
-
-    private val sofitsServiceConToken = MyApp.networkContainer.sofitsServiceInterceptor
+class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutInterceptor") val sofitsService: SofitsService,
+                                           @Named("sofitServiceInterceptor") val sofitsServiceConToken :SofitsService  ){
 
     suspend fun loaguearte(loginRequest: LoginRequest) : Response<LoginResponse> = sofitsService.doLogin(loginRequest)
 

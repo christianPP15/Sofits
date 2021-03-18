@@ -7,8 +7,11 @@ import com.example.sofits_frontend.common.MyApp
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SofitsInterceptor : Interceptor{
+@Singleton
+class SofitsInterceptor @Inject constructor(): Interceptor{
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val shared = MyApp.instance.getSharedPreferences(MyApp.instance.getString(R.string.TOKEN), Context.MODE_PRIVATE)

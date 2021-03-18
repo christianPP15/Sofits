@@ -19,16 +19,19 @@ import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.RegisterResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Login.LoginViewModel
+import javax.inject.Inject
 
 class RegistroActivity : AppCompatActivity() {
     lateinit var uri:Uri
     var PICK_IMAGEN_COUNT=0
-    lateinit var registerViewModel: RegistroViewModel
+    @Inject lateinit var registerViewModel: RegistroViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_registro)
-        registerViewModel= ViewModelProvider(this).get(RegistroViewModel::class.java)
+
         var choose : Button = findViewById(R.id.button_choose_Imagen)
         choose.setOnClickListener {
             pickImage()
