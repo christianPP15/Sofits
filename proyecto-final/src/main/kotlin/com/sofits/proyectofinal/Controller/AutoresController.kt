@@ -40,17 +40,11 @@ class AutoresController (val autoresServicio:AutorService,private val pagination
     @GetMapping("/nombre/{nombre}")
     fun findAutorByNombre(@Param("nombre") nombre:String) = ResponseEntity.ok(autoresServicio.findByNombre(nombre))
 
-    @PostMapping("/user")
-    fun agregarAutorPorUsuario(@Valid @RequestBody create: createAutor) =
-        ResponseEntity.status(201).body(autoresServicio.usuarioAddAutor(create))
 
     @PostMapping("/")
     fun agregarAutorCompleto(@Valid @RequestPart("nuevoAutor") created: createAutorComplete, @RequestPart("file") file: MultipartFile)=
         ResponseEntity.status(201).body(autoresServicio.addAutorCompleto(created,file))
 
-    @PutMapping("/user/{id}")
-    fun updateAutorPorUsuario(@Valid @RequestBody create: createAutor,@PathVariable("id") id: UUID) =
-        autoresServicio.updateByUsuario(id,create)
 
     @PutMapping("/{id}")
     fun updateComplete(@Valid @RequestBody create: createAutorComplete,@PathVariable("id") id: UUID) = autoresServicio.updateComplete(id,create)

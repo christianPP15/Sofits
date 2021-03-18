@@ -1,8 +1,11 @@
 package com.sofits.proyectofinal.Modelos
 
 import io.swagger.annotations.ApiModelProperty
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Query
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -15,6 +18,8 @@ class Libro(@ApiModelProperty(value = "Título del libro",dataType = "java.lang.
             @Lob var descripcion:String?,
             @ApiModelProperty(value = "Autor que escribió el libro",dataType = "Autor",position = 4)
             @ManyToOne var autor: Autor?=null,
+            @ApiModelProperty(value = "Atributo que indica si el libro esta dado de alta",dataType = "Boolean",position = 8)
+            var alta:Boolean=true,
             @ApiModelProperty(value = "Copia del usuario",dataType = "UsuarioTieneLibro",position = 5)
             @OneToMany(mappedBy = "libroUsuario",fetch = FetchType.EAGER)
             var libroUsuario: MutableSet<UsuarioTieneLibro> = mutableSetOf(),
@@ -46,10 +51,13 @@ class Libro(@ApiModelProperty(value = "Título del libro",dataType = "java.lang.
             return super.hashCode()
         return id.hashCode()
     }
+
 }
 
 
 interface LibroRepository: JpaRepository<Libro,UUID> , JpaSpecificationExecutor<Libro?>{
 
+    @Query("select e from Libro e where e.alta=true")
+    fun obtenerLibrosDadosDeAlta(pageable: Pageable) : Page<Libro>
 
 }
