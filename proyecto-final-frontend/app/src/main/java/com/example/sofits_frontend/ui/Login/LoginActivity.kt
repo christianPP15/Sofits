@@ -14,6 +14,7 @@ import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
+import kotlinx.coroutines.delay
 
 class LoginActivity : AppCompatActivity() {
 
@@ -47,8 +48,12 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
                         is Resource.Error ->{
-                            val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
-                            toast.show()
+                            if (response.message=="Bad credentials"){
+                                findViewById<TextView>(R.id.textView_mensajeErrorLogin).visibility=TextView.VISIBLE
+                            }else{
+                                val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
+                                toast.show()
+                            }
                         }
                     }
 

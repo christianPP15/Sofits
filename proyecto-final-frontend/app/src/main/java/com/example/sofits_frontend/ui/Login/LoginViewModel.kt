@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
@@ -27,10 +28,11 @@ class LoginViewModel : ViewModel() {
     private fun handleLoginResponse(respuesta: Response<LoginResponse>): Resource<LoginResponse> {
         if (respuesta.isSuccessful){
             respuesta.body().let {
-                return Resource.Success(it)
+                return Resource.Success(it!!)
             }
         }
-        return Resource.Error("Error en la petición")
+        val error : ApiError = sofitsRepository.parseError(respuesta)
+        return Resource.Error(error.mensaje)
     }
 
 }

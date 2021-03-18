@@ -28,7 +28,7 @@ class RegistroViewModel : ViewModel(){
     private fun handleRegisterResponse(respuesta: Response<RegisterResponse>): Resource<RegisterResponse> {
         if (respuesta.isSuccessful){
             respuesta.body().let {
-                return Resource.Success(it)
+                return Resource.Success(it!!)
             }
         }
         return Resource.Error("Error en la petición")
