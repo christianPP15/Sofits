@@ -14,17 +14,20 @@ import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Registro.RegistroActivity
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var loginViewModel: LoginViewModel
+    @Inject lateinit var loginViewModel: LoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+
+        (this.applicationContext as MyApp).appComponent.inject(this)
+
         setContentView(R.layout.activity_login)
-        loginViewModel=ViewModelProvider(this).get(LoginViewModel::class.java)
         val botonLogin = findViewById<Button>(R.id.button_login)
         val textRegistro= findViewById<TextView>(R.id.textView_registro_opcion)
         textRegistro.setOnClickListener {

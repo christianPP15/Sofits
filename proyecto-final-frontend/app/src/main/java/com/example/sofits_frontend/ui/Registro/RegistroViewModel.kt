@@ -14,9 +14,10 @@ import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import retrofit2.Response
+import javax.inject.Inject
 
-class RegistroViewModel : ViewModel(){
-    private var sofitsRepository: SofitsRepository = SofitsRepository()
+class RegistroViewModel @Inject constructor(private var sofitsRepository: SofitsRepository) : ViewModel(){
+
     var RegisterResponse: MutableLiveData<Resource<RegisterResponse>> = MutableLiveData()
     val registerData: LiveData<Resource<RegisterResponse>>
         get() = RegisterResponse
