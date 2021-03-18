@@ -12,7 +12,7 @@
         android:title="@string/title_autores" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_perfil"
         android:icon="@drawable/ic_user__1_"
         android:title="@string/title_perfil" />
 

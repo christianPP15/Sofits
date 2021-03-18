@@ -1,10 +1,15 @@
 package com.example.sofits_frontend.ui.Registro
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -17,11 +22,19 @@ import com.example.sofits_frontend.R
 import com.example.sofits_frontend.ui.Login.LoginViewModel
 
 class RegistroActivity : AppCompatActivity() {
+    lateinit var uri:Uri
+    var PICK_IMAGEN_COUNT=0
     lateinit var registerViewModel: RegistroViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
         registerViewModel= ViewModelProvider(this).get(RegistroViewModel::class.java)
+        var choose : Button = findViewById(R.id.button_choose_Imagen)
+        choose.setOnClickListener {
+            pickImage()
+            val toast= Toast.makeText(applicationContext,uri.toString(),Toast.LENGTH_LONG)
+            toast.show()
+        }
         val botonRegistro= findViewById<Button>(R.id.buton_register)
         botonRegistro.setOnClickListener {
             val registerData:RegisterRequest?= sendRegisterInfo()
@@ -44,11 +57,7 @@ class RegistroActivity : AppCompatActivity() {
                             }
                         }
                         is Resource.Error -> {
-                            val toast = Toast.makeText(
-                                applicationContext,
-                                response.message,
-                                Toast.LENGTH_LONG
-                            )
+                            val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
                             toast.show()
                         }
                     }
@@ -56,6 +65,7 @@ class RegistroActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun sendRegisterInfo(): RegisterRequest? {
         val emailInput = findViewById<TextView>(R.id.input_register_email)
@@ -81,5 +91,22 @@ class RegistroActivity : AppCompatActivity() {
             return null
         }
 
+    }
+    private fun pickImage(){
+        val intent = Intent()
+        intent.type="image/*"
+        intent.putExtra(Intent.ACTION_PICK,true)
+        intent.action= Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent,"Seleccionar Imagen"),PICK_IMAGEN_COUNT)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGEN_COUNT){
+            if (resultCode==Activity.RESULT_OK){
+                val uridata = data!!.data
+                uri= uridata!!
+            }
+        }
     }
 }

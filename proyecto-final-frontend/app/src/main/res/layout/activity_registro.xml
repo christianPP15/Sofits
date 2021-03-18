@@ -11,7 +11,7 @@
         android:id="@+id/imageView_register"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,11 +57,11 @@
         android:id="@+id/buton_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="Registrarme"
-        app:layout_constraintEnd_toEndOf="@+id/input_fecha_registro"
-        app:layout_constraintStart_toStartOf="@+id/input_fecha_registro"
-        app:layout_constraintTop_toBottomOf="@+id/input_fecha_registro" />
+        app:layout_constraintEnd_toEndOf="@+id/button_choose_Imagen"
+        app:layout_constraintStart_toStartOf="@+id/button_choose_Imagen"
+        app:layout_constraintTop_toBottomOf="@+id/button_choose_Imagen" />
 
     <EditText
         android:id="@+id/input_password_register"
@@ -86,5 +86,15 @@
         app:layout_constraintEnd_toEndOf="@+id/input_password_register"
         app:layout_constraintStart_toStartOf="@+id/input_password_register"
         app:layout_constraintTop_toBottomOf="@+id/input_password_register" />
+
+    <Button
+        android:id="@+id/button_choose_Imagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Elegir Imagen de perfil"
+        app:layout_constraintEnd_toEndOf="@+id/input_fecha_registro"
+        app:layout_constraintStart_toStartOf="@+id/input_fecha_registro"
+        app:layout_constraintTop_toBottomOf="@+id/input_fecha_registro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

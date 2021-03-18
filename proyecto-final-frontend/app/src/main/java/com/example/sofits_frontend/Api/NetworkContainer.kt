@@ -2,6 +2,7 @@ package com.example.sofits_frontend.Api
 
 import com.example.sofits_frontend.common.Constantes
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,9 +21,10 @@ class NetworkContainer {
         .build().create(SofitsService::class.java)
 
     val sofitsServiceInterceptor : SofitsService = Retrofit.Builder()
+        .client(okhttpCliente)
         .baseUrl(Constantes.API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-        .client(okhttpCliente)
         .build()
         .create(SofitsService::class.java)
+
 }

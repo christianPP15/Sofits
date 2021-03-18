@@ -85,7 +85,6 @@ class AuthenticationController() {
                 }
                 val jwtToken = jwtTokenProvider.generateToken(user)
                 val jwtRefreshToken = jwtTokenProvider.generateRefreshToken(user)
-
                 return ResponseEntity.status(HttpStatus.CREATED).body(JwtUserResponseLogin(jwtToken, jwtRefreshToken, user.UserDTOLogin()))
             }
         } catch (ex : Exception) {

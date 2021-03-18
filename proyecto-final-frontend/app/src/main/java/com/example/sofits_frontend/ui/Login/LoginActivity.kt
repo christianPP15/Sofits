@@ -14,6 +14,7 @@ import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.ui.Registro.RegistroActivity
 import kotlinx.coroutines.delay
 
 class LoginActivity : AppCompatActivity() {
@@ -25,6 +26,11 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         loginViewModel=ViewModelProvider(this).get(LoginViewModel::class.java)
         val botonLogin = findViewById<Button>(R.id.button_login)
+        val textRegistro= findViewById<TextView>(R.id.textView_registro_opcion)
+        textRegistro.setOnClickListener {
+            var navegarRegistro = Intent(this,RegistroActivity::class.java)
+            startActivity(navegarRegistro)
+        }
         botonLogin.setOnClickListener {
             val user:LoginRequest? = sendLoginRequest()
             if (user!=null){
