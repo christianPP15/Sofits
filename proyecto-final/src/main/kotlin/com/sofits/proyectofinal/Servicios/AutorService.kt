@@ -5,6 +5,8 @@ import com.sofits.proyectofinal.ErrorControl.AutorNotExist
 import com.sofits.proyectofinal.ErrorControl.AutorsNotExists
 import com.sofits.proyectofinal.Modelos.Autor
 import com.sofits.proyectofinal.Modelos.AutorRepository
+import com.sofits.proyectofinal.Modelos.LibroRepository
+import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
@@ -18,17 +20,16 @@ import java.time.format.DateTimeFormatter
 
 
 @Service
-class AutorService : BaseService<Autor,UUID,AutorRepository>(){
+class AutorService(val usuarioLibro: UsuarioTieneLibroRepository,val libroRepository: LibroRepository) : BaseService<Autor,UUID,AutorRepository>(){
     @Autowired
     lateinit var  servicioImagenes: ImagenServicio
 
     fun obtenerLibrosAutoresServicio(pageable: Pageable)=
-        repositorio.findAll(pageable).map { it.toDto() }.takeIf { !it.isEmpty } ?: throw AutorsNotExists()
+        repositorio.obtenerAutoresActivos(pageable).map { it.toDto() }.takeIf { !it.isEmpty } ?: throw AutorsNotExists()
 
 
     fun obtenerAutor(id:UUID) = repositorio.findById(id).map { it.toDetail() }.takeIf { !it.isEmpty } ?: throw AutorNotExist(id)
 
-    fun usuarioAddAutor(create: createAutor) = repositorio.save(Autor(create.nombre)).toCrateDto()
 
     fun addAutorCompleto(create: createAutorComplete,file: MultipartFile): AutorDatosBiograficos {
         val imagen = servicioImagenes.save(file)
@@ -36,13 +37,6 @@ class AutorService : BaseService<Autor,UUID,AutorRepository>(){
         autor.imagen=imagen
         return repositorio.save(autor).toCrateDto()
     }
-
-    fun updateByUsuario(id:UUID,update:createAutor) =
-        repositorio.findById(id).map { autor->
-        autor.nombre=update.nombre
-            ResponseEntity.ok(repositorio.save(autor).toDetail())
-    }.orElseThrow{AutorNotExist(id)}
-
 
     fun updateComplete(id: UUID,update: createAutorComplete)=
         repositorio.findById(id).map { autor->
@@ -54,7 +48,15 @@ class AutorService : BaseService<Autor,UUID,AutorRepository>(){
 
     fun deleteAutor(id: UUID) : ResponseEntity<Any>{
         if (repositorio.existsById(id))
-            repositorio.deleteById(id)
+            repositorio.findById(id).map { autor->
+                autor.alta=false
+                autor.libros.map { libro->
+                    libro.alta=false
+                    libro.libroUsuario.map { usuarioLibro.delete(it) }
+                    libroRepository.save(libro)
+                }
+                repositorio.save(autor)
+            }
         return ResponseEntity.noContent().build()
     }
     fun findByNombre(nombre:String) = repositorio.findByNombreIgnoreCase(nombre).map { it.toDetail() }.orElseThrow { AutorsNotExists() }

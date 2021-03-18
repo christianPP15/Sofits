@@ -103,7 +103,7 @@ class Usuario(
     }
     fun removeLibroMeGusta(libro: Libro){
         likeUsuarioLibro.remove(libro)
-        libro.likeLibroUsuario.remove(libro)
+        libro.likeLibroUsuario.remove(this)
     }
 }
 

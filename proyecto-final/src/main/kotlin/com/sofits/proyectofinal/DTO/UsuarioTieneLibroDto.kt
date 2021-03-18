@@ -25,8 +25,6 @@ data class LibrosUsuariosResponse(
     val imagen: ImagenWithoutHash?
 )
 data class AgregarLibroAUsuario(
-    @ApiModelProperty(value = "Identificador del libro que agregar",dataType = "java.util.UUID",position = 1)
-    val idLibro:UUID,
     @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 2)
     val DescripccionLibro:String,
     @ApiModelProperty(value = "Estado de conservación del libro",dataType = "java.lang.String",position = 3)

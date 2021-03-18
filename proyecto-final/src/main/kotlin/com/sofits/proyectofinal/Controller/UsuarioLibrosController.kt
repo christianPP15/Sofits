@@ -58,14 +58,15 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
         ApiResponse(code = 401,message = "Unauthorized",response = ApiError::class),
         ApiResponse(code = 400,message = "Bad Request",response = ApiError::class)
     ])
-    @PostMapping("/")
+    @PostMapping("/{idLibro}")
     fun addBookUser(@ApiParam(value = "Usuario logueado obtenido por su token", required = true,type = "Usuario")
                     @AuthenticationPrincipal user: Usuario?,
+                    @PathVariable("idLibro") idLibro:UUID,
                     @ApiParam(value = "Datos sobre el libro que se va a agregar", required = true,type = "AgregarLibroAUsuario")
                     @RequestPart("libro") libro: AgregarLibroAUsuario,
                     @ApiParam(value = "Imagen que sube el usuario sobre su libro", required = true,type = "MultipartFile")
                     @RequestPart("file") file: MultipartFile)=
-        ResponseEntity.status(201).body(user.let { usuarioTieneLibroServicio.addBookUser(user!!,libro,file) })
+        ResponseEntity.status(201).body(user.let { usuarioTieneLibroServicio.addBookUser(user!!,idLibro,libro,file) })
 
 
 
@@ -118,4 +119,9 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
         return ResponseEntity.noContent().build()
     }
 
+    @DeleteMapping("/{userId}/{LibroId}")
+    fun removeBookUserByAdmin(@PathVariable("userId") userId:UUID,@PathVariable("LibroId") idLibro:UUID):ResponseEntity<Any>{
+        usuarioTieneLibroServicio.removeBookFromUserAdmin(userId,idLibro)
+        return ResponseEntity.noContent().build()
+    }
 }

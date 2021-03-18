@@ -29,7 +29,6 @@ import javax.validation.Valid
 class LibrosController(val libroService: LibroService,private val pagination: PaginationLinksUtils) {
 
 
-
     /*@GetMapping("/")
     fun getAllLibros(
         @RequestParam("titulo") titulo: Optional<String>,
