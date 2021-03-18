@@ -1,4 +1,4 @@
-package com.example.sofits_frontend.ui.Login
+package com.example.sofits_frontend.ui.MiPerfil
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,26 +6,30 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.Resource
-import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
+import com.example.sofits_frontend.Api.response.MiPerfilResponse.MiPerfilResponse
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-
-class LoginViewModel : ViewModel() {
+class MisLibrosViewModel : ViewModel(){
     private var sofitsRepository: SofitsRepository = SofitsRepository()
-    var loginResponse: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
-    val loginData: LiveData<Resource<LoginResponse>>
-        get() = loginResponse
+    var MyInfoResponse: MutableLiveData<Resource<MiPerfilResponse>> = MutableLiveData()
 
-    fun doLoginComplete(loginRequest: LoginRequest)=  viewModelScope.launch {
-        loginResponse.value=Resource.Loading()
-        val respuesta = sofitsRepository.loaguearte(loginRequest)
-        loginResponse.value = handleLoginResponse(respuesta)
+    val MyInfoData: LiveData<Resource<MiPerfilResponse>>
+        get() = MyInfoResponse
+
+    init {
+        getMyInfo()
     }
 
-    private fun handleLoginResponse(respuesta: Response<LoginResponse>): Resource<LoginResponse> {
+    fun getMyInfo() = viewModelScope.launch{
+        MyInfoResponse.value= Resource.Loading()
+        val respuesta = sofitsRepository.getMyProfilesInfo()
+        MyInfoResponse.value = handleLoginResponse(respuesta)
+    }
+
+    private fun handleLoginResponse(respuesta: Response<MiPerfilResponse>): Resource<MiPerfilResponse> {
         if (respuesta.isSuccessful){
             respuesta.body().let {
                 return Resource.Success(it!!)
@@ -34,5 +38,4 @@ class LoginViewModel : ViewModel() {
         val error : ApiError = sofitsRepository.parseError(respuesta)
         return Resource.Error(error.mensaje)
     }
-
 }
