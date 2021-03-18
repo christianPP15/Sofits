@@ -6,6 +6,7 @@ import com.sofits.proyectofinal.DTO.LibrosUsuariosResponse
 import com.sofits.proyectofinal.DTO.toDto
 import com.sofits.proyectofinal.ErrorControl.EntityNotFoundExceptionControl
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
+import com.sofits.proyectofinal.ErrorControl.LibroYaExiste
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
 import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
@@ -36,21 +37,26 @@ class UsuarioTieneLibroServicio(val libroService: LibroService) :
                 ?: throw LibrosNotExists()
 
 
-    fun addBookUser(user: Usuario, libroAgregar: AgregarLibroAUsuario,file: MultipartFile): LibrosUsuariosResponse {
-        val book = libroService.findById(libroAgregar.idLibro).orElseThrow { LibroNotExist(libroAgregar.idLibro) }
+    fun addBookUser(user: Usuario,idLibro:UUID, libroAgregar: AgregarLibroAUsuario,file: MultipartFile): LibrosUsuariosResponse {
+        val book = libroService.findById(idLibro).orElseThrow { LibroNotExist(idLibro) }
         val idLibroUsuario = UsuarioTieneLibroId(user.id!!, book.id!!)
-        val usuarioLibro = UsuarioTieneLibro(
-            idLibroUsuario,
-            user,
-            book,
-            libroAgregar.DescripccionLibro,
-            libroAgregar.estado,
-            libroAgregar.idioma,
-            libroAgregar.edicion.toInt()
-        )
-        val imagen=servicioImagenes.save(file)
-        usuarioLibro.imagen=imagen
-        return repositorio.save(usuarioLibro).toDto()
+        if (repositorio.existsById(idLibroUsuario)) {
+            throw LibroYaExiste()
+        }else{
+            val usuarioLibro = UsuarioTieneLibro(
+                    idLibroUsuario,
+                    user,
+                    book,
+                    libroAgregar.DescripccionLibro,
+                    libroAgregar.estado,
+                    libroAgregar.idioma,
+                    libroAgregar.edicion.toInt()
+            )
+            val imagen=servicioImagenes.save(file)
+            usuarioLibro.imagen=imagen
+            return repositorio.save(usuarioLibro).toDto()
+        }
+
     }
 
     fun changeState(user: Usuario, id: UUID) {
@@ -75,5 +81,11 @@ class UsuarioTieneLibroServicio(val libroService: LibroService) :
         val idLibroUsuario = UsuarioTieneLibroId(user.id!!, id)
         if (repositorio.existsById(idLibroUsuario))
             repositorio.deleteById(idLibroUsuario)
+    }
+
+    fun removeBookFromUserAdmin(userId:UUID,libroId:UUID){
+        val id= UsuarioTieneLibroId(userId,libroId)
+        if (existsById(id))
+            repositorio.deleteById(id)
     }
 }

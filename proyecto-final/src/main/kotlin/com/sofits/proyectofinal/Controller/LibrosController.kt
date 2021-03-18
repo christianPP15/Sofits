@@ -29,7 +29,6 @@ import javax.validation.Valid
 class LibrosController(val libroService: LibroService,private val pagination: PaginationLinksUtils) {
 
 
-
     /*@GetMapping("/")
     fun getAllLibros(
         @RequestParam("titulo") titulo: Optional<String>,
@@ -59,10 +58,11 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
                 ApiResponse(code = 400, message = "Bad Request", response = ApiError::class)
             ]
         )
-        fun getAllLibros(@PageableDefault(size = 10, page = 0) pageable: Pageable, request: HttpServletRequest) {
+        @GetMapping("/")
+        fun getAllLibros(@PageableDefault(size = 10, page = 0) pageable: Pageable, request: HttpServletRequest): ResponseEntity<Page<LibroDetail>> {
             val uriBuilder = UriComponentsBuilder.fromHttpUrl(request.requestURL.toString())
             val result = libroService.getAllLibros(pageable)
-            ResponseEntity.ok().header("link", pagination.createLinkHeader(result, uriBuilder)).body(result)
+            return ResponseEntity.ok().header("link", pagination.createLinkHeader(result, uriBuilder)).body(result)
         }
 
         @ApiOperation(

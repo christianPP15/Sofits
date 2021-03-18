@@ -54,3 +54,14 @@ data class ValoracionNotExist(val idUsuarioValorado: UUID, val idUsuarioValorand
  * Error para cuándo se busca un libro y no se encuentra libro con las características
  */
 data class SearchLibroNoResultException(val mensaje: String ="No se encuentra productos con esas características"): EntityNotFoundExceptionControl(mensaje)
+
+/**
+ * Error para cuándo el usuario intenta agregar un libro que ya tiene agregado
+ */
+data class LibroYaExiste(val mensaje: String ="El libro que está intentando agregar ya existe para ese usuario") : EntityNotFoundExceptionControl(mensaje)
+
+/**
+ * Error para cuándo se realiza la busqueda de un producto y no hay resultados
+ */
+data class SearchProductoNoResultException(val mensaje: String ="No se encuentra productos con esas características"): EntityNotFoundExceptionControl(mensaje)
+
