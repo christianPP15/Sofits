@@ -43,8 +43,6 @@ class LoginActivity : AppCompatActivity() {
                                 }
                                 val navegar = Intent(this,MainActivity::class.java)
                                 startActivity(navegar)
-                            }else{
-
                             }
                         }
                         is Resource.Error ->{
