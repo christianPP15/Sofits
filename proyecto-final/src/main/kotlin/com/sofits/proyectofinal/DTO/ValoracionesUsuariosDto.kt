@@ -9,8 +9,6 @@ data class ValoracionDto(
     val id:ValoracionesUsuariosId,
     @ApiModelProperty(value = "Usuario valorador",dataType = "UserDTOlogin",position = 2)
     val usuarioValorador:UserDTOlogin,
-    @ApiModelProperty(value = "Usuario valorado",dataType = "UserDTOlogin",position = 3)
-    val usuarioValorado:UserDTOlogin,
     @ApiModelProperty(value = "Nota de la evaluación",dataType = "java.lang.Int",position = 4)
     val nota:Int
 )
@@ -19,7 +17,8 @@ data class ValoracionDtoResult(
     @ApiModelProperty(value = "Lista con todas las valoraciones de un usuario",dataType = "List<ValoracionDto>",position = 1)
     val valoraciones:List<ValoracionDto>,
     @ApiModelProperty(value = "Nota media de todas las evaluaciones",dataType = "java.lang.Double",position = 2)
-    val media:Double
+    val media:Double,
+    val usuarioValorado:UserDTOlogin
 )
 
-fun ValoracionesUsuarios.toDto() = ValoracionDto(id,usuarioValorado.UserDTOLogin(),usuarioAValorar.UserDTOLogin(),nota)
+fun ValoracionesUsuarios.toDto() = ValoracionDto(id,usuarioValorado.UserDTOLogin(),nota)

@@ -29,6 +29,11 @@ class ValoracionesController (val valoracionesServicio: ValoracionUsuariosServic
                                          @PathVariable("id") id:UUID) =
         ResponseEntity.ok(valoracionesServicio.obtenerValoracionesDeUnUsuario(id))
 
+
+    @GetMapping("/me")
+    fun obtenerMisValoraciones(@AuthenticationPrincipal user: Usuario?) = user.let { valoracionesServicio.obtenerValoracionesDeUnUsuario(user!!.id!!) }
+
+
     @ApiOperation(value = "Obtener si existe o no una valoraciones para un cierto usuario",
         notes = "Este controlador permite obtener si existe o no una valoración del usuario logueado hacia otro")
     @ApiResponses(value = [

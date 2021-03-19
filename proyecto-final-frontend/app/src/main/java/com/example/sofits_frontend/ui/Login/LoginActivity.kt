@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -50,6 +51,8 @@ class LoginActivity : AppCompatActivity() {
                                     putString(getString(R.string.TOKEN_REFRESCO),loginData!!.refreshToken)
                                     commit()
                                 }
+                                findViewById<EditText>(R.id.input_email_login).text.clear()
+                                findViewById<EditText>(R.id.input_password_login).text.clear()
                                 val navegar = Intent(this,MainActivity::class.java)
                                 startActivity(navegar)
                             }
@@ -70,13 +73,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     fun sendLoginRequest(): LoginRequest? {
-        val emailInput= findViewById<TextView>(R.id.input_email_login)
-        val password= findViewById<TextView>(R.id.input_password_login)
-        if (emailInput.text.isNotBlank() && password.text.isNotBlank()){
-            return LoginRequest(emailInput.text.toString(),password.text.toString())
+        val emailInput= findViewById<EditText>(R.id.input_email_login)
+        val passwordInput= findViewById<EditText>(R.id.input_password_login)
+        if (emailInput.text.isNotBlank() && passwordInput.text.isNotBlank()){
+            return LoginRequest(emailInput.text.toString(),passwordInput.text.toString())
         }else{
             emailInput.error="Debe introducir un email válido"
-            password.error="Debe introducir una contraseña válida"
+            passwordInput.error="Debe introducir una contraseña válida"
             return null
         }
     }

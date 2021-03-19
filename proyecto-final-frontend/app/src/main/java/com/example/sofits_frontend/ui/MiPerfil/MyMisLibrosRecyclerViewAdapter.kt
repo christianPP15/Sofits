@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import coil.load
-import com.example.sofits_frontend.Api.response.MiPerfilResponse.LibrosSubidos
-import com.example.sofits_frontend.Api.response.MiPerfilResponse.MiPerfilResponse
+import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.LibrosSubidos
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
 
