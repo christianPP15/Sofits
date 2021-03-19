@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
 class RegistroViewModel @Inject constructor(private var sofitsRepository: SofitsRepository) : ViewModel(){
 

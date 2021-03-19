@@ -3,7 +3,8 @@ package com.example.sofits_frontend.Api
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.LoginResponse
-import com.example.sofits_frontend.Api.response.MiPerfilResponse.MiPerfilResponse
+import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
+import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import com.example.sofits_frontend.Api.response.RegisterResponse
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -22,4 +23,7 @@ interface SofitsService {
 
     @GET("user/book/")
     suspend fun getMyBooks() : Response<MiPerfilResponse>
+
+    @GET("valoraciones/me")
+    suspend fun getMisValoraciones() : Response<MisValoracionesResponse>
 }

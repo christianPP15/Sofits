@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.Resource
-import com.example.sofits_frontend.Api.response.LoginResponse
-import com.example.sofits_frontend.Api.response.MiPerfilResponse.MiPerfilResponse
+import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
 class MisLibrosViewModel @Inject constructor(val sofitsRepository: SofitsRepository) : ViewModel(){
 

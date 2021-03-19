@@ -35,6 +35,11 @@ data class UserDTORegisterModel(
     @ApiModelProperty(value = "Identificador del usuario",dataType = "java.util.UUID",position = 1)
     val id: UUID? = null
 )
+data class UserValoracionDto(
+    @ApiModelProperty(value = "Email del usuario",dataType = "java.lang.String",position = 2)
+    var email : String,
+    @ApiModelProperty(value = "Identificador del usuario",dataType = "java.util.UUID",position = 1)
+    val id: UUID? = null)
 data class UserDTO(
     @ApiModelProperty(value = "Email del usuario",dataType = "java.lang.String",position = 2)
     var email : String,
@@ -51,6 +56,7 @@ data class UserLibroDto(
     @ApiModelProperty(value = "Nombre del usuario",dataType = "java.lang.String",position = 3)
     val nombre:String
 )
+fun Usuario.toValoracionDto() = UserValoracionDto(username,id)
 fun Usuario.toDtoLibro() : UserLibroDto = UserLibroDto(id,nombreUsuario)
 
 fun Usuario.toUserDTO() = UserDTO(username, nombreUsuario, roles.joinToString(), id)

@@ -12,6 +12,7 @@ import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class LoginViewModel @Inject constructor(val sofitsRepository: SofitsRepository) : ViewModel() {
