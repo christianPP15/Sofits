@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.LoginRequest
-import com.example.sofits_frontend.Api.response.LoginResponse
+import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp

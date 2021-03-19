@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.LoginRequest
-import com.example.sofits_frontend.Api.response.LoginResponse
+import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
