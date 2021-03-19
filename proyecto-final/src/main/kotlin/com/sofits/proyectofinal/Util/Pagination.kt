@@ -4,11 +4,26 @@ import org.springframework.data.domain.Page
 import org.springframework.stereotype.Component
 import org.springframework.web.util.UriComponentsBuilder
 
-
+/**
+ * Componente que permite facilitar el uso de la páginación en nuestra api
+ * mandando los enlaces terminados para navegar entre las páginas
+ * @author lmlopezmagana
+ * @see
+ */
 @Component
 class PaginationLinksUtils {
-
-    fun createLinkHeader(page: Page<*>, uriBuilder: UriComponentsBuilder): String? {
+    /**
+     * Métodos que crea las cabeceras de los enlaces
+     */
+    fun createLinkHeader(
+        /**
+         * Page genérico para formar los enlaces
+         */
+        page: Page<*>,
+        /**
+         * Constructor de uris
+         */
+        uriBuilder: UriComponentsBuilder): String? {
         val linkHeader = StringBuilder()
         linkHeader.append("")
         if (page.hasNext()) {
@@ -33,16 +48,36 @@ class PaginationLinksUtils {
         return linkHeader.toString()
     }
 
-    private fun constructUri(newPageNumber: Int, size: Int, uriBuilder: UriComponentsBuilder): String {
+    /**
+     * Método que construye la uri
+     */
+    private fun constructUri(
+        /**
+         * Atributo que indica que número de página es
+         */
+        newPageNumber: Int,
+        /**
+         * Atributo que representa el tamaño de la página
+         */
+        size: Int,
+        /**
+         * Constructor que contruye las uris
+         */
+        uriBuilder: UriComponentsBuilder): String {
         return uriBuilder.replaceQueryParam("page", newPageNumber).replaceQueryParam("size", size).build().encode()
             .toUriString()
     }
 
-
+    /**
+     * Método constructor del link
+     */
     private fun buildLinkHeader(uri: String, rel: String): String? {
         return "<$uri>; rel=\"$rel\""
     }
 
+    /**
+     * Métodos para agregar comás para separar los enlaces
+     */
     private fun appendCommaIfNecessary(linkHeader: StringBuilder) {
         if (linkHeader.isNotEmpty()) {
             linkHeader.append(", ")

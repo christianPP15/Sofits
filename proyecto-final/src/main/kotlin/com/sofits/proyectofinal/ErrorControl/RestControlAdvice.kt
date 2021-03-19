@@ -18,18 +18,32 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import javax.servlet.http.HttpServletResponse
 
-
+/**
+ * Clase que se encarga de gestionar los errores
+ * @see RestControllerAdvice
+ */
 @RestControllerAdvice
 class GlobalRestControllerAdvice : ResponseEntityExceptionHandler() {
 
-
+    /**
+     * Método para controlar las excepciones que extiendan de EntityNotFoundExceptionControl
+     * @see EntityNotFoundExceptionControl
+     */
     @ExceptionHandler(value = [EntityNotFoundExceptionControl::class])
     fun handleExceptionEntityNotFound(ex: EntityNotFoundExceptionControl): ResponseEntity<ApiError> =
         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiError(HttpStatus.BAD_REQUEST, ex.message))
 
-
+    /**
+     * Logger para dar información en la traza de la pila
+     */
     private val log: Logger = LoggerFactory.getLogger(GlobalRestControllerAdvice::class.java)
 
+    /**
+     * Método para controlar las exepciones producidas por la lectura del token JWT
+     * para poder realizar correctamente este método previamente tenemos que resetear la respuesta que se ha
+     * empezado a crear
+     * @author lmlopezmagana
+     */
     @ExceptionHandler(value=[SignatureException::class, MalformedJwtException::class, ExpiredJwtException::class, UnsupportedJwtException::class])
     fun handleJwtExceptions(ex: JwtException, response: HttpServletResponse) : ResponseEntity<ApiError> {
         log.info("handleJwtExceptions")
@@ -42,7 +56,10 @@ class GlobalRestControllerAdvice : ResponseEntityExceptionHandler() {
             .body(ApiError(HttpStatus.UNAUTHORIZED, ex.message))
     }
 
-
+    /**
+     * Método para controlar las excepciones que saltán cuando un usuario intenta acceder a un punto que requiere
+     * autenticación y no manda el token
+     */
     @ExceptionHandler(value=[AuthenticationException::class])
     fun handleAuthenticationException(ex: AuthenticationException) : ResponseEntity<ApiError> {
         log.info("handleAuthenticationException")
@@ -52,6 +69,11 @@ class GlobalRestControllerAdvice : ResponseEntityExceptionHandler() {
 
     }
 
+    /**
+     * Método para controlar los errores de validación incertando todos los suberrores haciendo uso de :
+     * @see ApiSubError
+     * @see ApiError
+     */
     override fun handleMethodArgumentNotValid(
         ex: MethodArgumentNotValidException,
         headers: org.springframework.http.HttpHeaders,
@@ -70,6 +92,9 @@ class GlobalRestControllerAdvice : ResponseEntityExceptionHandler() {
                 )
             )
 
+    /**
+     * Método para controlar cualquier excepción que se produzca mostrandole un mensaje más oportuno 
+     */
     override fun handleExceptionInternal(
         ex: Exception,
         @Nullable body: Any?,
