@@ -4,11 +4,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import coil.load
 import com.example.sofits_frontend.Api.response.AutoresResponse.Autor
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.Constantes
+import javax.inject.Inject
 
-class MyAutoresRecyclerViewAdapter() : RecyclerView.Adapter<MyAutoresRecyclerViewAdapter.ViewHolder>() {
+class MyAutoresRecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<MyAutoresRecyclerViewAdapter.ViewHolder>() {
     var values: List<Autor> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -18,15 +22,18 @@ class MyAutoresRecyclerViewAdapter() : RecyclerView.Adapter<MyAutoresRecyclerVie
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        //holder.contentView.text = item.content
+        if (item.imagen!=null){
+            holder.imagenAutor.load(Constantes.imageURL+item.imagen.idImagen)
+        }
+        holder.nombreAutor.text=item.nombre
+
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_number)
-        val contentView: TextView = view.findViewById(R.id.content)
+        val imagenAutor: ImageView = view.findViewById(R.id.imageView_autor)
+        val nombreAutor: TextView = view.findViewById(R.id.textView_nombre_autor)
     }
     fun setData(lista:List<Autor>){
         values=lista

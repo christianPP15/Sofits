@@ -19,7 +19,7 @@ import javax.inject.Inject
 class AutoresFragment : Fragment() {
 
     @Inject lateinit var autoresViewModel: AutoresViewModel
-    private lateinit var miAutoresRecyclerViewAdapter: MyAutoresRecyclerViewAdapter
+    @Inject lateinit var miAutoresRecyclerViewAdapter: MyAutoresRecyclerViewAdapter
     private var columnCount = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +33,6 @@ class AutoresFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_autor_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.list)
-        miAutoresRecyclerViewAdapter=MyAutoresRecyclerViewAdapter()
-
         with(recyclerView) {
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)

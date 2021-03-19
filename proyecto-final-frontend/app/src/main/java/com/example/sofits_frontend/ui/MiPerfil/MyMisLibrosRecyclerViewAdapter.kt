@@ -10,11 +10,10 @@ import coil.load
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.LibrosSubidos
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
+import javax.inject.Inject
 
 
-class MyMisLibrosRecyclerViewAdapter(
-
-) : RecyclerView.Adapter<MyMisLibrosRecyclerViewAdapter.ViewHolder>() {
+class MyMisLibrosRecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<MyMisLibrosRecyclerViewAdapter.ViewHolder>() {
     private var values: List<LibrosSubidos> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,9 +38,7 @@ class MyMisLibrosRecyclerViewAdapter(
     }
 
     fun setData(list:List<LibrosSubidos>){
-        if (list != null) {
-            values=list
-        }
+        values=list
         notifyDataSetChanged()
     }
 }

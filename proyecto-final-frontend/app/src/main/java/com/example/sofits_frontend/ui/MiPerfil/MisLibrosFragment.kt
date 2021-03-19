@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MisLibrosFragment : Fragment() {
     @Inject lateinit var misLibrosViewModel: MisLibrosViewModel
     private var columnCount = 2
-    private lateinit var misLibrosRecyclerViewAdapter: MyMisLibrosRecyclerViewAdapter
+    @Inject lateinit var misLibrosRecyclerViewAdapter: MyMisLibrosRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,6 @@ class MisLibrosFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_mi_libro_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.list)
-        misLibrosRecyclerViewAdapter=MyMisLibrosRecyclerViewAdapter()
 
         with(recyclerView) {
                 layoutManager = when {
