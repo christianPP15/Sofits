@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:context=".ui.MiPerfil.Informacion.InformacionUsuarioFragment">
+
+
+    <TextView
+        android:id="@+id/textView_mis_libros_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Mis Libros"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/button_autoresFavoritos"
+        app:layout_constraintTop_toBottomOf="@+id/button_autoresFavoritos" />
+
+    <TextView
+        android:id="@+id/textView_nombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:maxWidth="200dp"
+        android:lines="2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_perfilUsuarioImagen"
+        app:layout_constraintStart_toStartOf="@+id/imageView_perfilUsuarioImagen"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_perfilUsuarioImagen" />
+
+    <ImageView
+        android:id="@+id/imageView_estrella3_valoracionPropia"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_estrella2_valoracionPropia"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_estrella4_valoracionPropia"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_estrella2_valoracionPropia"
+        app:layout_constraintTop_toTopOf="@+id/imageView_estrella2_valoracionPropia" />
+
+    <ImageView
+        android:id="@+id/imageView_estrella2_valoracionPropia"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_estrella1_valoracionPropia"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_estrella3_valoracionPropia"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_estrella1_valoracionPropia"
+        app:layout_constraintTop_toTopOf="@+id/imageView_estrella1_valoracionPropia" />
+
+    <ImageView
+        android:id="@+id/imageView_estrella1_valoracionPropia"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_perfilUsuarioImagen"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_estrella2_valoracionPropia"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_perfilUsuarioImagen"
+        app:layout_constraintTop_toTopOf="@+id/imageView_perfilUsuarioImagen" />
+
+    <ImageView
+        android:id="@+id/imageView_estrella4_valoracionPropia"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_estrella3_valoracionPropia"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_estrella5_valoracionPropia"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_estrella3_valoracionPropia"
+        app:layout_constraintTop_toTopOf="@+id/imageView_estrella3_valoracionPropia" />
+
+    <ImageView
+        android:id="@+id/imageView_estrella5_valoracionPropia"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@android:drawable/btn_star"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_estrella4_valoracionPropia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView_estrella4_valoracionPropia"
+        app:layout_constraintTop_toTopOf="@+id/imageView_estrella4_valoracionPropia" />
+
+    <ImageView
+        android:id="@+id/imageView_perfilUsuarioImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/button_autoresFavoritos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/favoritos_autores"
+        app:layout_constraintStart_toStartOf="@+id/imageView_perfilUsuarioImagen"
+        app:layout_constraintTop_toBottomOf="@+id/textView_nombreUsuario" />
+
+    <Button
+        android:id="@+id/button_libros_favoritos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/mis_libros_favoritos"
+        app:layout_constraintStart_toEndOf="@+id/button_autoresFavoritos"
+        app:layout_constraintTop_toBottomOf="@+id/textView_nombreUsuario" />
+</androidx.constraintlayout.widget.ConstraintLayout>

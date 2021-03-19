@@ -19,7 +19,7 @@ class ProyectoFinalApplication{
 			generoLiterarioRepository.save(genero)
 			val autor=Autor("Carlos ruiz","adwdwd", LocalDate.of(1900,3,15))
 			autorRepository.save(autor)
-			val libro=Libro("Marina","Libro guapisimo")
+			val libro=Libro("El laberito de los espíritus","Libro guapisimo")
 			libroRepository.save(libro)
 			autor.libros.add(libro)
 			libro.autor=autor

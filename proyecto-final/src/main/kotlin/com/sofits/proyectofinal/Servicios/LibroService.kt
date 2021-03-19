@@ -27,6 +27,7 @@ class LibroService(val autorRepository: AutorRepository,
         val autor = autorRepository.findById(id).orElseThrow { AutorNotExist(id) }
         val libro=Libro(create.titulo,create.descripcion)
         autor.libros.add(libro)
+        libro.autor=autor
         autorRepository.save(autor)
         repositorio.save(libro)
         return libro.toDetailLibro()

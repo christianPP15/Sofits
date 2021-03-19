@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.sofits_frontend.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_autores"
+        android:name="com.example.sofits_frontend.ui.Autores.AutoresFragment"
         android:label="@string/title_autores"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_autor_list" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.sofits_frontend.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_perfil"
+        android:name="com.example.sofits_frontend.ui.MiPerfil.MisLibrosFragment"
         android:label="@string/title_perfil"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_mi_libro_list" />
 </navigation>

@@ -1,8 +1,6 @@
 package com.sofits.proyectofinal.Servicios
 
-import com.sofits.proyectofinal.DTO.ValoracionDto
-import com.sofits.proyectofinal.DTO.ValoracionDtoResult
-import com.sofits.proyectofinal.DTO.toDto
+import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.UserNotFoundById
 import com.sofits.proyectofinal.ErrorControl.ValoracionNotExist
 import com.sofits.proyectofinal.Modelos.Usuario
@@ -27,7 +25,7 @@ class ValoracionUsuariosServicio (val usuariosServicio: UserService) : BaseServi
             result.map { media += it.nota }
             media/=result.size
         }
-        return ValoracionDtoResult(result.map { it.toDto() },media)
+        return ValoracionDtoResult(result.map { it.toDto() },media,user.UserDTOLogin())
     }
 
     fun userLikeOtherUser(user: Usuario,id:UUID) =

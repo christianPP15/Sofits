@@ -9,4 +9,7 @@
     <string name="TOKEN">token_almacen</string>
     <string name="TOKEN_USER">token_usuario</string>
     <string name="TOKEN_REFRESCO">token_usuario_refresco</string>
+    <string name="MensajeErroLogin">Nombre de usuario o contraseña no válidos</string>
+    <string name="favoritos_autores">Autores favoritos</string>
+    <string name="mis_libros_favoritos">Libros Favoritos</string>
 </resources>

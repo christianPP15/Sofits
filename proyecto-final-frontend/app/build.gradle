@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
-
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -10,6 +10,7 @@ android {
     defaultConfig {
         applicationId "com.example.sofits_frontend"
         minSdkVersion 16
+        vectorDrawables.useSupportLibrary = true
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -46,12 +47,19 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //coil
     implementation('io.coil-kt:coil:1.1.1')
     // retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.0.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //Dagger
+    implementation 'com.google.dagger:dagger:2.33'
+    kapt 'com.google.dagger:dagger-compiler:2.33'
+    //Logger info
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
 }

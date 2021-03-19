@@ -34,7 +34,6 @@ class JwtAuthorizationFilter() : OncePerRequestFilter() {
     private val log: Logger = LoggerFactory.getLogger(JwtAuthorizationFilter::class.java)
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-        // TODO Se puede mejorar el manejo de errores para entroncarlo con un @RestControllerAdvice
         try {
             bearerTokenExtractor.getJwtFromRequest(request).ifPresent { token ->
                 if (jwtTokenProvider.validateAuthToken(token)) {
