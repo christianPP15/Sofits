@@ -22,13 +22,13 @@ data class LibroDtoDetailAutor(
 )
 data class LibroDetail(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
-    val id: UUID,
+    val id: UUID?,
     @ApiModelProperty(value = "Título del libro",dataType = "java.lang.String",position = 2)
     val titulo: String,
     @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 3)
     val descripcion:String?,
     @ApiModelProperty(value = "Autor del libro",dataType = "AutorDeLibro",position = 4)
-    val autor:AutorDeLibro
+    val autor:AutorDeLibro?
 )
 data class createLibro(
     @ApiModelProperty(value = "Título del libro",dataType = "java.lang.String",position = 2)
@@ -42,4 +42,4 @@ fun Libro.toDtoAutor(): LibroDtoInicio = LibroDtoInicio(id!!,titulo,libroUsuario
 
 fun Libro.toDetailAutor() = LibroDtoDetailAutor(id!!,titulo)
 
-fun Libro.toDetailLibro() = LibroDetail(id!!,titulo,descripcion,autor!!.toLibroCreate())
+fun Libro.toDetailLibro() = LibroDetail(id,titulo,descripcion,autor?.toLibroCreate())
