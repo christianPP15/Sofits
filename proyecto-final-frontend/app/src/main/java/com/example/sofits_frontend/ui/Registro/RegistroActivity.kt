@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.RegisterRequest
-import com.example.sofits_frontend.Api.response.RegisterResponse
+import com.example.sofits_frontend.Api.response.AuthResponse.RegisterResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
@@ -42,7 +42,7 @@ class RegistroActivity : AppCompatActivity() {
         botonRegistro.setOnClickListener {
             val registerData:RegisterRequest?= sendRegisterInfo()
             if(registerData!=null){
-                var registerDataResponse:RegisterResponse?
+                var registerDataResponse: RegisterResponse?
                 registerViewModel.doRegisterComplete(registerData)
                 registerViewModel.registerData.observe(this, Observer { response->
                     when(response) {

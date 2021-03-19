@@ -16,7 +16,8 @@ data class AutoresDto(
     @ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.String",position = 2)
     val nombre:String,
     @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 3)
-    val libros: List<LibroDtoDetailAutor> = mutableListOf()
+    val libros: List<LibroDtoDetailAutor> = mutableListOf(),
+    val imagen: ImagenWithoutHash?
 )
 data class AutoresDetail(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
@@ -51,7 +52,7 @@ data class AutorDeLibro(
     val nombre: String
 )
 fun Autor.toLibroCreate() = AutorDeLibro(id!!,nombre)
-fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDetailAutor() })
+fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDetailAutor() },imagen?.toDto())
 
 fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDtoAutor() })
 

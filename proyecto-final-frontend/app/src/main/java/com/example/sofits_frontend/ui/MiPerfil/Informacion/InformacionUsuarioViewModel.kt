@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.Resource
-import com.example.sofits_frontend.Api.response.LoginResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
