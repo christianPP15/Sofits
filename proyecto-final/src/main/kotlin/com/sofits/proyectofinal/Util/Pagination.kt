@@ -8,22 +8,16 @@ import org.springframework.web.util.UriComponentsBuilder
  * Componente que permite facilitar el uso de la páginación en nuestra api
  * mandando los enlaces terminados para navegar entre las páginas
  * @author lmlopezmagana
- * @see
  */
 @Component
 class PaginationLinksUtils {
     /**
      * Métodos que crea las cabeceras de los enlaces
+     * @param page Page genérico para formar los enlaces
+     * @param uriBuilder Constructor de uris
+     * @return Devuelve una cabezera con los enlaces correspondientes
      */
-    fun createLinkHeader(
-        /**
-         * Page genérico para formar los enlaces
-         */
-        page: Page<*>,
-        /**
-         * Constructor de uris
-         */
-        uriBuilder: UriComponentsBuilder): String? {
+    fun createLinkHeader(page: Page<*>,uriBuilder: UriComponentsBuilder): String? {
         val linkHeader = StringBuilder()
         linkHeader.append("")
         if (page.hasNext()) {
@@ -50,20 +44,12 @@ class PaginationLinksUtils {
 
     /**
      * Método que construye la uri
+     * @param newPageNumber Atributo que indica que número de página es
+     * @param size Atributo que representa el tamaño de la página
+     * @param uriBuilder Constructor que contruye las uris
+     * @return devuelve una uri con los parámetros que se pueden pasar por la cabecera de la petición
      */
-    private fun constructUri(
-        /**
-         * Atributo que indica que número de página es
-         */
-        newPageNumber: Int,
-        /**
-         * Atributo que representa el tamaño de la página
-         */
-        size: Int,
-        /**
-         * Constructor que contruye las uris
-         */
-        uriBuilder: UriComponentsBuilder): String {
+    private fun constructUri(newPageNumber: Int, size: Int,uriBuilder: UriComponentsBuilder): String {
         return uriBuilder.replaceQueryParam("page", newPageNumber).replaceQueryParam("size", size).build().encode()
             .toUriString()
     }
@@ -77,6 +63,7 @@ class PaginationLinksUtils {
 
     /**
      * Métodos para agregar comás para separar los enlaces
+     * @param linkHeader Cabecera con los enlaces
      */
     private fun appendCommaIfNecessary(linkHeader: StringBuilder) {
         if (linkHeader.isNotEmpty()) {

@@ -10,12 +10,20 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
-
+/**
+ * Controlador para cargar imagenes desde Imgur
+ * @author lmlopezmagana
+ */
 @RestController
 class ImgurFilesController(
     private val imgurStorageService: ImgurStorageService
 ) {
-
+    /**
+     * Método encargado de devolver la imagen a través del dataId de una imagen
+     * @param id Data id de una imagen
+     * @return Devuelve un recurso con la imagen
+     * @throws ResponseStatusException Excepción para cuando una imagen no se encuentra
+     */
     @Throws(ResponseStatusException::class)
     @GetMapping("/files/{id}")
     fun get(@PathVariable id: String) : ResponseEntity<Resource> {

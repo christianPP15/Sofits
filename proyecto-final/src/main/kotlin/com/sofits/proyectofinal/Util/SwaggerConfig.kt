@@ -50,6 +50,7 @@ class SwaggerConfig {
 
     /**
      * Activa el tipo de seguridad en Swagger
+     * @return Devuelve el tipo de autorización de la API
      */
     private fun apiKey(): ApiKey {
         return ApiKey("JWT", "Authorization", "header")
@@ -57,6 +58,7 @@ class SwaggerConfig {
 
     /**
      * Da la posibilidad a Swagger 2 de acceder al contexto de la seguridad
+     * @return Devuelve el contexto de seguridad de la aplicación
      */
     private fun securityContext(): SecurityContext {
         return SecurityContext.builder().securityReferences(defaultAuth()).build()
@@ -64,6 +66,7 @@ class SwaggerConfig {
 
     /**
      * Crea la lista de tipos de seguridad que implementa nuestra api
+     * @return Devuelve la lista con todas los tipos de seguridad que implementa la api
      */
     private fun defaultAuth(): List<SecurityReference?>? {
         val authorizationScope = AuthorizationScope("global", "accessEverything")
