@@ -12,4 +12,6 @@
     <string name="MensajeErroLogin">Nombre de usuario o contraseña no válidos</string>
     <string name="favoritos_autores">Autores favoritos</string>
     <string name="mis_libros_favoritos">Libros Favoritos</string>
+    <string name="title_activity_autor_detail">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

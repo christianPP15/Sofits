@@ -2,6 +2,7 @@ package com.sofits.proyectofinal.DTO
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.sofits.proyectofinal.Modelos.Autor
+import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.upload.ImagenWithoutHash
 import com.sofits.proyectofinal.upload.toDto
 import io.swagger.annotations.ApiModelProperty
@@ -30,7 +31,24 @@ data class AutoresDetail(
     @JsonFormat(pattern="yyyy-MM-dd")
     val nacimiento:LocalDate? = null,
     @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 5)
-    val libros: List<LibroDtoInicio> = mutableListOf()
+    val libros: List<LibroDtoUnidades> = mutableListOf()
+)
+data class AutoresDetailMeGusta(
+    @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
+    val id:UUID,
+    @ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.String",position = 2)
+    val nombre: String,
+    @ApiModelProperty(value = "Biografía del autor",dataType = "java.lang.String",position = 3)
+    val biografia:String?,
+    @ApiModelProperty(value = "Fecha de nacimiento del autor",dataType = "java.util.LocalDate",position = 4)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    val nacimiento:LocalDate? = null,
+    @ApiModelProperty(value = "Imagen del autor",dataType = "ImagenWithoutHash",position = 7)
+    val imagen: ImagenWithoutHash? ,
+    @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 5)
+    val libros: List<LibroDtoUnidades> = mutableListOf(),
+    @ApiModelProperty(value = "Indica si el autor le gusta a un usuario",dataType = "java.lang.Boolean",position = 6)
+    val meGusta:Boolean
 )
 data class AutorDatosBiograficos(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
@@ -54,8 +72,8 @@ data class AutorDeLibro(
 fun Autor.toLibroCreate() = AutorDeLibro(id!!,nombre)
 fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDetailAutor() },imagen?.toDto())
 
-fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDtoAutor() })
-
+fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDtoUnidades() })
+fun Autor.toDetailMeGusta(user: Usuario) = AutoresDetailMeGusta(id!!,nombre,Biografia, nacimiento,imagen?.toDto(),libros.map { it.toDtoUnidades() },likeAutorUsuario.contains(user))
 fun Autor.toCrateDto()= AutorDatosBiograficos(id!!,nombre,Biografia,nacimiento.toString(),imagen?.toDto())
 
 data class createAutor(

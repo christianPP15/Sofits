@@ -54,7 +54,7 @@ class AutorService(
      * @param id Identificador del autor que permite su obtención
      * @throws AutorNotExist Devuelve una excepción en el caso de que el autor que se solicita no exista
      */
-    fun obtenerAutor(id:UUID) = repositorio.findById(id).map { it.toDetail() }.takeIf { !it.isEmpty } ?: throw AutorNotExist(id)
+    fun obtenerAutor(id:UUID,usuario:Usuario) = repositorio.findById(id).map { it.toDetailMeGusta(usuario) }.takeIf { !it.isEmpty } ?: throw AutorNotExist(id)
 
     /**
      * Agregamos un nuevo autor

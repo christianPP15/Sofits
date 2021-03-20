@@ -1,12 +1,14 @@
 package com.example.sofits_frontend.repository
 
 import com.example.sofits_frontend.Api.ApiError
+import com.example.sofits_frontend.Api.NoContent
 import com.example.sofits_frontend.Api.SofitsService
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
 import com.example.sofits_frontend.Api.response.AuthResponse.RegisterResponse
 import com.example.sofits_frontend.Api.response.AutoresResponse.AutoresResponse
+import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.AutorDetailResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import okhttp3.RequestBody
@@ -28,6 +30,12 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
     suspend fun getMisValoraciones() : Response<MisValoracionesResponse> = sofitsServiceConToken.getMisValoraciones()
 
     suspend fun getAutores() : Response<AutoresResponse> = sofitsServiceConToken.getAutores()
+
+    suspend fun addAutorMeGusta(id:String) : Response<AutorDetailResponse> = sofitsServiceConToken.AddMeGustaAutor(id)
+
+    suspend fun removeMeGustaAutor(id: String) : Response<NoContent> = sofitsServiceConToken.RemoveMeGustaAutor(id)
+
+    suspend fun getAutorById(id: String) : Response<AutorDetailResponse> = sofitsServiceConToken.GetAutorById(id)
 
     fun parseError(response:Response<*>): ApiError{
         val jsonObject = JSONObject(response.errorBody()?.string())

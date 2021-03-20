@@ -14,6 +14,13 @@ data class LibroDtoInicio(
     @ApiModelProperty(value = "Usuario que lo tienen copias",dataType = "UserLibroDto",position = 3)
     val usuario:List<UserLibroDto> = mutableListOf()
 )
+data class LibroDtoUnidades(
+    @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
+    val id:UUID,
+    @ApiModelProperty(value = "Título del libro",dataType = "java.lang.String",position = 2)
+    val titulo:String,
+    val unidades: Int
+)
 data class LibroDtoDetailAutor(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
     val id: UUID,
@@ -39,6 +46,7 @@ data class createLibro(
 )
 fun Libro.toDtoAutor(): LibroDtoInicio = LibroDtoInicio(id!!,titulo,libroUsuario.map { it.usuarioLibro.toDtoLibro() })
 
+fun Libro.toDtoUnidades() = LibroDtoUnidades(id!!,titulo, libroUsuario.size)
 
 fun Libro.toDetailAutor() = LibroDtoDetailAutor(id!!,titulo)
 
