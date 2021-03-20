@@ -30,4 +30,5 @@ interface SofitsService {
 
     @GET("autores/")
     suspend fun getAutores() : Response<AutoresResponse>
+
 }

@@ -10,6 +10,7 @@ import coil.load
 import com.example.sofits_frontend.Api.response.AutoresResponse.Autor
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
+import com.example.sofits_frontend.repository.SofitsRepository
 import javax.inject.Inject
 
 class MyAutoresRecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<MyAutoresRecyclerViewAdapter.ViewHolder>() {

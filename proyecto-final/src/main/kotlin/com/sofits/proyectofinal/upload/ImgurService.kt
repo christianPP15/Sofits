@@ -15,14 +15,27 @@ import org.springframework.web.util.UriBuilderFactory
 import java.net.URI
 import java.util.*
 
+/**
+ * Servicio que recibe el clientId de imgur
+ */
 @Service
 class ImgurService(
+    /**
+     * ClienteId que obtiene el valor de un fichero de properties
+     * @see Value
+     */
     @Value("\${imgur.clientid}") val clientId: String
 
 ) {
+    /**
+     * Atributo que define un RestTemplate
+     */
     var restTemplate: RestTemplate = RestTemplate()
 
     init {
+        /**
+         * Define los errores para el RestTemplate
+         */
         restTemplate.errorHandler = object : DefaultResponseErrorHandler() {
             override fun hasError(response: ClientHttpResponse) =
                 response.statusCode.series() === HttpStatus.Series.CLIENT_ERROR || response.statusCode.series() === HttpStatus.Series.SERVER_ERROR
@@ -40,17 +53,48 @@ class ImgurService(
         }
     }
 
+    /**
+     * Constructor de uris
+     */
     private var factory: UriBuilderFactory = DefaultUriBuilderFactory()
+
+    /**
+     * Logger para mostrar la información al usuario
+     */
     val logger: Logger = LoggerFactory.getLogger(ImgurService::class.java)
+
     companion object {
+        /**
+         * Url base para obtener las imagenes
+         */
         private const val BASE_URL = "https://api.imgur.com/3/image"
+
+        /**
+         * Url dónde guardar las imagenes
+         */
         const val URL_NEW_IMAGE = "$BASE_URL"
+
+        /**
+         * URL para el borrado de imagenes
+         */
         const val URL_DELETE_IMAGE = "$BASE_URL/{hash}"
+
+        /**
+         * Url para obtener las imagenes
+         */
         const val URL_GET_IMAGE = "$BASE_URL/{id}"
+
+        /**
+         * Códigos de respuesta para los métodos POST y GET
+         */
         const val SUCCESS_UPLOAD_STATUS = 200
         const val SUCCESS_GET_STATUS = 200
     }
 
+    /**
+     * Función que recibe la imagen y la procesa para saber si se ha subido correctamente
+     * @return Devuelve un optional vacío o en su defecto un Obtional con un NewImageRes
+     */
     fun upload(imageReq: NewImageReq): Optional<NewImageRes> {
 
         var headers = getHeaders()
@@ -66,6 +110,9 @@ class ImgurService(
 
     }
 
+    /**
+     * Elimina la imagen a través de su hash de eliminación
+     */
     fun delete(hash: String): Unit {
         logger.debug("Realizando la petición DELETE para eliminar la imagen $hash")
 
@@ -78,6 +125,10 @@ class ImgurService(
 
     }
 
+    /**
+     * Función para obtener una imagen en base a su id
+     * @return Devuelve un optional vacío o bien un Optional con la imagen
+     */
     fun get(id: String): Optional<GetImageRes> {
 
 
@@ -96,6 +147,10 @@ class ImgurService(
         return Optional.empty()
     }
 
+    /**
+     * Interceptor en el que se añade el cliente id en la cabecera de la petición
+     * @return Devuelve la cabecera de la petición
+     */
     private fun getHeaders(): HttpHeaders {
         var headers: HttpHeaders = HttpHeaders()
         headers["Authorization"] = "Client-ID $clientId"
@@ -107,10 +162,19 @@ class ImgurService(
 
 }
 
-
+/**
+ * Error para cuando una imagen no se ha encontrado
+ */
 class ImgurImageNotFoundException() : RuntimeException("No se ha podido encontrar la imagen")
+
+/**
+ * Error para cuando no se puede realizar la petición
+ */
 class ImgurBadRequest() : RuntimeException("Error al realizar la petición")
 
+/**
+ * Data class que define la imagen y su nombre
+ */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class NewImageReq(
     var image: String,
@@ -118,6 +182,9 @@ data class NewImageReq(
 
 )
 
+/**
+ * Data class que define la respuesta que tendrá al subir la imagen
+ */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class NewImageRes(
     val success: String,
@@ -125,6 +192,9 @@ data class NewImageRes(
     val data: NewImageInfo
 )
 
+/**
+ * Data class que almacena la información de una nueva imagen
+ */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class NewImageInfo(
     val link: String,
@@ -132,6 +202,9 @@ data class NewImageInfo(
     val deletehash: String
 )
 
+/**
+ * Data class que almacena la respuesta al intentar acceder a una imagen
+ */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class GetImageRes(
     val success: String,
@@ -139,6 +212,9 @@ data class GetImageRes(
     val data: GetImageInfo
 )
 
+/**
+ * Data class que almacena la información de una imagen
+ */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class GetImageInfo(
     val link: String,

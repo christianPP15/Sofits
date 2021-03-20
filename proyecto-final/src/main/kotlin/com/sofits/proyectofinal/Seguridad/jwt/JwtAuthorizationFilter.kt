@@ -20,19 +20,43 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+/**
+ * Clase estereotipada como Componente y que extiende de OncePerRequestFilter
+ * @see Component
+ * @see OncePerRequestFilter
+ * @author lmlopezmagana
+ */
 @Component
 class JwtAuthorizationFilter() : OncePerRequestFilter() {
+    /**
+     * Proveedor del token
+     */
     @Autowired
     lateinit var jwtTokenProvider: JwtTokenProvider
 
+    /**
+     * Servicios que gestionan los usuarios
+     */
     @Autowired
     lateinit var userService: UserService
 
+    /**
+     * Extractor del token de la petición
+     */
     @Autowired
     lateinit var bearerTokenExtractor: BearerTokenExtractor
 
+    /**
+     * Logger para mostrar información por la traza de la pila
+     */
     private val log: Logger = LoggerFactory.getLogger(JwtAuthorizationFilter::class.java)
 
+    /**
+     * Filtro que obtiene el token de la petición e introduce al usuario en el contexto de la petición
+     * @param request Petición del usuario
+     * @param response Respuesta del servidor
+     * @param filterChain Filtro en la petición
+     */
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         try {
             bearerTokenExtractor.getJwtFromRequest(request).ifPresent { token ->
@@ -60,9 +84,18 @@ class JwtAuthorizationFilter() : OncePerRequestFilter() {
 
 }
 
+/**
+ * Clase estereotipada como Service y que se encarga de la extracción del token
+ * @see Service
+ * @author lmlopezmagana
+ */
 @Service
 class BearerTokenExtractor {
-
+    /**
+     * Extrae el token de la petición
+     * @param request Petición del usuario del que extraer el token
+     * @return Devuelve un optional vacío o bien un optional con el token
+     */
     fun getJwtFromRequest(request: HttpServletRequest): Optional<String> {
         val bearerToken = request.getHeader(JwtTokenProvider.TOKEN_HEADER)
         return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JwtTokenProvider.TOKEN_PREFIX))

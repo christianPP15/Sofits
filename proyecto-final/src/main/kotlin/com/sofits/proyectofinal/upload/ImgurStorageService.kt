@@ -10,6 +10,11 @@ import java.util.*
 
 interface ImgurStorageService : BasicImageStorageService<ImgurImageAttribute, String, String>
 
+/**
+ * Servicio que implementa los métodos ImgurStorageService y que recibe el servicio ImgurService
+ * @see ImgurStorageService
+ * @see ImgurService
+ */
 @Service
 class ImgurStorageServiceImpl(
     private val imgurService: ImgurService
@@ -20,7 +25,11 @@ class ImgurStorageServiceImpl(
     // y el hash de borrado
     val logger: Logger = LoggerFactory.getLogger(ImgurStorageService::class.java)
 
-
+    /**
+     * Guarda la imagen convirtiendola a base 64
+     * @return Devuelve un optional vacío o un optional con ImgurImageAttribute
+     * @see ImgurImageAttribute
+     */
     override fun store(file: MultipartFile) : Optional<ImgurImageAttribute> {
 
         if (!file.isEmpty) {
@@ -37,7 +46,10 @@ class ImgurStorageServiceImpl(
 
     }
 
-
+    /**
+     * Carga la imagen a partir de su id
+     * @return Devuelve un optional vacío o un Optional con el recurso
+     */
     override fun loadAsResource(id: String) : Optional<MediaTypeUrlResource> {
         var response = imgurService.get(id)
         if (response.isPresent) {
@@ -50,6 +62,9 @@ class ImgurStorageServiceImpl(
 
     }
 
+    /**
+     * Elimina una imagen en base a su hash
+     */
     override fun delete(deletehash: String) : Unit {
         logger.debug("Eliminando la imagen $deletehash")
         imgurService.delete(deletehash)
@@ -58,5 +73,15 @@ class ImgurStorageServiceImpl(
 
 }
 
+/**
+ * Clase que almacena el tipo del archivo y su uri
+ */
 class MediaTypeUrlResource(
-    val mediaType: String, var uri: URI) : UrlResource(uri)
+    /**
+     * Atributo que almacena el tipo de la imagen
+     */
+    val mediaType: String,
+    /**
+     * Atritubo que almacena la uri de la imagen
+     */
+    var uri: URI) : UrlResource(uri)

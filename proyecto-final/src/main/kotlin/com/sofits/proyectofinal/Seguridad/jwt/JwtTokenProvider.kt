@@ -12,10 +12,25 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-
+/**
+ * Clase estereotipada como Componente y que se encarga de proveer un token
+ * @author lmlopezmagana
+ * @see Component
+ */
 @Component
-class JwtTokenProvider(@Value("\${JWT.SECRET}") private val jwtSecreto : String, @Value("\${JWT.DURATION}") private val jwtDuracionToken : Long,
-                       @Value("\${JWT.DURATION.REFRESH}") private val jwtDuracionRefreshToken : Long) {
+class JwtTokenProvider(
+    /**
+     * Secreto que se introduce desde el fichero de properties
+     */
+    @Value("\${JWT.SECRET}") private val jwtSecreto : String,
+    /**
+     * Duración del token establecido en el fichero de properties
+     */
+    @Value("\${JWT.DURATION}") private val jwtDuracionToken : Long,
+    /**
+     * Duración del token de refresco en el fichero de properties
+     */
+    @Value("\${JWT.DURATION.REFRESH}") private val jwtDuracionRefreshToken : Long) {
 
     companion object {
         const val TOKEN_HEADER = "Authorization"
@@ -23,11 +38,21 @@ class JwtTokenProvider(@Value("\${JWT.SECRET}") private val jwtSecreto : String,
         const val TOKEN_TYPE = "JWT"
     }
 
-
+    /**
+     * Atributo que permite convertir el token del usuario
+     */
     private val parser = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(jwtSecreto.toByteArray())).build()
 
+    /**
+     * Crea un logger para mostrar información por la traza de la pila
+     */
     private val logger: org.slf4j.Logger? = LoggerFactory.getLogger(JwtTokenProvider::class.java)
 
+    /**
+     * Genera el token del usuario
+     * @param user Usuario en base al cual generaremos el token
+     * @param isRefreshToken Comprobamos si es o no el token de refresco
+     */
     private fun generateTokens(user: Usuario, isRefreshToken: Boolean): String {
         val tokenExpirationDate =
             Date.from(
@@ -50,24 +75,43 @@ class JwtTokenProvider(@Value("\${JWT.SECRET}") private val jwtSecreto : String,
         return builder.compact()
     }
 
-    fun generateToken(authentication: Authentication): String {
-        val user: Usuario = authentication.principal as Usuario
-        return generateTokens(user, false)
-    }
 
+    /**
+     * Genera el token normal de un usuario
+     * @param user al que generar el token
+     */
     fun generateToken(user: Usuario) = generateTokens(user, false)
-    fun generateRefreshToken(authentication: Authentication): String {
-        val user: Usuario = authentication.principal as Usuario
-        return generateTokens(user, true)
-    }
 
+    /**
+     * Genera el token de refresco de un usuario
+     * @param user al que generar el token
+     */
     fun generateRefreshToken(user: Usuario) = generateTokens(user, true)
 
-
+    /**
+     * Obtiene el identificador del usuario en base a su token
+     * @param token Token del usuario del que extraer el id
+     */
     fun getUserIdFromJWT(token: String): UUID = UUID.fromString(parser.parseClaimsJws(token).body.subject)
+
+    /**
+     * Valida el token de refresco de un usuario
+     * @param token Token a validar
+     */
     fun validateRefreshToken(token: String) = validateToken(token, true)
 
+    /**
+     * Valida el token de un usuario
+     * @param token Token a validar
+     */
     fun validateAuthToken(token: String) = validateToken(token, false)
+
+    /**
+     * Se encarga de validar el token sea o no de refresco
+     * @param token Token a validad
+     * @param isRefreshToken Si es o no un token de refresco
+     * @return Devuelve verdadero si el token es válido o false si no lo es 
+     */
     private fun validateToken(token: String, isRefreshToken: Boolean): Boolean {
         try {
             val claims = parser.parseClaimsJws(token)
