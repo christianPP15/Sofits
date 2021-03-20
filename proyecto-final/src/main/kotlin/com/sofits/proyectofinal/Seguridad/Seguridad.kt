@@ -20,17 +20,31 @@ import org.springframework.security.web.authentication.logout.LogoutFilter
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
+/**
+ * Clase anotada con Configuration que configura un bean para encriptar las contraseñas
+ * @see Configuration
+ * @author lmlopezmagana
+ */
 @Configuration
 class ConfigurePasswordEncoder() {
-
+    /**
+     * Función para crear un bean de BCryptPasswordEncoder
+     */
     @Bean
     fun passwordEncoder() : PasswordEncoder = BCryptPasswordEncoder()
 
 }
 
+/**
+ * Clase anotada con Configuration que configura un bean para gestionar Cors
+ * @see Configuration
+ * @author lmlopezmagana
+ */
 @Configuration
 class ConfigureCors() {
-
+    /**
+     * Bean de configuración de WebMvcConfigurer dónde configuramos cors
+     */
     @Bean
     fun corsConfigurer()  = object : WebMvcConfigurer {
 
@@ -44,6 +58,13 @@ class ConfigureCors() {
 
 }
 
+/**
+ * Clase para la configuración de la seguridad
+ * @see Configuration
+ * @see EnableWebSecurity
+ * @see EnableGlobalMethodSecurity
+ * @author lmlopezmagana
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -55,10 +76,18 @@ class WebSecurityConfiguration(
     private val passwordEncoder: PasswordEncoder
 ) : WebSecurityConfigurerAdapter() {
 
+    /**
+     * Configura un constructor de AuthenticationManagerBuilder
+     * @see AuthenticationManagerBuilder
+     */
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder)
     }
 
+    /**
+     * Configura la seguridad Http, indicando a que zona puede acceder cada usuario, los tipos de seguridad, los filtros que debe pasar...
+     * @see HttpSecurity
+     */
     override fun configure(http: HttpSecurity) {
         // @formatter:off
         http
@@ -90,7 +119,10 @@ class WebSecurityConfiguration(
         // @formatter:on
     }
 
-
+    /**
+     * Bean de configuración del AuthenticationManager
+     * @see AuthenticationManager
+     */
     @Bean
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
