@@ -13,11 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sofitsfrontend">
+        <activity android:name=".ui.MiPerfil.AddBook.AddBookUser"></activity>
         <activity
             android:name=".ui.Autores.AutoresDetail.AutorDetailActivity"
             android:label="@string/title_activity_autor_detail"
-            android:theme="@style/Theme.Sofitsfrontend.NoActionBar"></activity>
-        <activity android:name=".ui.Registro.RegistroActivity"></activity>
+            android:theme="@style/Theme.Sofitsfrontend.NoActionBar" />
+        <activity android:name=".ui.Registro.RegistroActivity" />
         <activity android:name=".ui.Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +28,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

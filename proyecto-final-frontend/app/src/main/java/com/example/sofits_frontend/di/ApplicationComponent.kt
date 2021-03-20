@@ -2,6 +2,7 @@ package com.example.sofits_frontend.di
 
 import com.example.sofits_frontend.Api.NetworkModule
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutorDetailActivity
+import com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment
 import com.example.sofits_frontend.ui.Autores.AutoresFragment
 import com.example.sofits_frontend.ui.Login.LoginActivity
 import com.example.sofits_frontend.ui.MiPerfil.Informacion.InformacionUsuarioFragment
@@ -20,4 +21,5 @@ interface ApplicationComponent {
     fun inject(informacionUsuario: InformacionUsuarioFragment)
     fun inject (autoresFragment: AutoresFragment)
     fun inject (autorDetailActivity: AutorDetailActivity)
+    fun inject (librosAutorDetalleFragment: LibrosAutorDetalleFragment)
 }

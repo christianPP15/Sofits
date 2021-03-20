@@ -2,11 +2,9 @@ package com.example.sofits_frontend.ui.Autores.AutoresDetail
 
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import coil.load
@@ -15,12 +13,13 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.Auto
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
 import com.example.sofits_frontend.common.MyApp
-import retrofit2.Response
+import com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment
 import javax.inject.Inject
 
 class AutorDetailActivity : AppCompatActivity() {
 
     @Inject lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
+    @Inject lateinit var librosAutorDetalleFragment: LibrosAutorDetalleFragment
     var result:AutorDetailResponse?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +45,13 @@ class AutorDetailActivity : AppCompatActivity() {
                     }
                     findViewById<TextView>(R.id.textView_Nombre_anio).text=result!!.nombre+ "\t"+result!!.nacimiento
                     findViewById<TextView>(R.id.text_view_descripcion).text=result!!.biografia
+                    librosAutorDetalleFragment.setData(result!!.libros)
                 }
             }
         })
-
-        val meGusta = findViewById<FloatingActionButton>(R.id.fab)
+        /*supportFragmentManager.beginTransaction()
+            .add(R.id.contenedor,)*/
+        val meGusta = findViewById<FloatingActionButton>(R.id.fab_add_book)
         meGusta.setOnClickListener { view ->
             if (result!=null){
                 if (!result!!.meGusta){
