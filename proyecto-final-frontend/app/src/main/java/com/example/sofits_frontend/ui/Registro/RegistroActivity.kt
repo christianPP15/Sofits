@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,12 +22,15 @@ import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Login.LoginViewModel
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
 class RegistroActivity : AppCompatActivity() {
     lateinit var uri:Uri
     var PICK_IMAGEN_COUNT=0
     @Inject lateinit var registerViewModel: RegistroViewModel
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
@@ -49,10 +53,23 @@ class RegistroActivity : AppCompatActivity() {
                         is Resource.Success -> {
                             registerDataResponse=response.data
                             if (registerDataResponse!=null){
+                                val user=hashMapOf(
+                                    "nombre" to registerDataResponse!!.user.nombre
+                                )
+                                db.collection("users")
+                                    .document(registerDataResponse!!.user.id)
+                                    .set(user)
+                                    .addOnSuccessListener { documentReference ->
+                                        Log.d("NEWUSERFIREBASE", "DocumentSnapshot added correctly")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("NEWUSERFIREBASE", "Error adding document", e)
+                                    }
                                 val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
                                 with(shared.edit()) {
                                     putString(getString(R.string.TOKEN_USER), registerDataResponse!!.token)
                                     putString(getString(R.string.TOKEN_REFRESCO),registerDataResponse!!.refreshToken)
+                                    putString(getString(R.string.IdentificadorUsuario),registerDataResponse!!.user.id)
                                     commit()
                                 }
                                 val navegar = Intent(this, MainActivity::class.java)

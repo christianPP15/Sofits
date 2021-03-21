@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -17,12 +18,15 @@ import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Registro.RegistroActivity
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
     @Inject lateinit var loginViewModel: LoginViewModel
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,10 +49,32 @@ class LoginActivity : AppCompatActivity() {
                         is Resource.Success ->{
                             loginData= response.data
                             if (loginData!=null){
+                                var encontrado= false
+                                db.collection("users")
+                                    .document(loginData!!.user.id)
+                                    .get()
+                                    .addOnSuccessListener { result ->
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        val user=hashMapOf(
+                                            "nombre" to loginData!!.user.nombre
+                                        )
+                                        db.collection("users")
+                                            .document(loginData!!.user.id)
+                                            .set(user)
+                                            .addOnSuccessListener { documentReference ->
+                                                //Log.d("NEWUSERFIREBASE", "DocumentSnapshot added with ID: ${documentReference.id}")
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.w("NEWUSERFIREBASE", "Error adding document", e)
+                                            }
+                                    }
+
                                 val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
                                 with(shared.edit()) {
                                     putString(getString(R.string.TOKEN_USER), loginData!!.token)
                                     putString(getString(R.string.TOKEN_REFRESCO),loginData!!.refreshToken)
+                                    putString(getString(R.string.IdentificadorUsuario),loginData!!.user.id)
                                     commit()
                                 }
                                 findViewById<EditText>(R.id.input_email_login).text.clear()

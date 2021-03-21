@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -14,7 +16,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -62,4 +64,8 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.33'
     //Logger info
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 }

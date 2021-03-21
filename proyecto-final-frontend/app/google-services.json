@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1096525352877",
+    "project_id": "sofits-a932e",
+    "storage_bucket": "sofits-a932e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096525352877:android:d8b406219d98a80c25db24",
+        "android_client_info": {
+          "package_name": "com.example.sofits_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096525352877-r99or9habtadl1iitvv02hcj35m1jq9l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAulgwZVIcHKjocl8ix-IIH-nE1UDFzFvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096525352877-r99or9habtadl1iitvv02hcj35m1jq9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
