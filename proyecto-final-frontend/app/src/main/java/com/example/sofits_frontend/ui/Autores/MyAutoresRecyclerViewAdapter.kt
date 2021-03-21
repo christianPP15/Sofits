@@ -30,6 +30,8 @@ class MyAutoresRecyclerViewAdapter  constructor(val ctx:Context) : RecyclerView.
         val item = values[position]
         if (item.imagen!=null){
             holder.imagenAutor.load(Constantes.imageURL+item.imagen.idImagen)
+        }else{
+            holder.imagenAutor.load("https://eu.ui-avatars.com/api/?size=300&name="+item.nombre)
         }
         holder.nombreAutor.text=item.nombre
         holder.autorConstraint.setOnClickListener {

@@ -54,20 +54,23 @@ class LoginActivity : AppCompatActivity() {
                                     .document(loginData!!.user.id)
                                     .get()
                                     .addOnSuccessListener { result ->
+                                        if (result.data==null){
+                                            val user=hashMapOf(
+                                                "nombre" to loginData!!.user.nombre
+                                            )
+                                            db.collection("users")
+                                                .document(loginData!!.user.id)
+                                                .set(user)
+                                                .addOnSuccessListener { documentReference ->
+                                                    //Log.d("NEWUSERFIREBASE", "DocumentSnapshot added with ID: ${documentReference.id}")
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    Log.w("NEWUSERFIREBASE", "Error adding document", e)
+                                                }
+                                        }
                                     }
                                     .addOnFailureListener { exception ->
-                                        val user=hashMapOf(
-                                            "nombre" to loginData!!.user.nombre
-                                        )
-                                        db.collection("users")
-                                            .document(loginData!!.user.id)
-                                            .set(user)
-                                            .addOnSuccessListener { documentReference ->
-                                                //Log.d("NEWUSERFIREBASE", "DocumentSnapshot added with ID: ${documentReference.id}")
-                                            }
-                                            .addOnFailureListener { e ->
-                                                Log.w("NEWUSERFIREBASE", "Error adding document", e)
-                                            }
+
                                     }
 
                                 val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)

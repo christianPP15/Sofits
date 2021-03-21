@@ -40,10 +40,10 @@ class SelectAutorNewBook : AppCompatActivity() {
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>?,selectedItemView: View?,position: Int,id: Long) {
                 val libros=autores.get(position).libros.map { it.titulo }
-                val adapter: ArrayAdapter<String> = ArrayAdapter(applicationContext,R.layout.activity_select_autor_new_book,R.id.chooseLibro,libros)
-                val spineerLibros= findViewById<Spinner>(R.id.spinnerLibro)
-                spineerLibros.adapter=adapter
-                spineerLibros.visibility= View.VISIBLE
+                //val adapter: ArrayAdapter<String> = ArrayAdapter(applicationContext,R.layout.activity_select_autor_new_book,R.id.chooseLibro,libros)
+                //val spineerLibros= findViewById<Spinner>(R.id.spinnerLibro)
+                //spineerLibros.adapter=adapter
+                //spineerLibros.visibility= View.VISIBLE
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {

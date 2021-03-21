@@ -5,18 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.sofits_frontend.Api.response.ChatResponse.chatsResponse
 import com.example.sofits_frontend.R
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-import com.example.sofits_frontend.ui.Chat.dummy.DummyContent.DummyItem
+import javax.inject.Inject
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem].
- * TODO: Replace the implementation with code for your data type.
- */
-class MychatRecyclerViewAdapter(
-    private val values: List<DummyItem>
-) : RecyclerView.Adapter<MychatRecyclerViewAdapter.ViewHolder>() {
 
+class MychatRecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<MychatRecyclerViewAdapter.ViewHolder>() {
+    private var values: List<chatsResponse> = ArrayList()
+    val db = Firebase.firestore
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_chat, parent, false)
@@ -25,18 +24,27 @@ class MychatRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.nombreUsuario.text="pepe"
+        db.collection("users")
+            .document(item.idUsuario2)
+            .get()
+            .addOnSuccessListener { result ->
+                holder.nombreUsuario.text=result.data!!.get("nombre").toString()
+                holder.UltimoMensaje.text=item.mensajes.last()
+            }
+            .addOnFailureListener { exception ->
+                null
+            }
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_number)
-        val contentView: TextView = view.findViewById(R.id.content)
+        val nombreUsuario: TextView = view.findViewById(R.id.textView_NombreUsuario)
+        val UltimoMensaje: TextView = view.findViewById(R.id.textView_ultimoMensaje)
 
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
+    }
+    fun setData(lista:MutableList<chatsResponse>){
+        values=lista
     }
 }
