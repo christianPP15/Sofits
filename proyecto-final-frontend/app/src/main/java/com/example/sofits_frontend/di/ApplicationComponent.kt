@@ -5,6 +5,7 @@ import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutorDetailActivity
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment
 import com.example.sofits_frontend.ui.Autores.AutoresFragment
 import com.example.sofits_frontend.ui.Login.LoginActivity
+import com.example.sofits_frontend.ui.MiPerfil.AddBook.SelectAutorNewBook
 import com.example.sofits_frontend.ui.MiPerfil.Informacion.InformacionUsuarioFragment
 import com.example.sofits_frontend.ui.MiPerfil.MisLibrosFragment
 import com.example.sofits_frontend.ui.Registro.RegistroActivity
@@ -22,4 +23,5 @@ interface ApplicationComponent {
     fun inject (autoresFragment: AutoresFragment)
     fun inject (autorDetailActivity: AutorDetailActivity)
     fun inject (librosAutorDetalleFragment: LibrosAutorDetalleFragment)
+    fun inject (selectAutorNewBook: SelectAutorNewBook)
 }

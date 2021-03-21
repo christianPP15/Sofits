@@ -43,6 +43,7 @@
         app:layout_anchorGravity="bottom|end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="bottom|end"
         app:srcCompat="@drawable/ic_plus"
         tools:ignore="NotSibling" />
 </androidx.constraintlayout.widget.ConstraintLayout>

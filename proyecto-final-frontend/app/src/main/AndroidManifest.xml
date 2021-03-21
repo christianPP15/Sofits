@@ -13,7 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sofitsfrontend">
-        <activity android:name=".ui.MiPerfil.AddBook.AddBookUser"></activity>
+        <activity
+            android:name=".ui.MiPerfil.pepe.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.Sofitsfrontend.NoActionBar"></activity>
+        <activity android:name=".ui.MiPerfil.AddBook.SelectAutorNewBook" />
+        <activity android:name=".ui.MiPerfil.AddBook.AddBookUser" />
         <activity
             android:name=".ui.Autores.AutoresDetail.AutorDetailActivity"
             android:label="@string/title_activity_autor_detail"

@@ -40,4 +40,6 @@ interface SofitsService {
 
     @GET("autores/{id}")
     suspend fun GetAutorById(@Path("id") idAutor:String) : Response<AutorDetailResponse>
+
+
 }
