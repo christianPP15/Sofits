@@ -104,11 +104,12 @@ class AuthenticationController() {
         ApiResponse(code = 400,message = "Bad Request",response = ApiSubError::class)
     ])
     @PostMapping("/auth/register")
-    fun nuevoUsuario(@Valid
-                    @ApiParam(value = "Objeto con la información necesaria del usuario para llevar a cabo el registro", required = true,type = "CreateUserDTO")
-                     @RequestPart("newUser") newUser : CreateUserDTO,
-                     @ApiParam(value = "Imagen de perfil del usuario",required = false,type = "MultipartFile")
-                     @RequestPart("file") file: MultipartFile): ResponseEntity<JWTUserResponseRegister> {
+    fun nuevoUsuario(
+        @ApiParam(value = "Objeto con la información necesaria del usuario para llevar a cabo el registro", required = true , type = "CreateUserDTO")
+        @Valid
+        @RequestPart("newUser") newUser : CreateUserDTO,
+        @ApiParam(value = "Imagen de perfil del usuario",required = false,type = "MultipartFile")
+        @RequestPart("file") file: MultipartFile): ResponseEntity<JWTUserResponseRegister> {
         var user=userService.create(newUser).orElseThrow { UserAlreadyExit(newUser.email) }
         val imagen = servicioImagenes.save(file)
         user.imagen=imagen
