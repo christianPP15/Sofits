@@ -38,9 +38,13 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
     )
     @GetMapping("/")
     fun getAllLibros(
+        @ApiParam(value = "Título del libro", required = false, type = "string")
         @RequestParam("titulo") titulo: Optional<String>,
+        @ApiParam(value = "Nombre del autor del libro", required = false, type = "string")
         @RequestParam("autor") autor: Optional<String>,
+        @ApiParam(value = "Género del libro", required = false, type = "string")
         @RequestParam("genero") genero: Optional<String>,
+        @ApiParam(value = "Atributo que permite la páginación de resultados", required = false, type = "Pageable")
         @PageableDefault(size = 10, page = 0) pageable: Pageable,
         request: HttpServletRequest
     ): ResponseEntity<Page<LibroDtoUnidades?>> {
