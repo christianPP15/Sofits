@@ -23,7 +23,7 @@ class AutorDetailActivity : AppCompatActivity() {
 
     @Inject @Named("provideAutoresDetailsViewModel") lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
 
-                        var result:AutorDetailResponse?=null
+    var result:AutorDetailResponse?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autor_detail)

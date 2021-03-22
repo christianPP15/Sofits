@@ -9,16 +9,16 @@ import java.util.*
 
 
 data class LibrosUsuariosResponse(
-    @ApiModelProperty(value = "Libro que se ha publicado",dataType = "LibroDtoDetailAutor",position = 1)
-    val libro:LibroDtoDetailAutor,
     @ApiModelProperty(value = "Usuario que ha publicado el libro",dataType = "UserLibroDto",position = 2)
     val usuario:UserLibroDto,
     @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 3)
     val descripcion: String,
     @ApiModelProperty(value = "Estado de conservación del libro",dataType = "java.lang.String",position = 4)
     val estado:String,
-    @ApiModelProperty(value = "Idioma del libro",dataType = "java.lang.Int",position = 5)
+    @ApiModelProperty(value = "Edición del libro",dataType = "java.lang.Int",position = 5)
     val edicion:Int,
+    @ApiModelProperty(value = "Idioma del libro",dataType = "String",position = 8)
+    val idioma:String,
     @ApiModelProperty(value = "El libro ha sido intercambiado o no",dataType = "java.lang.Boolean",position = 6)
     val intercambiado:Boolean,
     @ApiModelProperty(value = "Imagen del libro",dataType = "ImagenWithoutHash",position = 7)
@@ -45,7 +45,11 @@ data class EditarLibroAUsuario(
     @ApiModelProperty(value = "Edición del libro que publicamos",dataType = "java.lang.String",position = 5)
     val edicion:String,
 )
+data class PublicacionesResponse(
+    val libro:LibroDtoDetailAutor,
+    val publicaciones:List<LibrosUsuariosResponse>
+)
+fun UsuarioTieneLibro.toDtoAux() =LibrosUsuariosResponse(usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
 
-fun UsuarioTieneLibro.toDto()= LibrosUsuariosResponse(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,intercambiado,imagen?.toDto())
 
 

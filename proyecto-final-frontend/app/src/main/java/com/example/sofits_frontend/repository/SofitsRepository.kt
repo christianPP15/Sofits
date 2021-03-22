@@ -11,6 +11,8 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.AutoresResponse
 import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.AutorDetailResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
+import com.example.sofits_frontend.Api.response.PublicacionesResponse.PublicacionesResponse
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -23,7 +25,7 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
 
     suspend fun loaguearte(loginRequest: LoginRequest) : Response<LoginResponse> = sofitsService.doLogin(loginRequest)
 
-    suspend fun registrarse(file:RequestBody,registerRequest: RegisterRequest) : Response<RegisterResponse> = sofitsService.doRegister(file,registerRequest)
+    suspend fun registrarse(file: MultipartBody.Part, registerRequest: RegisterRequest) : Response<RegisterResponse> = sofitsService.doRegister(file,registerRequest)
 
     suspend fun getMyProfilesInfo() : Response<MiPerfilResponse> = sofitsServiceConToken.getMyBooks()
 
@@ -37,6 +39,7 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
 
     suspend fun getAutorById(id: String) : Response<AutorDetailResponse> = sofitsServiceConToken.GetAutorById(id)
 
+    suspend fun getAllPublishedBook(id: String) : Response<PublicacionesResponse> = sofitsServiceConToken.GetBookPublished(id)
     fun parseError(response:Response<*>): ApiError{
         val jsonObject = JSONObject(response.errorBody()?.string())
         return ApiError(jsonObject.getString("estado"),jsonObject.getString("fecha"),jsonObject.getString("mensaje"))

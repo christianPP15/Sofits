@@ -3,11 +3,8 @@ package com.example.sofits_frontend.ui.MiPerfil.AddBook
 import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sofits_frontend.Api.Resource
@@ -22,47 +19,89 @@ class SelectAutorNewBook : AppCompatActivity() {
     @Inject lateinit var addBookViewModel: AddBookViewModel
     lateinit var spinner:Spinner
     lateinit var autores:List<Autor>
+    lateinit var spineerLibros: Spinner
+    lateinit var introChooseLibro: TextView
+    lateinit var estadoLibro:TextView
+    lateinit var edicion:TextView
+    lateinit var descripcion : TextView
+    lateinit var idioma : TextView
+    lateinit var botonCompletar: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_select_autor_new_book)
         spinner=findViewById(R.id.spinner_autor)
+        spineerLibros= findViewById<Spinner>(R.id.spinner_libros)
+        introChooseLibro= findViewById(R.id.chooseLibro)
+        estadoLibro= findViewById(R.id.input_estado)
+        idioma = findViewById(R.id.input_idioma)
+        edicion = findViewById(R.id.editTextNumber_edion)
+        descripcion = findViewById(R.id.input_descripcion)
+        botonCompletar=findViewById(R.id.button_add_book)
         addBookViewModel.cargarAutores()
         addBookViewModel.MyInfoData.observe(this, Observer {result ->
             when(result){
                 is Resource.Success->{
                     autores=result.data!!.content
-                    val listaNombres= mutableListOf<String>("Escoja un autor")
+                    val listaNombres= mutableListOf("Escoja un autor")
                     for (nombre in result.data!!.content.map { it.nombre })
                         listaNombres.add(nombre)
                     spinner(listaNombres)
                 }
             }
         })
+        spineerLibros.onItemSelectedListener = object : OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                null
+            }
 
-        /*spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?,view: View?,position: Int,id: Long) {
+                if (position!=0){
+                    idioma.visibility= View.VISIBLE
+                    estadoLibro.visibility= View.VISIBLE
+                    edicion.visibility= View.VISIBLE
+                    descripcion.visibility= View.VISIBLE
+                    botonCompletar.visibility = View.VISIBLE
+                }else{
+                    idioma.visibility= View.INVISIBLE
+                    estadoLibro.visibility= View.INVISIBLE
+                    edicion.visibility= View.INVISIBLE
+                    descripcion.visibility= View.INVISIBLE
+                    botonCompletar.visibility = View.INVISIBLE
+                }
+            }
+        }
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                null
+            }
+
             override fun onItemSelected(parentView: AdapterView<*>?,selectedItemView: View?,position: Int,id: Long) {
-                val libros=autores.get(position).libros.map { it.titulo }
-                //val adapter: ArrayAdapter<String> = ArrayAdapter(applicationContext,R.layout.activity_select_autor_new_book,R.id.chooseLibro,libros)
-                //val spineerLibros= findViewById<Spinner>(R.id.spinnerLibro)
-                //spineerLibros.adapter=adapter
-                //spineerLibros.visibility= View.VISIBLE
+                if (position!=0){
+                    val libros= mutableListOf("Escoja un libro")
+                    for(titulo in autores.get(position-1).libros.map { it.titulo })
+                        libros.add(titulo)
+                    spinnerLibro(libros)
+                    spineerLibros.visibility= View.VISIBLE
+                    introChooseLibro.visibility= View.VISIBLE
+                }else{
+                    spineerLibros.visibility= View.INVISIBLE
+                    introChooseLibro.visibility= View.INVISIBLE
+                }
             }
-
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                // your code here
-            }
-        }*/
+        }
 
     }
     private fun spinner(lista:List<String>){
-        ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            lista
-        ).also { adapter ->
+        ArrayAdapter(this,android.R.layout.simple_spinner_item,lista).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
+        }
+    }
+    private fun spinnerLibro(lista:List<String>){
+        ArrayAdapter(this, android.R.layout.simple_spinner_item,lista).also {adapter->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spineerLibros.adapter=adapter
         }
     }
 }

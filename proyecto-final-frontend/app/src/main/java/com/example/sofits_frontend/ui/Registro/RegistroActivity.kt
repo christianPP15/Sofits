@@ -1,59 +1,69 @@
 package com.example.sofits_frontend.ui.Registro
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.media.MediaScannerConnection
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.RegisterResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
-import com.example.sofits_frontend.ui.Login.LoginViewModel
+import com.example.sofits_frontend.util.URIPathHelper
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.io.ByteArrayOutputStream
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 
 class RegistroActivity : AppCompatActivity() {
     private var button: Button? = null
-    private var imageview: ImageView? = null
-    private val GALLERY = 1
-    private val CAMERA = 2
+    val REQUEST_CODE = 100
+    var filePath : String? = null
+    var selectedImage :Uri? = null
     @Inject lateinit var registerViewModel: RegistroViewModel
     val db = Firebase.firestore
+    val uriPathHelper = URIPathHelper()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_registro)
 
         var choose : Button = findViewById(R.id.button_choose_Imagen)
-        choose!!.setOnClickListener{ showPictureDialog() }
+        choose.setOnClickListener {
+            openGalleryForImage()
+        }
         val botonRegistro= findViewById<Button>(R.id.buton_register)
         botonRegistro.setOnClickListener {
             val registerData:RegisterRequest?= sendRegisterInfo()
             if(registerData!=null){
                 var registerDataResponse: RegisterResponse?
-                registerViewModel.doRegisterComplete(registerData)
+                if (filePath!=null && selectedImage!=null){
+                    var file: File = File(filePath)
+                    val requestFile = RequestBody.create(
+                        MediaType.parse(this?.contentResolver.getType(selectedImage!!)),
+                        file
+                    )
+
+                    registerViewModel.doRegisterComplete( MultipartBody.Part.createFormData("file","file",requestFile),registerData)
+                }else{
+                    findViewById<TextView>(R.id.textView_error_register).visibility= View.VISIBLE
+                }
+
                 registerViewModel.registerData.observe(this, Observer { response->
                     when(response) {
                         is Resource.Success -> {
@@ -90,7 +100,29 @@ class RegistroActivity : AppCompatActivity() {
                 })
             }
         }
+
     }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            filePath= uriPathHelper.getPath(this, data?.data!!).toString()
+            selectedImage = data?.data
+        }
+    }
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent,REQUEST_CODE)
+    }
+
+
+
+
+
+
 
 
     private fun sendRegisterInfo(): RegisterRequest? {
@@ -117,93 +149,5 @@ class RegistroActivity : AppCompatActivity() {
             return null
         }
 
-    }
-
-    private fun showPictureDialog() {
-        val pictureDialog = AlertDialog.Builder(this)
-        pictureDialog.setTitle("Select Action")
-        val pictureDialogItems = arrayOf("Select image from gallery", "Capture photo from camera")
-        pictureDialog.setItems(pictureDialogItems
-        ) { dialog, which ->
-            when (which) {
-                0 -> chooseImageFromGallery()
-                1 -> takePhotoFromCamera()
-            }
-        }
-        pictureDialog.show()
-    }
-
-    fun chooseImageFromGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(galleryIntent, GALLERY)
-    }
-
-    private fun takePhotoFromCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(cameraIntent, CAMERA)
-    }
-
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == GALLERY)
-        {
-            if (data != null)
-            {
-                val contentURI = data!!.data
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
-                    saveImage(bitmap)
-                    Toast.makeText(this, "Image Show!", Toast.LENGTH_SHORT).show()
-                    imageview!!.setImageBitmap(bitmap)
-                }
-                catch (e: IOException)
-                {
-                    e.printStackTrace()
-                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-        else if (requestCode == CAMERA)
-        {
-            val thumbnail = data!!.extras!!.get("data") as Bitmap
-            imageview!!.setImageBitmap(thumbnail)
-            saveImage(thumbnail)
-            Toast.makeText(this, "Photo Show!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun saveImage(myBitmap: Bitmap):String {
-        val bytes = ByteArrayOutputStream()
-        myBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes)
-        val wallpaperDirectory = File (
-            (Environment.getExternalStorageDirectory()).toString() + IMAGE_DIRECTORY)
-        Log.d("fee", wallpaperDirectory.toString())
-        if (!wallpaperDirectory.exists())
-        {
-            wallpaperDirectory.mkdirs()
-        }
-        try
-        {
-            Log.d("heel", wallpaperDirectory.toString())
-            val f = File(wallpaperDirectory, ((Calendar.getInstance()
-                .timeInMillis).toString() + ".png"))
-            f.createNewFile()
-            val fo = FileOutputStream(f)
-            fo.write(bytes.toByteArray())
-            MediaScannerConnection.scanFile(this, arrayOf(f.path), arrayOf("image/png"), null)
-            fo.close()
-            Log.d("TAG", "File Saved::--->" + f.absolutePath)
-
-            return f.absolutePath
-        }
-        catch (e1: IOException){
-            e1.printStackTrace()
-        }
-        return ""
-    }
-
-    companion object {
-        private const val IMAGE_DIRECTORY = "/nalhdaf"
     }
 }

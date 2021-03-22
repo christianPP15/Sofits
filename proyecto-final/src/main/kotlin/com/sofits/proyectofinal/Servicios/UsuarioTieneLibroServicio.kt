@@ -1,9 +1,6 @@
 package com.sofits.proyectofinal.Servicios
 
-import com.sofits.proyectofinal.DTO.AgregarLibroAUsuario
-import com.sofits.proyectofinal.DTO.EditarLibroAUsuario
-import com.sofits.proyectofinal.DTO.LibrosUsuariosResponse
-import com.sofits.proyectofinal.DTO.toDto
+import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.EntityNotFoundExceptionControl
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibroYaExiste
@@ -47,7 +44,7 @@ class UsuarioTieneLibroServicio(
      * @return Page de los ejemplares subidos
      */
     fun getMyBooks(pageable: Pageable, user: Usuario?) =
-        repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDto() }.takeIf { user != null }
+        repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDtoAux() }.takeIf { user != null }
             ?: throw LibrosNotExists()
 
     /**
@@ -57,10 +54,14 @@ class UsuarioTieneLibroServicio(
      * @throws LibroNotExist Si el libro no existe
      * @return Devuelve todos los ejemplares de un libro de forma paginada
      */
-    fun getAllBooksEquals(pageable: Pageable, id: UUID) =
-        repositorio.getAllBooksEquals(pageable, libroService.findById(id)
-                .orElseThrow { LibroNotExist(id) }).map { it.toDto() }.takeIf { libroService.existsById(id) }
-                ?: throw LibrosNotExists()
+    fun getAllBooksEquals( id: UUID): PublicacionesResponse {
+        val libro = libroService.findById(id).orElseThrow { LibroNotExist(id) }
+        val result=repositorio.getAllBooksEquals( libroService.findById(id)
+            .orElseThrow { LibroNotExist(id) }).map { it.toDtoAux() }.takeIf { libroService.existsById(id) }
+            ?: throw LibrosNotExists()
+        return PublicacionesResponse(libro.toDetailAutor(),result)
+    }
+
 
     /**
      * Agregamos un nuevo ejemplar a un usuario
@@ -89,7 +90,7 @@ class UsuarioTieneLibroServicio(
             )
             val imagen=servicioImagenes.save(file)
             usuarioLibro.imagen=imagen
-            return repositorio.save(usuarioLibro).toDto()
+            return repositorio.save(usuarioLibro).toDtoAux()
         }
 
     }
@@ -104,7 +105,7 @@ class UsuarioTieneLibroServicio(
         val idLibroUsuario = UsuarioTieneLibroId(user.id!!, id)
         val publicacion = repositorio.findById(idLibroUsuario).orElseThrow { LibroNotExist(id) }
         publicacion.intercambiado = !publicacion.intercambiado
-        repositorio.save(publicacion).toDto()
+        repositorio.save(publicacion).toDtoAux()
     }
 
     /**
@@ -121,7 +122,7 @@ class UsuarioTieneLibroServicio(
             publicacion.edicion = libroAgregar.edicion.toInt()
             publicacion.estado = libroAgregar.estado
             publicacion.idioma = libroAgregar.idioma
-            repositorio.save(publicacion).toDto()
+            repositorio.save(publicacion).toDtoAux()
         }
     }
 

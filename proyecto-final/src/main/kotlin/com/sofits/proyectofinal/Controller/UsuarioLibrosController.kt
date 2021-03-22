@@ -49,7 +49,7 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
     fun getBookEquals(@ApiParam(value = "Identificador del libro", required = true,type = "string")
                       @PathVariable("id") id:UUID,
                       @PageableDefault(size = 10,page = 0) pageable: Pageable) =
-        ResponseEntity.ok(usuarioTieneLibroServicio.getAllBooksEquals(pageable, id))
+        ResponseEntity.ok(usuarioTieneLibroServicio.getAllBooksEquals( id))
 
     @ApiOperation(value = "Agregar los ejemplares de un libro",
         notes = "Este controlador permite agregar un nuevo libro a un usuario")

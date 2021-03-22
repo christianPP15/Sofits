@@ -11,6 +11,7 @@ import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.RegisterResponse
 import com.example.sofits_frontend.repository.SofitsRepository
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
@@ -22,10 +23,10 @@ class RegistroViewModel @Inject constructor(private var sofitsRepository: Sofits
     val registerData: LiveData<Resource<RegisterResponse>>
         get() = RegisterResponse
 
-    fun doRegisterComplete(registerRequest: RegisterRequest)=  viewModelScope.launch {
+    fun doRegisterComplete(file: MultipartBody.Part, registerRequest: RegisterRequest)=  viewModelScope.launch {
         RegisterResponse.value= Resource.Loading()
-        //val respuesta = sofitsRepository.registrarse(,registerRequest)
-        //RegisterResponse.value = handleRegisterResponse(respuesta)
+        val respuesta = sofitsRepository.registrarse(file,registerRequest)
+        RegisterResponse.value = handleRegisterResponse(respuesta)
     }
 
     private fun handleRegisterResponse(respuesta: Response<RegisterResponse>): Resource<RegisterResponse> {
