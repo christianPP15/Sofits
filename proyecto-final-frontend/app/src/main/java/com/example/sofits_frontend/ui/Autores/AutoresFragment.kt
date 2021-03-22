@@ -1,5 +1,6 @@
 package com.example.sofits_frontend.ui.Autores
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class AutoresFragment : Fragment() {
 
     @Inject lateinit var autoresViewModel: AutoresViewModel
-    @Inject lateinit var miAutoresRecyclerViewAdapter: MyAutoresRecyclerViewAdapter
+    lateinit var miAutoresRecyclerViewAdapter: MyAutoresRecyclerViewAdapter
     private var columnCount = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,7 @@ class AutoresFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_autor_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.list)
+        miAutoresRecyclerViewAdapter= MyAutoresRecyclerViewAdapter(context as Context)
         with(recyclerView) {
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)

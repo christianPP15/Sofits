@@ -1,5 +1,6 @@
 package com.example.sofits_frontend.ui.MiPerfil
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
+import com.example.sofits_frontend.ui.MiPerfil.AddBook.AddBookUser
+import com.example.sofits_frontend.ui.MiPerfil.AddBook.SelectAutorNewBook
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 class MisLibrosFragment : Fragment() {
@@ -39,6 +43,11 @@ class MisLibrosFragment : Fragment() {
                 else -> GridLayoutManager(context, columnCount)
          }
             adapter=misLibrosRecyclerViewAdapter
+        }
+        val newBook= view?.findViewById<FloatingActionButton>(R.id.fab_add_book)
+        newBook?.setOnClickListener {
+            var navigation = Intent(context, SelectAutorNewBook::class.java)
+            startActivity(navigation)
         }
         misLibrosViewModel.MyInfoData.observe(viewLifecycleOwner, Observer {response->
             when(response) {

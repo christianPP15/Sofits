@@ -3,6 +3,7 @@ package com.sofits.proyectofinal.Controller
 import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.ApiError
 import com.sofits.proyectofinal.ErrorControl.ApiSubError
+import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.Servicios.AutorService
 import com.sofits.proyectofinal.Util.PaginationLinksUtils
 import io.swagger.annotations.ApiOperation
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.query.Param
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
@@ -35,7 +37,8 @@ class AutoresController (val autoresServicio:AutorService,private val pagination
 
 
     @GetMapping("/{id}")
-    fun obtenerDetallesAutor(@PathVariable("id") id:UUID) = ResponseEntity.ok().body(autoresServicio.obtenerAutor(id))
+    fun obtenerDetallesAutor(@PathVariable("id") id:UUID,@AuthenticationPrincipal user:Usuario?) = ResponseEntity.ok().body(
+        user?.let { autoresServicio.obtenerAutor(id, it) })
 
     @GetMapping("/nombre/{nombre}")
     fun findAutorByNombre(@Param("nombre") nombre:String) = ResponseEntity.ok(autoresServicio.findByNombre(nombre))

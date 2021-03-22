@@ -98,12 +98,12 @@ class UserService(
      * @param user Usuario al que agregar el me gusta
      * @param id Identificador del autor al que indicar el me gusta
      */
-    fun addMeGustaAutor(user:Usuario,id: UUID): AutoresDetail {
+    fun addMeGustaAutor(user:Usuario,id: UUID): AutoresDetailMeGusta {
         val autor=autorService.findById(id).orElseThrow { LibroNotExist(id) }
         if (!user.likeUsuarioAutor.contains(autor))
             user.addAutorMeGusta(autor)
         repo.save(user)
-        return autorService.save(autor).toDetail()
+        return autorService.save(autor).toDetailMeGusta(user)
     }
     /**
      * Función para agregar un me gusta a un autor

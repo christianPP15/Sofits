@@ -1,13 +1,17 @@
 package com.example.sofits_frontend.ui.Registro
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,23 +25,29 @@ import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Login.LoginViewModel
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
 class RegistroActivity : AppCompatActivity() {
-    lateinit var uri:Uri
-    var PICK_IMAGEN_COUNT=0
+    private var button: Button? = null
+    private var imageview: ImageView? = null
+    private val GALLERY = 1
+    private val CAMERA = 2
     @Inject lateinit var registerViewModel: RegistroViewModel
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_registro)
 
         var choose : Button = findViewById(R.id.button_choose_Imagen)
-        choose.setOnClickListener {
-            pickImage()
-            val toast= Toast.makeText(applicationContext,uri.toString(),Toast.LENGTH_LONG)
-            toast.show()
-        }
+        choose!!.setOnClickListener{ showPictureDialog() }
         val botonRegistro= findViewById<Button>(R.id.buton_register)
         botonRegistro.setOnClickListener {
             val registerData:RegisterRequest?= sendRegisterInfo()
@@ -49,10 +59,23 @@ class RegistroActivity : AppCompatActivity() {
                         is Resource.Success -> {
                             registerDataResponse=response.data
                             if (registerDataResponse!=null){
+                                val user=hashMapOf(
+                                    "nombre" to registerDataResponse!!.user.nombre
+                                )
+                                db.collection("users")
+                                    .document(registerDataResponse!!.user.id)
+                                    .set(user)
+                                    .addOnSuccessListener { documentReference ->
+                                        Log.d("NEWUSERFIREBASE", "DocumentSnapshot added correctly")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("NEWUSERFIREBASE", "Error adding document", e)
+                                    }
                                 val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
                                 with(shared.edit()) {
                                     putString(getString(R.string.TOKEN_USER), registerDataResponse!!.token)
                                     putString(getString(R.string.TOKEN_REFRESCO),registerDataResponse!!.refreshToken)
+                                    putString(getString(R.string.IdentificadorUsuario),registerDataResponse!!.user.id)
                                     commit()
                                 }
                                 val navegar = Intent(this, MainActivity::class.java)
@@ -95,21 +118,92 @@ class RegistroActivity : AppCompatActivity() {
         }
 
     }
-    private fun pickImage(){
-        val intent = Intent()
-        intent.type="image/*"
-        intent.putExtra(Intent.ACTION_PICK,true)
-        intent.action= Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent,"Seleccionar Imagen"),PICK_IMAGEN_COUNT)
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGEN_COUNT){
-            if (resultCode==Activity.RESULT_OK){
-                val uridata = data!!.data
-                uri= uridata!!
+    private fun showPictureDialog() {
+        val pictureDialog = AlertDialog.Builder(this)
+        pictureDialog.setTitle("Select Action")
+        val pictureDialogItems = arrayOf("Select image from gallery", "Capture photo from camera")
+        pictureDialog.setItems(pictureDialogItems
+        ) { dialog, which ->
+            when (which) {
+                0 -> chooseImageFromGallery()
+                1 -> takePhotoFromCamera()
             }
         }
+        pictureDialog.show()
+    }
+
+    fun chooseImageFromGallery() {
+        val galleryIntent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, GALLERY)
+    }
+
+    private fun takePhotoFromCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, CAMERA)
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GALLERY)
+        {
+            if (data != null)
+            {
+                val contentURI = data!!.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                    saveImage(bitmap)
+                    Toast.makeText(this, "Image Show!", Toast.LENGTH_SHORT).show()
+                    imageview!!.setImageBitmap(bitmap)
+                }
+                catch (e: IOException)
+                {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        else if (requestCode == CAMERA)
+        {
+            val thumbnail = data!!.extras!!.get("data") as Bitmap
+            imageview!!.setImageBitmap(thumbnail)
+            saveImage(thumbnail)
+            Toast.makeText(this, "Photo Show!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun saveImage(myBitmap: Bitmap):String {
+        val bytes = ByteArrayOutputStream()
+        myBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes)
+        val wallpaperDirectory = File (
+            (Environment.getExternalStorageDirectory()).toString() + IMAGE_DIRECTORY)
+        Log.d("fee", wallpaperDirectory.toString())
+        if (!wallpaperDirectory.exists())
+        {
+            wallpaperDirectory.mkdirs()
+        }
+        try
+        {
+            Log.d("heel", wallpaperDirectory.toString())
+            val f = File(wallpaperDirectory, ((Calendar.getInstance()
+                .timeInMillis).toString() + ".png"))
+            f.createNewFile()
+            val fo = FileOutputStream(f)
+            fo.write(bytes.toByteArray())
+            MediaScannerConnection.scanFile(this, arrayOf(f.path), arrayOf("image/png"), null)
+            fo.close()
+            Log.d("TAG", "File Saved::--->" + f.absolutePath)
+
+            return f.absolutePath
+        }
+        catch (e1: IOException){
+            e1.printStackTrace()
+        }
+        return ""
+    }
+
+    companion object {
+        private const val IMAGE_DIRECTORY = "/nalhdaf"
     }
 }
