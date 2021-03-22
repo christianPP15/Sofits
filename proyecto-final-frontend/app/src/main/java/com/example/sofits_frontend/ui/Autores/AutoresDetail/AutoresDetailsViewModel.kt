@@ -21,9 +21,8 @@ class AutoresDetailsViewModel : ViewModel(){
 
     fun getAutorInfo(id: String) = viewModelScope.launch {
         autorResponse.value= Resource.Loading()
-        val result by lazy { sofitsRepository.getAutorById(id) }
-        autorResponse.value = handleLoginResponse(result)
-        println(autorResponse.value)
+        //val result by lazy { sofitsRepository.getAutorById(id) }
+        //autorResponse.value = handleLoginResponse(result)
     }
 
     fun MeGustaAutor(id:String) = viewModelScope.launch {

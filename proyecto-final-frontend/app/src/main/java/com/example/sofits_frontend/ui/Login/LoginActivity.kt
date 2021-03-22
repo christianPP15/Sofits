@@ -29,76 +29,81 @@ class LoginActivity : AppCompatActivity() {
     val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        (this.applicationContext as MyApp).appComponent.inject(this)
-
         setContentView(R.layout.activity_login)
-        val botonLogin = findViewById<Button>(R.id.button_login)
-        val textRegistro= findViewById<TextView>(R.id.textView_registro_opcion)
-        textRegistro.setOnClickListener {
-            var navegarRegistro = Intent(this,RegistroActivity::class.java)
-            startActivity(navegarRegistro)
-        }
-        botonLogin.setOnClickListener {
-            val user:LoginRequest? = sendLoginRequest()
-            if (user!=null){
-                var loginData: LoginResponse?
-                loginViewModel.doLoginComplete(user)
-                loginViewModel.loginData.observe(this, Observer { response->
-                    when(response){
-                        is Resource.Success ->{
-                            loginData= response.data
-                            if (loginData!=null){
-                                var encontrado= false
-                                db.collection("users")
-                                    .document(loginData!!.user.id)
-                                    .get()
-                                    .addOnSuccessListener { result ->
-                                        if (result.data==null){
-                                            val user=hashMapOf(
-                                                "nombre" to loginData!!.user.nombre
-                                            )
-                                            db.collection("users")
-                                                .document(loginData!!.user.id)
-                                                .set(user)
-                                                .addOnSuccessListener { documentReference ->
-                                                    //Log.d("NEWUSERFIREBASE", "DocumentSnapshot added with ID: ${documentReference.id}")
-                                                }
-                                                .addOnFailureListener { e ->
-                                                    Log.w("NEWUSERFIREBASE", "Error adding document", e)
-                                                }
-                                        }
-                                    }
-                                    .addOnFailureListener { exception ->
-
-                                    }
-
-                                val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
-                                with(shared.edit()) {
-                                    putString(getString(R.string.TOKEN_USER), loginData!!.token)
-                                    putString(getString(R.string.TOKEN_REFRESCO),loginData!!.refreshToken)
-                                    putString(getString(R.string.IdentificadorUsuario),loginData!!.user.id)
-                                    commit()
-                                }
-                                findViewById<EditText>(R.id.input_email_login).text.clear()
-                                findViewById<EditText>(R.id.input_password_login).text.clear()
-                                val navegar = Intent(this,MainActivity::class.java)
-                                startActivity(navegar)
-                            }
-                        }
-                        is Resource.Error ->{
-                            if (response.message=="Bad credentials"){
-                                findViewById<TextView>(R.id.textView_mensajeErrorLogin).visibility=TextView.VISIBLE
-                            }else{
-                                val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
-                                toast.show()
-                            }
-                        }
-                    }
-
-                })
-
+        (this.applicationContext as MyApp).appComponent.inject(this)
+        val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
+        val token=shared.getString(getString(R.string.TOKEN_USER), "")
+        if (token==""){
+            val botonLogin = findViewById<Button>(R.id.button_login)
+            val textRegistro= findViewById<TextView>(R.id.textView_registro_opcion)
+            textRegistro.setOnClickListener {
+                var navegarRegistro = Intent(this,RegistroActivity::class.java)
+                startActivity(navegarRegistro)
             }
+            botonLogin.setOnClickListener {
+                val user:LoginRequest? = sendLoginRequest()
+                if (user!=null){
+                    var loginData: LoginResponse?
+                    loginViewModel.doLoginComplete(user)
+                    loginViewModel.loginData.observe(this, Observer { response->
+                        when(response){
+                            is Resource.Success ->{
+                                loginData= response.data
+                                if (loginData!=null){
+                                    var encontrado= false
+                                    db.collection("users")
+                                        .document(loginData!!.user.id)
+                                        .get()
+                                        .addOnSuccessListener { result ->
+                                            if (result.data==null){
+                                                val user=hashMapOf(
+                                                    "nombre" to loginData!!.user.nombre
+                                                )
+                                                db.collection("users")
+                                                    .document(loginData!!.user.id)
+                                                    .set(user)
+                                                    .addOnSuccessListener { documentReference ->
+                                                        //Log.d("NEWUSERFIREBASE", "DocumentSnapshot added with ID: ${documentReference.id}")
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        Log.w("NEWUSERFIREBASE", "Error adding document", e)
+                                                    }
+                                            }
+                                        }
+                                        .addOnFailureListener { exception ->
+
+                                        }
+
+                                    val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
+                                    with(shared.edit()) {
+                                        putString(getString(R.string.TOKEN_USER), loginData!!.token)
+                                        putString(getString(R.string.TOKEN_REFRESCO),loginData!!.refreshToken)
+                                        putString(getString(R.string.IdentificadorUsuario),loginData!!.user.id)
+                                        commit()
+                                    }
+                                    findViewById<EditText>(R.id.input_email_login).text.clear()
+                                    findViewById<EditText>(R.id.input_password_login).text.clear()
+                                    val navegar = Intent(this,MainActivity::class.java)
+                                    startActivity(navegar)
+                                }
+                            }
+                            is Resource.Error ->{
+                                if (response.message=="Bad credentials"){
+                                    findViewById<TextView>(R.id.textView_mensajeErrorLogin).visibility=TextView.VISIBLE
+                                }else{
+                                    val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
+                                    toast.show()
+                                }
+                            }
+                        }
+
+                    })
+
+                }
+            }
+        }else{
+            val navegar = Intent(this,MainActivity::class.java)
+            startActivity(navegar)
         }
     }
     fun sendLoginRequest(): LoginRequest? {
