@@ -16,11 +16,13 @@ import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutoresDetailsViewModel
 import javax.inject.Inject
+import javax.inject.Named
 
 
-class LibrosAutorDetalleFragment @Inject constructor() : Fragment() {
-    lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
+class LibrosAutorDetalleFragment: Fragment() {
+
     @Inject lateinit var miLibroDetalleRecyclerView : MyLibrosAutorDetalleRecyclerViewAdapter
+    @Inject @Named("provideAutoresDetailsViewModel") lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
     private var columnCount = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,6 @@ class LibrosAutorDetalleFragment @Inject constructor() : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_libro_autor_detalle_list, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.listview)
-        autoresDetailsViewModel= ViewModelProvider(this).get(AutoresDetailsViewModel::class.java)
         with(recyclerView) {
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)

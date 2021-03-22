@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         inflater.inflate(R.menu.main_options_menu, menu)
 
         val actionLogout = menu.findItem(R.id.action_logout)
-        
+
         return true
     }
 

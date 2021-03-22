@@ -10,23 +10,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.sofits_frontend.Api.Resource
+import com.example.sofits_frontend.Api.SofitsService
 import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.AutorDetailResponse
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
 import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment
 import javax.inject.Inject
+import javax.inject.Named
 
 class AutorDetailActivity : AppCompatActivity() {
 
-    lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
-    @Inject lateinit var librosAutorDetalleFragment: LibrosAutorDetalleFragment
-    var result:AutorDetailResponse?=null
+    @Inject @Named("provideAutoresDetailsViewModel") lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
+
+                        var result:AutorDetailResponse?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autor_detail)
         (this.applicationContext as MyApp).appComponent.inject(this)
-        autoresDetailsViewModel = ViewModelProvider(this).get(AutoresDetailsViewModel::class.java)
         setSupportActionBar(findViewById(R.id.toolbar))
         val id= intent.extras?.getString("idAutor")
         autoresDetailsViewModel.getAutorInfo(id!!)
