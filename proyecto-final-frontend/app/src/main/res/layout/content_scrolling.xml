@@ -31,6 +31,18 @@
             app:layout_constraintEnd_toEndOf="@+id/textView_Nombre_anio"
             app:layout_constraintStart_toStartOf="@+id/textView_Nombre_anio"
             app:layout_constraintTop_toBottomOf="@+id/textView_Nombre_anio" />
+
+        <fragment
+            android:id="@+id/navigation_autores_libros_detail"
+            android:name="com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:label="@string/title_autores"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_descripcion"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout="@layout/fragment_libro_autor_detalle_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

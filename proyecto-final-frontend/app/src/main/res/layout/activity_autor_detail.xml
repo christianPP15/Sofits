@@ -43,7 +43,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_scrolling"/>
-    <include layout="@layout/content_detalle_autor_libros"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_book"
         android:layout_width="wrap_content"

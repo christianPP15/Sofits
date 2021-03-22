@@ -34,5 +34,6 @@ class MyLibrosAutorDetalleRecyclerViewAdapter @Inject constructor() : RecyclerVi
     }
     fun setData(libros:List<Libro>){
         values=libros
+        notifyDataSetChanged()
     }
 }

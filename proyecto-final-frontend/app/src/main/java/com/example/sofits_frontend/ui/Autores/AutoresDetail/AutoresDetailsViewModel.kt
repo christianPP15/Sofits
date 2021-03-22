@@ -13,17 +13,15 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
-class AutoresDetailsViewModel  @Inject constructor(val sofitsRepository: SofitsRepository) : ViewModel(){
-
+class AutoresDetailsViewModel : ViewModel(){
+    @Inject lateinit var sofitsRepository: SofitsRepository
     var autorResponse: MutableLiveData<Resource<AutorDetailResponse>> = MutableLiveData()
     val AutoresData: LiveData<Resource<AutorDetailResponse>>
         get() = autorResponse
 
-
-
     fun getAutorInfo(id: String) = viewModelScope.launch {
         autorResponse.value= Resource.Loading()
-        val result = sofitsRepository.getAutorById(id)
+        val result by lazy { sofitsRepository.getAutorById(id) }
         autorResponse.value = handleLoginResponse(result)
         println(autorResponse.value)
     }

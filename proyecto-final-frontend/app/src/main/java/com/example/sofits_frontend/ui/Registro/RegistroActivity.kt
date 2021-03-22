@@ -27,7 +27,7 @@ import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
 class RegistroActivity : AppCompatActivity() {
-    lateinit var uri:Uri
+    var uri:Uri?= null
     var PICK_IMAGEN_COUNT=0
     @Inject lateinit var registerViewModel: RegistroViewModel
     val db = Firebase.firestore

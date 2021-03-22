@@ -7,6 +7,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.AutorDetailResponse
@@ -18,13 +19,14 @@ import javax.inject.Inject
 
 class AutorDetailActivity : AppCompatActivity() {
 
-    @Inject lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
+    lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
     @Inject lateinit var librosAutorDetalleFragment: LibrosAutorDetalleFragment
     var result:AutorDetailResponse?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autor_detail)
         (this.applicationContext as MyApp).appComponent.inject(this)
+        autoresDetailsViewModel = ViewModelProvider(this).get(AutoresDetailsViewModel::class.java)
         setSupportActionBar(findViewById(R.id.toolbar))
         val id= intent.extras?.getString("idAutor")
         autoresDetailsViewModel.getAutorInfo(id!!)
@@ -45,7 +47,6 @@ class AutorDetailActivity : AppCompatActivity() {
                     }
                     findViewById<TextView>(R.id.textView_Nombre_anio).text=result!!.nombre+ "\t"+result!!.nacimiento
                     findViewById<TextView>(R.id.text_view_descripcion).text=result!!.biografia
-                    librosAutorDetalleFragment.setData(result!!.libros)
                 }
             }
         })

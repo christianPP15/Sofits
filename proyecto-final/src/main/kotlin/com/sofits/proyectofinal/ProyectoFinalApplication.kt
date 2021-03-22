@@ -22,7 +22,10 @@ class ProyectoFinalApplication{
 			autorRepository.save(autor)
 			autorRepository.save(autor1)
 			val libro=Libro("El laberito de los espíritus","Libro guapisimo")
+			val libro1=Libro("Marina","Libro guapisimo2")
 			libroRepository.save(libro)
+			libroRepository.save(libro1)
+			libro.generos.add(genero)
 			autor.libros.add(libro)
 			libro.autor=autor
 			autorRepository.save(autor)
