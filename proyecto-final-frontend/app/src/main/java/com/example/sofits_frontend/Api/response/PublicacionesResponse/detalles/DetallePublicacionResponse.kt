@@ -10,7 +10,7 @@ data class DetallePublicacionResponse(
     val id: idPublicacion,
     val idioma: String,
     val imagen: ImagenWithoutHash?,
-    val intercambiado: Boolean,
+    var intercambiado: Boolean,
     val usuario: Usuario,
     val libro: LibroDetail
 )

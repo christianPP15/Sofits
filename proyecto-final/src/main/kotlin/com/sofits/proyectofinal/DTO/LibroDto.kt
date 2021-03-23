@@ -106,7 +106,14 @@ data class createLibro(
  */
 fun Libro.toDtoAutor(): LibroDtoInicio = LibroDtoInicio(id!!,titulo,libroUsuario.map { it.usuarioLibro.toDtoLibro() })
 
-fun Libro.toDtoUnidades() = LibroDtoUnidades(id!!,titulo, libroUsuario.size)
+fun Libro.toDtoUnidades(): LibroDtoUnidades {
+    var suma=0
+    for(libro in libroUsuario){
+        if (!libro.intercambiado)
+            suma+=1
+    }
+    return LibroDtoUnidades(id!!,titulo, suma)
+}
 
 
 /**

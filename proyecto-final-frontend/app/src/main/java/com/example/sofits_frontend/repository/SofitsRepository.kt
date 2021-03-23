@@ -3,6 +3,7 @@ package com.example.sofits_frontend.repository
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.NoContent
 import com.example.sofits_frontend.Api.SofitsService
+import com.example.sofits_frontend.Api.request.EditBook
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
@@ -27,7 +28,7 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
 
     suspend fun loaguearte(loginRequest: LoginRequest) : Response<LoginResponse> = sofitsService.doLogin(loginRequest)
 
-    suspend fun registrarse(file: MultipartBody.Part, registerRequest: RegisterRequest) : Response<RegisterResponse> = sofitsService.doRegister(file,registerRequest)
+    suspend fun registrarse(file: MultipartBody.Part, registerRequest: RequestBody) : Response<RegisterResponse> = sofitsService.doRegister(file,registerRequest)
 
     suspend fun getMyProfilesInfo() : Response<MiPerfilResponse> = sofitsServiceConToken.getMyBooks()
 
@@ -48,6 +49,12 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
     suspend fun removeMeGustaLibro(id: String) : Response<NoContent> = sofitsServiceConToken.removeMeGustaLibro(id)
 
     suspend fun getDetailPublicacion(idLibro:String,idUsuario:String) : Response<DetallePublicacionResponse> = sofitsServiceConToken.getDetailPublicacion(idLibro,idUsuario)
+
+    suspend fun changeState(idLibro: String): Response<NoContent> = sofitsServiceConToken.marcarLibroComoIntercambiado(idLibro)
+
+    suspend fun eliminarPublicacion(idLibro: String) : Response<NoContent> = sofitsServiceConToken.eliminarPublicacion(idLibro)
+
+    suspend fun editarLibro(id: String,editBook: EditBook) : Response<NoContent> = sofitsServiceConToken.editarLibro(id,editBook)
 
     fun parseError(response:Response<*>): ApiError{
         val jsonObject = JSONObject(response.errorBody()?.string())

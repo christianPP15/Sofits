@@ -1,5 +1,6 @@
 package com.example.sofits_frontend.Api
 
+import com.example.sofits_frontend.Api.request.EditBook
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
@@ -12,6 +13,7 @@ import com.example.sofits_frontend.Api.response.PublicacionesResponse.Publicacio
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.detalles.DetallePublicacionResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.meGustaLibro.AddMeGustaLibroResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -20,11 +22,9 @@ interface SofitsService {
     @POST("auth/login")
     suspend fun doLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
 
-    /*@POST("auth/register")
-    suspend fun doRegister(@Part("newUser") registerRequest: RegisterRequest) : Response<RegisterResponse>*/
     @Multipart
     @POST("auth/register")
-    suspend fun doRegister(@Part("file") file:MultipartBody.Part , @Part("newUser") registerRequest: RegisterRequest) : Response<RegisterResponse>
+    suspend fun doRegister(@Part("file") file:MultipartBody.Part , @Part("newUser") registerRequest: RequestBody) : Response<RegisterResponse>
 
     @GET("user/book/")
     suspend fun getMyBooks() : Response<MiPerfilResponse>
@@ -55,4 +55,13 @@ interface SofitsService {
 
     @GET("user/book/{idLibro}/{idUsuario}")
     suspend fun getDetailPublicacion(@Path("idLibro") idLibro:String,@Path("idUsuario") idUsuario:String) : Response<DetallePublicacionResponse>
+
+    @PUT("user/book/{id}/estado")
+    suspend fun marcarLibroComoIntercambiado(@Path("id") idLibro:String) : Response<NoContent>
+
+    @DELETE("user/book/{id}")
+    suspend fun eliminarPublicacion(@Path("id") idLibro: String) :Response<NoContent>
+
+    @PUT("user/book/{id}")
+    suspend fun editarLibro(@Path("id") id: String,@Body libroEditado:EditBook) : Response<NoContent>
 }

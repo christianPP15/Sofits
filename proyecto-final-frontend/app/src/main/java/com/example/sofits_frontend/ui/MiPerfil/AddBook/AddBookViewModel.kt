@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.Resource
+import com.example.sofits_frontend.Api.request.EditBook
 import com.example.sofits_frontend.Api.response.AutoresResponse.AutoresResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.repository.SofitsRepository
@@ -35,4 +36,11 @@ class AddBookViewModel @Inject constructor(val sofitsRepository: SofitsRepositor
         val error : ApiError = sofitsRepository.parseError(respuesta)
         return Resource.Error(error.mensaje)
     }
+    fun editarLibro(id:String,bookEdited:EditBook)= viewModelScope.launch {
+        sofitsRepository.editarLibro(id,bookEdited)
+    }
+
+
+
+
 }

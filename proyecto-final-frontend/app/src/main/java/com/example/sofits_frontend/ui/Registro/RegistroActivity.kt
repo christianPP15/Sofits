@@ -58,8 +58,7 @@ class RegistroActivity : AppCompatActivity() {
                         MediaType.parse(this?.contentResolver.getType(selectedImage!!)),
                         file
                     )
-
-                    registerViewModel.doRegisterComplete( MultipartBody.Part.createFormData("file","file",requestFile),registerData)
+                    //registerViewModel.doRegisterComplete( MultipartBody.Part.createFormData("file","file",requestFile),registerData)
                 }else{
                     findViewById<TextView>(R.id.textView_error_register).visibility= View.VISIBLE
                 }

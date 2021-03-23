@@ -30,17 +30,20 @@ class MyPublicacionRecyclerViewAdapter constructor(val ctx:Context) : RecyclerVi
         if (item.imagen==null){
             holder.imageView.load("https://eu.ui-avatars.com/api/?size=300&name="+item.usuario.nombre)
         }
-        holder.nombreUsuario.text=item.usuario.nombre
-        holder.idioma.text=item.idioma
-        holder.estado.text=item.estado
-        holder.edicion.text=item.edicion.toString()+"º Edición"
-        holder.constraint.setOnClickListener {
-            val navigation = Intent(ctx, PublicacionDetalleActivity::class.java).apply {
-                putExtra("idLibro",item.id.libro_id)
-                putExtra("idUsuario",item.id.usuario_id)
+        if (item.intercambiado!=true){
+            holder.nombreUsuario.text=item.usuario.nombre
+            holder.idioma.text=item.idioma
+            holder.estado.text=item.estado
+            holder.edicion.text=item.edicion.toString()+"º Edición"
+            holder.constraint.setOnClickListener {
+                val navigation = Intent(ctx, PublicacionDetalleActivity::class.java).apply {
+                    putExtra("idLibro",item.id.libro_id)
+                    putExtra("idUsuario",item.id.usuario_id)
+                }
+                ctx.startActivity(navigation)
             }
-            ctx.startActivity(navigation)
         }
+
     }
 
     override fun getItemCount(): Int = values.size

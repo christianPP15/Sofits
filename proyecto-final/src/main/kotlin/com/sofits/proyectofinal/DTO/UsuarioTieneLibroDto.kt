@@ -73,6 +73,7 @@ data class LibrosUsuariosResponseDetail(
     @ApiModelProperty(value = "Imagen del libro",dataType = "ImagenWithoutHash",position = 7)
     val imagen: ImagenWithoutHash?
 )
+
 /**
  * Data class que define la respuesta de un ejemplar de un libro con su información
  * @property libro Libro al que pertenece el ejemplar
@@ -106,6 +107,7 @@ data class LibrosUsuariosResponseMy(
     @ApiModelProperty(value = "Imagen del libro",dataType = "ImagenWithoutHash",position = 7)
     val imagen: ImagenWithoutHash?
 )
+
 /**
  * Data class que define los datos de un ejemplar para su creación
  * @property DescripccionLibro Descripción dada por un usuario sobre el ejemplar
@@ -151,6 +153,7 @@ data class PublicacionesResponse(
     val libro:LibroDtoPublicaciones,
     val publicaciones:List<LibrosUsuariosResponse>
 )
+
 /**
  * Data class que define la respuesta de una publicación
  * @property libro Libro sobre el que consultamos
@@ -160,6 +163,14 @@ data class PublicacionesResponseDetail(
     val libro:LibroDtoDetailAutor,
     val publicaciones:List<LibrosUsuariosResponse>
 )
+
+/**
+ * Función para convertir un ejemplar a LibrosUsuariosResponseMy
+ * @see LibrosUsuariosResponseMy
+ */
+fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
+
+
 /**
  * Función para convertir un ejemplar a LibrosUsuariosResponseMy
  * @see LibrosUsuariosResponseMy
@@ -169,13 +180,12 @@ fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDet
  * Función para convertir un ejemplar a LibrosUsuariosResponse
  * @see LibrosUsuariosResponse
  */
+
 fun UsuarioTieneLibro.toDtoAux() =LibrosUsuariosResponse(usuarioLibro.toDtoLibro(),id,DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
 /**
  * Función para convertir un ejemplar a LibrosUsuariosResponseDetail
  * @see LibrosUsuariosResponseDetail
  */
 fun UsuarioTieneLibro.toDetalleDto() = LibrosUsuariosResponseDetail(usuarioLibro.toDtoLibro(),libroUsuario.toDetailAutor(),id,DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
-
-
 
 

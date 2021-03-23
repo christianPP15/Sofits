@@ -26,7 +26,6 @@ import javax.inject.Inject
 class LoginActivity : AppCompatActivity() {
 
     @Inject lateinit var loginViewModel: LoginViewModel
-    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)

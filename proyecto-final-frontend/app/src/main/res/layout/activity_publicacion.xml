@@ -21,26 +21,14 @@
         android:id="@+id/textView_titulo_libro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView_del_libro_detalle_publicacion"
         app:layout_constraintTop_toBottomOf="@+id/imageView_del_libro_detalle_publicacion" />
 
     <TextView
         android:id="@+id/textView_estado_libro_detalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_titulo_libro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_titulo_libro"
-        app:layout_constraintTop_toTopOf="@+id/textView_titulo_libro" />
-
-    <TextView
-        android:id="@+id/textView_idioma_detail_publicacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -48,32 +36,66 @@
         app:layout_constraintStart_toStartOf="@+id/textView_titulo_libro"
         app:layout_constraintTop_toBottomOf="@+id/textView_titulo_libro" />
 
-    <TextView
-        android:id="@+id/textView_edicion_detail_publicacion"
+    <Button
+        android:id="@+id/button_start_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/textView_estado_libro_detalle"
-        app:layout_constraintTop_toBottomOf="@+id/textView_estado_libro_detalle" />
+        android:layout_marginTop="28dp"
+        android:text="@string/chat_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_descripcion_detail_publicacion" />
 
     <TextView
         android:id="@+id/textView_descripcion_detail_publicacion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/textView_edicion_detail_publicacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_edicion_detail_publicacion" />
+
+    <TextView
+        android:id="@+id/textView_edicion_detail_publicacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/textView_idioma_detail_publicacion"
         app:layout_constraintTop_toBottomOf="@+id/textView_idioma_detail_publicacion" />
 
-    <Button
-        android:id="@+id/button_start_chat"
+    <TextView
+        android:id="@+id/textView_idioma_detail_publicacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/chat_button"
-        app:layout_constraintEnd_toEndOf="@+id/textView_descripcion_detail_publicacion"
-        app:layout_constraintStart_toStartOf="@+id/textView_descripcion_detail_publicacion"
-        app:layout_constraintTop_toBottomOf="@+id/textView_descripcion_detail_publicacion" />
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/textView_estado_libro_detalle"
+        app:layout_constraintTop_toBottomOf="@+id/textView_estado_libro_detalle" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_intercambiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_swap_horizontal_circle_24"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_intercambiado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_start_chat"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,4 +33,10 @@ class PublicacionDetalleViewModel @Inject constructor(val sofitsRepository: Sofi
         val error : ApiError = sofitsRepository.parseError(respuesta)
         return Resource.Error(error.mensaje)
     }
+    fun changeState(idLibro: String)= viewModelScope.launch {
+        sofitsRepository.changeState(idLibro)
+    }
+    fun eliminarPublicacion(id:String)= viewModelScope.launch {
+        sofitsRepository.eliminarPublicacion(id)
+    }
 }
