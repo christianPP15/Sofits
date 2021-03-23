@@ -1,5 +1,6 @@
 package com.example.sofits_frontend.ui.Libros
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,7 +20,7 @@ import javax.inject.Named
 class PublicacionFragment @Inject constructor() : Fragment() {
     @Inject @Named("providePublicacionesViewModel") lateinit var publicadosViewModel: LibrosPublicadosViewModel
     private var columnCount = 1
-    @Inject lateinit var publicacionRecyclerViewAdapter: MyPublicacionRecyclerViewAdapter
+    lateinit var publicacionRecyclerViewAdapter: MyPublicacionRecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApp).appComponent.inject(this)
@@ -30,6 +31,7 @@ class PublicacionFragment @Inject constructor() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_publicacion_list, container, false)
+        publicacionRecyclerViewAdapter= MyPublicacionRecyclerViewAdapter(context as Context)
         val recyclerView = view.findViewById<RecyclerView>(R.id.list)
         with(recyclerView) {
             layoutManager = when {

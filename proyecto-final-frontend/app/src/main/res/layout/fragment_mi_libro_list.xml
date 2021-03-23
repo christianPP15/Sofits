@@ -28,6 +28,7 @@
         android:layout_gravity="bottom|end"
         app:srcCompat="@drawable/ic_plus"
         tools:ignore="NotSibling" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:name="com.example.sofits_frontend.ui.MiPerfil.MisLibrosFragment"

@@ -1,10 +1,7 @@
 package com.sofits.proyectofinal.Servicios
 
 import com.sofits.proyectofinal.DTO.*
-import com.sofits.proyectofinal.ErrorControl.EntityNotFoundExceptionControl
-import com.sofits.proyectofinal.ErrorControl.LibroNotExist
-import com.sofits.proyectofinal.ErrorControl.LibroYaExiste
-import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
+import com.sofits.proyectofinal.ErrorControl.*
 import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
@@ -148,5 +145,10 @@ class UsuarioTieneLibroServicio(
         val id= UsuarioTieneLibroId(userId,libroId)
         if (existsById(id))
             repositorio.deleteById(id)
+    }
+
+    fun getPublicacionById(idLibro: UUID,idUsuario:UUID): LibrosUsuariosResponseDetail {
+        val id = UsuarioTieneLibroId(idUsuario,idLibro)
+        return repositorio.findById(id).orElseThrow { PublicacionNotExist(id) }.toDetalleDto()
     }
 }

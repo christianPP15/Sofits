@@ -3,6 +3,7 @@ package com.example.sofits_frontend.repository
 import com.example.sofits_frontend.Api.ApiError
 import com.example.sofits_frontend.Api.NoContent
 import com.example.sofits_frontend.Api.SofitsService
+import com.example.sofits_frontend.Api.request.EditBook
 import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
@@ -12,6 +13,7 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.Auto
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.PublicacionesResponse
+import com.example.sofits_frontend.Api.response.PublicacionesResponse.detalles.DetallePublicacionResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.meGustaLibro.AddMeGustaLibroResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -45,6 +47,14 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
     suspend fun addMeGustaLibro(id: String) : Response<AddMeGustaLibroResponse> = sofitsServiceConToken.addMeGustaLibro(id)
 
     suspend fun removeMeGustaLibro(id: String) : Response<NoContent> = sofitsServiceConToken.removeMeGustaLibro(id)
+
+    suspend fun getDetailPublicacion(idLibro:String,idUsuario:String) : Response<DetallePublicacionResponse> = sofitsServiceConToken.getDetailPublicacion(idLibro,idUsuario)
+
+    suspend fun changeState(idLibro: String): Response<NoContent> = sofitsServiceConToken.marcarLibroComoIntercambiado(idLibro)
+
+    suspend fun eliminarPublicacion(idLibro: String) : Response<NoContent> = sofitsServiceConToken.eliminarPublicacion(idLibro)
+
+    suspend fun editarLibro(id: String,editBook: EditBook) : Response<NoContent> = sofitsServiceConToken.editarLibro(id,editBook)
 
     fun parseError(response:Response<*>): ApiError{
         val jsonObject = JSONObject(response.errorBody()?.string())

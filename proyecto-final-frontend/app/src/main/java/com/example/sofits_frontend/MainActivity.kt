@@ -36,7 +36,10 @@ class MainActivity : AppCompatActivity() {
         inflater.inflate(R.menu.main_options_menu, menu)
 
         val actionLogout = menu.findItem(R.id.action_logout)
-
+        if (token.isEmpty()) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
         return true
     }
 

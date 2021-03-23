@@ -2,6 +2,7 @@ package com.example.sofits_frontend.ui.MiPerfil
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import coil.load
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.LibrosSubidos
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
+import com.example.sofits_frontend.ui.Libros.detallePublicacion.PublicacionDetalleActivity
 import javax.inject.Inject
 
 
@@ -32,7 +34,10 @@ class MyMisLibrosRecyclerViewAdapter constructor(val ctx:Context) : RecyclerView
         }
         holder.nombreLibro.text=item.libro.titulo
         holder.contraint.setOnClickListener {
-            //val navigation = Intent()
+            val navigation = Intent(ctx,PublicacionDetalleActivity::class.java).apply {
+                putExtra("idMiLibro",item.libro.id)
+            }
+            ctx.startActivity(navigation)
         }
     }
 

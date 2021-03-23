@@ -1,5 +1,6 @@
 package com.example.sofits_frontend.ui.MiPerfil.AddBook
 
+import android.content.Intent
 import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
@@ -8,8 +9,10 @@ import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sofits_frontend.Api.Resource
+import com.example.sofits_frontend.Api.request.EditBook
 import com.example.sofits_frontend.Api.response.AutoresResponse.Autor
 import com.example.sofits_frontend.Api.response.AutoresResponse.Libro
+import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
 import javax.inject.Inject
@@ -30,26 +33,54 @@ class SelectAutorNewBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_select_autor_new_book)
+        val idLibro= intent.extras?.getString("IdLibroEditar","")
+        val estadoEditar = intent.extras?.getString("estado","")
+        val idiomaEditar = intent.extras?.getString("idioma","")
+        val descripcionEditar = intent.extras?.getString("descripcion","")
+        val edicionEditar = intent.extras?.getInt("edicion",0)
         spinner=findViewById(R.id.spinner_autor)
         spineerLibros= findViewById<Spinner>(R.id.spinner_libros)
         introChooseLibro= findViewById(R.id.chooseLibro)
         estadoLibro= findViewById(R.id.input_estado)
         idioma = findViewById(R.id.input_idioma)
+        val autor= findViewById<TextView>(R.id.chooseAutor)
         edicion = findViewById(R.id.editTextNumber_edion)
         descripcion = findViewById(R.id.input_descripcion)
         botonCompletar=findViewById(R.id.button_add_book)
         addBookViewModel.cargarAutores()
-        addBookViewModel.MyInfoData.observe(this, Observer {result ->
-            when(result){
-                is Resource.Success->{
-                    autores=result.data!!.content
-                    val listaNombres= mutableListOf("Escoja un autor")
-                    for (nombre in result.data!!.content.map { it.nombre })
-                        listaNombres.add(nombre)
-                    spinner(listaNombres)
-                }
+        if (idLibro!=null){
+            idioma.visibility= View.VISIBLE
+            estadoLibro.visibility= View.VISIBLE
+            edicion.visibility= View.VISIBLE
+            autor.visibility=View.INVISIBLE
+            descripcion.visibility= View.VISIBLE
+            botonCompletar.visibility = View.VISIBLE
+            spineerLibros.visibility= View.INVISIBLE
+            spinner.visibility=View.INVISIBLE
+            introChooseLibro.visibility= View.INVISIBLE
+            descripcion.text=descripcionEditar
+            estadoLibro.text=estadoEditar
+            edicion.text=edicionEditar.toString()
+            idioma.text=idiomaEditar
+            botonCompletar.setOnClickListener {
+                val libroEditar= EditBook(descripcion.text.toString(),estadoLibro.text.toString(),idioma.text.toString(),edicion.text.toString())
+                addBookViewModel.editarLibro(idLibro,libroEditar)
+                val navegar = Intent(this,MainActivity::class.java)
+                startActivity(navegar)
             }
-        })
+        }else{
+            addBookViewModel.MyInfoData.observe(this, Observer {result ->
+                when(result){
+                    is Resource.Success->{
+                        autores=result.data!!.content
+                        val listaNombres= mutableListOf("Escoja un autor")
+                        for (nombre in result.data!!.content.map { it.nombre })
+                            listaNombres.add(nombre)
+                        spinner(listaNombres)
+                    }
+                }
+            })
+        }
         spineerLibros.onItemSelectedListener = object : OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 null
