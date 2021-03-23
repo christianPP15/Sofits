@@ -20,9 +20,9 @@ class ImgurStorageServiceImpl(
     private val imgurService: ImgurService
 )
     : ImgurStorageService {
-
-    // El par que se devuelve es la URL de la imagen
-    // y el hash de borrado
+    /**
+     * Logger para mostrar información por la trasa de la pila
+     */
     val logger: Logger = LoggerFactory.getLogger(ImgurStorageService::class.java)
 
     /**

@@ -1,5 +1,11 @@
 package com.sofits.proyectofinal.Servicios
 
+
+import com.sofits.proyectofinal.DTO.AgregarLibroAUsuario
+import com.sofits.proyectofinal.DTO.LibrosUsuariosResponse
+import com.sofits.proyectofinal.ErrorControl.LibroNotExist
+import com.sofits.proyectofinal.ErrorControl.LibroYaExiste
+import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
 import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.*
 import com.sofits.proyectofinal.Modelos.Usuario
@@ -7,12 +13,9 @@ import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroRepository
 import com.sofits.proyectofinal.Servicios.base.BaseService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.nio.file.attribute.UserPrincipalNotFoundException
 import java.util.*
 
 /**
@@ -109,10 +112,10 @@ class UsuarioTieneLibroServicio(
      * Edita la información de un ejemplar subido por un usuario
      * @param user Usuario logueado
      * @param id Identificador del libro al que pertenece el ejemplar
-     * @param libroAgregar
+     * @param AgregarLibroAUsuario
      * @return Devuelve el ejemplar editado
      */
-    fun editLibroUser(user: Usuario, id: UUID, libroAgregar: EditarLibroAUsuario): Optional<LibrosUsuariosResponse> {
+    fun editLibroUser(user: Usuario, id: UUID, libroAgregar: AgregarLibroAUsuario): Optional<LibrosUsuariosResponse> {
         val idLibroUsuario = UsuarioTieneLibroId(user.id!!, id)
         return repositorio.findById(idLibroUsuario).map { publicacion ->
             publicacion.DescripccionLibro = libroAgregar.DescripccionLibro

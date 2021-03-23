@@ -40,7 +40,9 @@ class ImgurService(
             override fun hasError(response: ClientHttpResponse) =
                 response.statusCode.series() === HttpStatus.Series.CLIENT_ERROR || response.statusCode.series() === HttpStatus.Series.SERVER_ERROR
 
-
+            /**
+             * Sobreescribe las excepciones para lanzar algunas personalizadas
+             */
             override fun handleError(url: URI, method: HttpMethod, response: ClientHttpResponse) {
                 when(response.statusCode) {
                     HttpStatus.INTERNAL_SERVER_ERROR -> throw RuntimeException("Error de servidor")
@@ -93,6 +95,7 @@ class ImgurService(
 
     /**
      * Función que recibe la imagen y la procesa para saber si se ha subido correctamente
+     * @param imagen que se intenta subir
      * @return Devuelve un optional vacío o en su defecto un Obtional con un NewImageRes
      */
     fun upload(imageReq: NewImageReq): Optional<NewImageRes> {
@@ -112,6 +115,7 @@ class ImgurService(
 
     /**
      * Elimina la imagen a través de su hash de eliminación
+     * @param hash de eliminación de la imagen
      */
     fun delete(hash: String): Unit {
         logger.debug("Realizando la petición DELETE para eliminar la imagen $hash")
@@ -127,6 +131,7 @@ class ImgurService(
 
     /**
      * Función para obtener una imagen en base a su id
+     * @param id Identificador de la imagen a construir
      * @return Devuelve un optional vacío o bien un Optional con la imagen
      */
     fun get(id: String): Optional<GetImageRes> {
@@ -174,6 +179,8 @@ class ImgurBadRequest() : RuntimeException("Error al realizar la petición")
 
 /**
  * Data class que define la imagen y su nombre
+ * @property image Imagen que se va a subir,
+ * @property name Nombre de la imagen
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class NewImageReq(
@@ -184,6 +191,9 @@ data class NewImageReq(
 
 /**
  * Data class que define la respuesta que tendrá al subir la imagen
+ *  @property success Mensaje de respuesta
+ *  @property status Código de respuesta
+ *  @property data Información sobre la imagen
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class NewImageRes(
@@ -194,6 +204,9 @@ data class NewImageRes(
 
 /**
  * Data class que almacena la información de una nueva imagen
+ * @property link Link de la imagen
+ * @property id Id de la imagen
+ * @property deletehash Hash de borrado de la imagen
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class NewImageInfo(
@@ -202,8 +215,12 @@ data class NewImageInfo(
     val deletehash: String
 )
 
+
 /**
  * Data class que almacena la respuesta al intentar acceder a una imagen
+ *  @property success Mensaje de respuesta
+ *  @property status Código de respuesta
+ *  @property data Información sobre la imagen
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class GetImageRes(
@@ -214,6 +231,9 @@ data class GetImageRes(
 
 /**
  * Data class que almacena la información de una imagen
+ * @property link Link de la imagen
+ * @property id Id de la imagen
+ * @property type Tipo de la imagen
  */
 @JsonIgnoreProperties(ignoreUnknown = false)
 data class GetImageInfo(

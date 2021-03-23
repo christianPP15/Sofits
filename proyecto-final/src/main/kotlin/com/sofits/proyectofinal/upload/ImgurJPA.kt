@@ -7,11 +7,15 @@ import javax.persistence.Converter
 
 /**
  * Data class que almacena los datos convenientes para el tratamiento de las imagenes su id y su hash de borrado
+ * @property id Identificador de la imagen
+ * @property deletehash Hash de borrado de la imagen
  */
 data class ImgurImageAttribute(var id: String?, var deletehash : String?)
 
 /**
  * Data class que almacena el UUID de almacenamiento de la imagen y el identificador de la imagen
+ * @property id Identificador de la imagen
+ * @property idImagen Data id de la imagen
  */
 data class ImagenWithoutHash(
     val id:UUID?,
