@@ -125,4 +125,19 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
         usuarioTieneLibroServicio.removeBookFromUserAdmin(userId,idLibro)
         return ResponseEntity.noContent().build()
     }
+
+    @ApiOperation(value = "Obtiene una publicación de un ejemplar en base a su id",
+        notes = "Controlador que permite obtener una publicación de un ejemplar en base al id del libro y el id del usuario, si no devuelve un 400")
+    @ApiResponses(value = [
+        ApiResponse(code = 200, message = "Ok",response = LibrosUsuariosResponse::class),
+        ApiResponse(code = 401,message = "Unauthorized",response = ApiError::class),
+        ApiResponse(code = 400,message = "Bad Request",response = ApiError::class)
+    ])
+    @GetMapping("/{idLibro}/{idUsuario}")
+    fun obtenerUnaPublicacion(
+        @ApiParam(value = "Identificador del libro a la cual pertenece la publicación", required = true,type = "string")
+        @PathVariable("idLibro") idLibro: UUID,
+        @ApiParam(value = "Identificador del usuario a la cual pertenece la publicación", required = true,type = "string")
+        @PathVariable("idUsuario") idUsuario: UUID) =
+        ResponseEntity.ok(usuarioTieneLibroServicio.getPublicacionById(idLibro,idUsuario))
 }

@@ -118,4 +118,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="publicaciones">Publicaciones</string>
+    <string name="chat_button">Chat</string>
 </resources>
