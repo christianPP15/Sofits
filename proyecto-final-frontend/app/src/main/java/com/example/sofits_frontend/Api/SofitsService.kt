@@ -9,6 +9,7 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.Auto
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.PublicacionesResponse
+import com.example.sofits_frontend.Api.response.PublicacionesResponse.detalles.DetallePublicacionResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.meGustaLibro.AddMeGustaLibroResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -51,4 +52,7 @@ interface SofitsService {
 
     @DELETE("user/fav/libro/{id}")
     suspend fun removeMeGustaLibro(@Path("id") id: String) : Response<NoContent>
+
+    @GET("user/book/{idLibro}/{idUsuario}")
+    suspend fun getDetailPublicacion(@Path("idLibro") idLibro:String,@Path("idUsuario") idUsuario:String) : Response<DetallePublicacionResponse>
 }
