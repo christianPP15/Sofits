@@ -13,6 +13,7 @@ import com.example.sofits_frontend.Api.response.PublicacionesResponse.Publicacio
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.detalles.DetallePublicacionResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.meGustaLibro.AddMeGustaLibroResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -21,11 +22,9 @@ interface SofitsService {
     @POST("auth/login")
     suspend fun doLogin(@Body loginRequest: LoginRequest) : Response<LoginResponse>
 
-    /*@POST("auth/register")
-    suspend fun doRegister(@Part("newUser") registerRequest: RegisterRequest) : Response<RegisterResponse>*/
     @Multipart
     @POST("auth/register")
-    suspend fun doRegister(@Part("file") file:MultipartBody.Part , @Part("newUser") registerRequest: RegisterRequest) : Response<RegisterResponse>
+    suspend fun doRegister(@Part("file") file:MultipartBody.Part , @Part("newUser") registerRequest: RequestBody) : Response<RegisterResponse>
 
     @GET("user/book/")
     suspend fun getMyBooks() : Response<MiPerfilResponse>

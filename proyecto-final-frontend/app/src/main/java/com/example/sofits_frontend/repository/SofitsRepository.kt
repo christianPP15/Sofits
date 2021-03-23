@@ -28,7 +28,7 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
 
     suspend fun loaguearte(loginRequest: LoginRequest) : Response<LoginResponse> = sofitsService.doLogin(loginRequest)
 
-    suspend fun registrarse(file: MultipartBody.Part, registerRequest: RegisterRequest) : Response<RegisterResponse> = sofitsService.doRegister(file,registerRequest)
+    suspend fun registrarse(file: MultipartBody.Part, registerRequest: RequestBody) : Response<RegisterResponse> = sofitsService.doRegister(file,registerRequest)
 
     suspend fun getMyProfilesInfo() : Response<MiPerfilResponse> = sofitsServiceConToken.getMyBooks()
 

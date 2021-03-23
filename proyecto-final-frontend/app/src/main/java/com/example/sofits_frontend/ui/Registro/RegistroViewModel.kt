@@ -23,7 +23,7 @@ class RegistroViewModel @Inject constructor(private var sofitsRepository: Sofits
     val registerData: LiveData<Resource<RegisterResponse>>
         get() = RegisterResponse
 
-    fun doRegisterComplete(file: MultipartBody.Part, registerRequest: RegisterRequest)=  viewModelScope.launch {
+    fun doRegisterComplete(file: MultipartBody.Part, registerRequest: RequestBody)=  viewModelScope.launch {
         RegisterResponse.value= Resource.Loading()
         val respuesta = sofitsRepository.registrarse(file,registerRequest)
         RegisterResponse.value = handleRegisterResponse(respuesta)
