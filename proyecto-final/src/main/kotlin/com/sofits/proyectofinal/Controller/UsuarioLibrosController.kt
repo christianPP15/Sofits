@@ -1,7 +1,6 @@
 package com.sofits.proyectofinal.Controller
 
 import com.sofits.proyectofinal.DTO.AgregarLibroAUsuario
-import com.sofits.proyectofinal.DTO.EditarLibroAUsuario
 import com.sofits.proyectofinal.DTO.LibrosUsuariosResponse
 import com.sofits.proyectofinal.ErrorControl.ApiError
 import com.sofits.proyectofinal.Modelos.Usuario
@@ -100,7 +99,7 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
                      @ApiParam(value = "Identificador del libro a editar", required = true,type = "string")
                      @PathVariable("id") id: UUID,
                      @ApiParam(value = "Información sobre el ejemplar para editarlo", required = true,type = "EditarLibroAUsuario")
-                     @RequestBody libroAgregar: EditarLibroAUsuario) =
+                     @RequestBody libroAgregar: AgregarLibroAUsuario) =
         ResponseEntity.ok(user.let { usuarioTieneLibroServicio.editLibroUser(user!!,id,libroAgregar) })
 
     @ApiOperation(value = "Elimina un ejemplar subida por el usuario",

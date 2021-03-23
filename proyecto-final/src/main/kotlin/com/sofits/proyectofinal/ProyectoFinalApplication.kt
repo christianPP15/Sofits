@@ -8,8 +8,15 @@ import org.springframework.context.annotation.Bean
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.LocalDate
 
+/**
+ * Clase anotada con SpringBootApplication que levanta el contexto de la aplicación
+ * @see SpringBootApplication
+ */
 @SpringBootApplication
 class ProyectoFinalApplication{
+	/**
+	 * Bean para cargar datos de inicio
+	 */
 	@Bean
 	fun init(usuRepo:UsuarioRepository, passwordEncoder: PasswordEncoder,generoLiterarioRepository: GeneroLiterarioRepository,libroRepository: LibroRepository,usuarioTieneLibroRepository: UsuarioTieneLibroRepository,autorRepository: AutorRepository): CommandLineRunner {
 		return CommandLineRunner {
@@ -31,7 +38,9 @@ class ProyectoFinalApplication{
 		}
 	}
 }
-
+/**
+ * Clase que levanta el contexto de la aplicación
+ */
 fun main(args: Array<String>) {
 	runApplication<ProyectoFinalApplication>(*args)
 }
