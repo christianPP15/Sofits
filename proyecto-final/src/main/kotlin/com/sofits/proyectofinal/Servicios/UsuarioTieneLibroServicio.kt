@@ -49,17 +49,17 @@ class UsuarioTieneLibroServicio(
 
     /**
      * Obtener todos los ejemplares de un libro
-     * @param pageable Atributo que da la oportunidad de paginar los resultados de los libros
      * @param id Identificador del libro al que pertenecen los ejemplares
+     * @param user Usuario que realiza la petición
      * @throws LibroNotExist Si el libro no existe
      * @return Devuelve todos los ejemplares de un libro de forma paginada
      */
-    fun getAllBooksEquals( id: UUID): PublicacionesResponse {
+    fun getAllBooksEquals( id: UUID,user: Usuario?): PublicacionesResponse {
         val libro = libroService.findById(id).orElseThrow { LibroNotExist(id) }
         val result=repositorio.getAllBooksEquals( libroService.findById(id)
             .orElseThrow { LibroNotExist(id) }).map { it.toDtoAux() }.takeIf { libroService.existsById(id) }
             ?: throw LibrosNotExists()
-        return PublicacionesResponse(libro.toDetailAutor(),result)
+        return PublicacionesResponse(libro.toDetailPublicacion(user),result)
     }
 
 

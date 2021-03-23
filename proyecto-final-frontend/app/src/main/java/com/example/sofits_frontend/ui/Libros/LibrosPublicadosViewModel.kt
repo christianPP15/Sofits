@@ -33,4 +33,13 @@ class LibrosPublicadosViewModel @Inject constructor(val sofitsRepository: Sofits
         val error : ApiError = sofitsRepository.parseError(respuesta)
         return Resource.Error(error.mensaje)
     }
+
+    fun addMeGustaLibro(id: String)=viewModelScope.launch {
+        sofitsRepository.addMeGustaLibro(id)
+    }
+
+    fun removeMeGustaLibro(id:String) = viewModelScope.launch {
+        sofitsRepository.removeMeGustaLibro(id)
+    }
+
 }

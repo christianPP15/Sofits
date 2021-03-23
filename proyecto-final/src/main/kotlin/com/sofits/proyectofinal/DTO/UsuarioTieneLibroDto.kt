@@ -46,7 +46,7 @@ data class EditarLibroAUsuario(
     val edicion:String,
 )
 data class PublicacionesResponse(
-    val libro:LibroDtoDetailAutor,
+    val libro:LibroDtoPublicaciones,
     val publicaciones:List<LibrosUsuariosResponse>
 )
 fun UsuarioTieneLibro.toDtoAux() =LibrosUsuariosResponse(usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())

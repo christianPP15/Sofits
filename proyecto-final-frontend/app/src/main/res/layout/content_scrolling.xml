@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView_Nombre_anio"
+            android:id="@+id/textView_tituloLibro_publicaciones"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -23,14 +23,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_view_descripcion"
+            android:id="@+id/text_view_descripcion_publicacion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView_Nombre_anio"
-            app:layout_constraintStart_toStartOf="@+id/textView_Nombre_anio"
-            app:layout_constraintTop_toBottomOf="@+id/textView_Nombre_anio" />
+            app:layout_constraintEnd_toEndOf="@+id/textView_tituloLibro_publicaciones"
+            app:layout_constraintStart_toStartOf="@+id/textView_tituloLibro_publicaciones"
+            app:layout_constraintTop_toBottomOf="@+id/textView_tituloLibro_publicaciones" />
 
         <fragment
             android:id="@+id/navigation_autores_libros_detail"
@@ -40,7 +40,7 @@
             android:label="@string/title_autores"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_descripcion"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_descripcion_publicacion"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout="@layout/fragment_libro_autor_detalle_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>

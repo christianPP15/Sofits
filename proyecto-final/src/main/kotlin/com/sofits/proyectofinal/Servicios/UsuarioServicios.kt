@@ -73,12 +73,12 @@ class UserService(
      * @param user Usuario al que agregar el me gusta
      * @param id Identificador del libro al que indicar el me gusta
      */
-    fun addMeGustaLibro(user:Usuario,id: UUID) {
+    fun addMeGustaLibro(user:Usuario,id: UUID): LibroDetail {
         val libro=libroService.findById(id).orElseThrow { LibroNotExist(id) }
         if (!user.likeUsuarioLibro.contains(libro))
             user.addLibroMeGusta(libro)
         repo.save(user)
-        libroService.save(libro).toDetailLibro()
+        return libroService.save(libro).toDetailLibro()
     }
 
     /**

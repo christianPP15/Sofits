@@ -43,5 +43,6 @@ class MyPublicacionRecyclerViewAdapter @Inject constructor() : RecyclerView.Adap
     }
     fun setData(lista:List<LibrosUsuariosResponse>){
         values=lista
+        notifyDataSetChanged()
     }
 }

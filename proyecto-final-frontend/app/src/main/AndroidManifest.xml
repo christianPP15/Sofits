@@ -16,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sofitsfrontend">
-        <activity android:name=".ui.Libros.LibrosPublicadosActivity"></activity>
+        <activity
+            android:name=".ui.Libros.PublicacionesActivity"
+            android:label="@string/title_activity_publicaciones"
+            android:theme="@style/Theme.Sofitsfrontend.NoActionBar"></activity>
+        <activity android:name=".ui.Libros.LibrosPublicadosActivity" />
         <activity
             android:name=".ui.MiPerfil.pepe.MainActivity"
             android:label="@string/title_activity_main"

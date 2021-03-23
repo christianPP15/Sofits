@@ -12,6 +12,7 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.Auto
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.PublicacionesResponse
+import com.example.sofits_frontend.Api.response.PublicacionesResponse.meGustaLibro.AddMeGustaLibroResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -40,6 +41,11 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
     suspend fun getAutorById(id: String) : Response<AutorDetailResponse> = sofitsServiceConToken.GetAutorById(id)
 
     suspend fun getAllPublishedBook(id: String) : Response<PublicacionesResponse> = sofitsServiceConToken.GetBookPublished(id)
+
+    suspend fun addMeGustaLibro(id: String) : Response<AddMeGustaLibroResponse> = sofitsServiceConToken.addMeGustaLibro(id)
+
+    suspend fun removeMeGustaLibro(id: String) : Response<NoContent> = sofitsServiceConToken.removeMeGustaLibro(id)
+
     fun parseError(response:Response<*>): ApiError{
         val jsonObject = JSONObject(response.errorBody()?.string())
         return ApiError(jsonObject.getString("estado"),jsonObject.getString("fecha"),jsonObject.getString("mensaje"))

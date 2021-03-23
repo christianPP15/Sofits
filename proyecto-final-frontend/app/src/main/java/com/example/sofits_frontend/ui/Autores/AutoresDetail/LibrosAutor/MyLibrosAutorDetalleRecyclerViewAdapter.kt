@@ -10,10 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.Libro
 import com.example.sofits_frontend.R
-import com.example.sofits_frontend.common.MyApp
-import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutorDetailActivity
-import com.example.sofits_frontend.ui.Libros.LibrosPublicadosActivity
-import javax.inject.Inject
+import com.example.sofits_frontend.ui.Libros.PublicacionesActivity
 
 
 class MyLibrosAutorDetalleRecyclerViewAdapter (val ctx:Context) : RecyclerView.Adapter<MyLibrosAutorDetalleRecyclerViewAdapter.ViewHolder>() {
@@ -30,7 +27,7 @@ class MyLibrosAutorDetalleRecyclerViewAdapter (val ctx:Context) : RecyclerView.A
         holder.titulo.text=item.titulo
         holder.unidades.text=item.unidades.toString()+" Ud."
         holder.constraint.setOnClickListener {
-            val navigation = Intent(ctx, LibrosPublicadosActivity::class.java).apply {
+            val navigation = Intent(ctx, PublicacionesActivity::class.java).apply {
                 putExtra("idLibro",item.id)
             }
             ctx.startActivity(navigation)
