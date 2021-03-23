@@ -44,8 +44,11 @@ class UsuarioTieneLibroServicio(
      * @return Page de los ejemplares subidos
      */
     fun getMyBooks(pageable: Pageable, user: Usuario?) =
-        repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDtoAux() }.takeIf { user != null }
+        repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDtoMyBook() }.takeIf { user != null }
             ?: throw LibrosNotExists()
+
+
+
 
     /**
      * Obtener todos los ejemplares de un libro

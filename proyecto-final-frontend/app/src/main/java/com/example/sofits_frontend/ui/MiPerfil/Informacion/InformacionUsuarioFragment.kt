@@ -1,5 +1,8 @@
 package com.example.sofits_frontend.ui.MiPerfil.Informacion
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +22,8 @@ import kotlin.math.roundToInt
 
 class InformacionUsuarioFragment : Fragment() {
 
-    @Inject lateinit var informacionUsuarioViewModel: InformacionUsuarioViewModel
+    @Inject
+    lateinit var informacionUsuarioViewModel: InformacionUsuarioViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApp).appComponent.inject(this)
@@ -29,20 +33,22 @@ class InformacionUsuarioFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        informacionUsuarioViewModel.infoData.observe(viewLifecycleOwner, Observer {response->
-            when(response){
-                is Resource.Success->{
-                    val imagenUsuario = view?.findViewById<ImageView>(R.id.imageView_perfilUsuarioImagen)
-                    val textViewNombreUsuario = view?.findViewById<TextView>(R.id.textView_nombreUsuario)
+        informacionUsuarioViewModel.infoData.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    val imagenUsuario =
+                        view?.findViewById<ImageView>(R.id.imageView_perfilUsuarioImagen)
+                    val textViewNombreUsuario =
+                        view?.findViewById<TextView>(R.id.textView_nombreUsuario)
                     val usuario = response.data!!.usuarioValorado
                     comprobarValoracion(response.data!!.media)
-                    textViewNombreUsuario?.text=usuario.nombre
-                    if (usuario.imagen!=null){
-                        imagenUsuario!!.load(Constantes.imageURL+usuario.imagen.idImagen){
-                            addHeader("Authorization","Client-ID ab62ffa461826e5")
+                    textViewNombreUsuario?.text = usuario.nombre
+                    if (usuario.imagen != null) {
+                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen) {
+                            addHeader("Authorization", "Client-ID ab62ffa461826e5")
                         }
-                    }else{
-                        imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name="+usuario.nombre)
+                    } else {
+                        imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name=" + usuario.nombre)
                     }
                 }
             }
@@ -50,32 +56,32 @@ class InformacionUsuarioFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_informacion_usuario, container, false)
     }
 
-    fun comprobarValoracion(valoracion:Double){
-        val estrella1= view?.findViewById<ImageView>(R.id.imageView_estrella1_valoracionPropia)
-        val estrella2= view?.findViewById<ImageView>(R.id.imageView_estrella2_valoracionPropia)
-        val estrella3= view?.findViewById<ImageView>(R.id.imageView_estrella3_valoracionPropia)
-        val estrella4= view?.findViewById<ImageView>(R.id.imageView_estrella4_valoracionPropia)
-        val estrella5= view?.findViewById<ImageView>(R.id.imageView_estrella5_valoracionPropia)
-        when(valoracion.roundToInt()){
-            1->{
+    fun comprobarValoracion(valoracion: Double) {
+        val estrella1 = view?.findViewById<ImageView>(R.id.imageView_estrella1_valoracionPropia)
+        val estrella2 = view?.findViewById<ImageView>(R.id.imageView_estrella2_valoracionPropia)
+        val estrella3 = view?.findViewById<ImageView>(R.id.imageView_estrella3_valoracionPropia)
+        val estrella4 = view?.findViewById<ImageView>(R.id.imageView_estrella4_valoracionPropia)
+        val estrella5 = view?.findViewById<ImageView>(R.id.imageView_estrella5_valoracionPropia)
+        when (valoracion.roundToInt()) {
+            1 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella4?.setImageResource(R.drawable.ic_estrella_rellena)
             }
-            2->{
+            2 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
             }
-            3->{
+            3 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
             }
-            4->{
+            4 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
             }
-            0->{
+            0 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella3?.setImageResource(R.drawable.ic_estrella_rellena)

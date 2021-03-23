@@ -1,14 +1,30 @@
 package com.sofits.proyectofinal.DTO
 
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
-import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
 import com.sofits.proyectofinal.upload.ImagenWithoutHash
 import com.sofits.proyectofinal.upload.toDto
 import io.swagger.annotations.ApiModelProperty
-import java.util.*
 
 
 data class LibrosUsuariosResponse(
+    @ApiModelProperty(value = "Usuario que ha publicado el libro",dataType = "UserLibroDto",position = 2)
+    val usuario:UserLibroDto,
+    @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 3)
+    val descripcion: String,
+    @ApiModelProperty(value = "Estado de conservación del libro",dataType = "java.lang.String",position = 4)
+    val estado:String,
+    @ApiModelProperty(value = "Edición del libro",dataType = "java.lang.Int",position = 5)
+    val edicion:Int,
+    @ApiModelProperty(value = "Idioma del libro",dataType = "String",position = 8)
+    val idioma:String,
+    @ApiModelProperty(value = "El libro ha sido intercambiado o no",dataType = "java.lang.Boolean",position = 6)
+    val intercambiado:Boolean,
+    @ApiModelProperty(value = "Imagen del libro",dataType = "ImagenWithoutHash",position = 7)
+    val imagen: ImagenWithoutHash?
+)
+data class LibrosUsuariosResponseMy(
+    @ApiModelProperty(value = "Usuario que ha publicado el libro",dataType = "UserLibroDto",position = 2)
+    val libro: LibroDtoDetailAutor,
     @ApiModelProperty(value = "Usuario que ha publicado el libro",dataType = "UserLibroDto",position = 2)
     val usuario:UserLibroDto,
     @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 3)
@@ -49,7 +65,12 @@ data class PublicacionesResponse(
     val libro:LibroDtoPublicaciones,
     val publicaciones:List<LibrosUsuariosResponse>
 )
+data class PublicacionesResponseDetail(
+    val libro:LibroDtoDetailAutor,
+    val publicaciones:List<LibrosUsuariosResponse>
+)
 fun UsuarioTieneLibro.toDtoAux() =LibrosUsuariosResponse(usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
 
+fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
 
 

@@ -46,5 +46,6 @@ class MychatRecyclerViewAdapter @Inject constructor() : RecyclerView.Adapter<Myc
     }
     fun setData(lista:MutableList<chatsResponse>){
         values=lista
+        notifyDataSetChanged()
     }
 }
