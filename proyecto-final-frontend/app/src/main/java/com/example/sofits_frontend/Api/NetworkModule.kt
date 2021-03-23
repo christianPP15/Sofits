@@ -3,6 +3,7 @@ package com.example.sofits_frontend.Api
 import com.example.sofits_frontend.common.Constantes
 import com.example.sofits_frontend.repository.SofitsRepository
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutoresDetailsViewModel
+import com.example.sofits_frontend.ui.Libros.LibrosPublicadosViewModel
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -60,4 +61,9 @@ class NetworkModule (){
     @Provides
     @Named("provideAutoresDetailsViewModel")
     fun provideAutoresDetailsViewModel(@Named("provideRepository") softRepository: SofitsRepository): AutoresDetailsViewModel = AutoresDetailsViewModel(softRepository)
+
+    @Singleton
+    @Provides
+    @Named("providePublicacionesViewModel")
+    fun providePublicacionesViewModel(@Named("provideRepository") softRepository: SofitsRepository) : LibrosPublicadosViewModel = LibrosPublicadosViewModel(softRepository)
 }

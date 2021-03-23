@@ -25,11 +25,14 @@ class ProyectoFinalApplication{
 			val libro1=Libro("Marina","Libro guapisimo2")
 			libroRepository.save(libro)
 			libroRepository.save(libro1)
+			libro1.autor=autor
+			autor.addLibro(libro1)
 			libro.generos.add(genero)
 			autor.libros.add(libro)
 			libro.autor=autor
-			autorRepository.save(autor)
 			libroRepository.save(libro)
+			autorRepository.save(autor)
+			libroRepository.save(libro1)
 			val id=UsuarioTieneLibroId(user1.id!!,libro.id!!)
 			val libroUsuario=UsuarioTieneLibro(id,user1,libro,"pepe","Buen estado","Ingles",3)
 			usuarioTieneLibroRepository.save(libroUsuario)

@@ -30,9 +30,9 @@ class MeGustasController(private val usuarioService: UserService) {
     fun addMeGustaLibro(@ApiParam(value = "Usuario logueado obtenido por su token", required = true,type = "Usuario")
                         @AuthenticationPrincipal user: Usuario?,
                         @ApiParam(value = "Identificador del libro tipo UUID para buscarlo", required = true,type = "string")
-                        @PathVariable("id") id:UUID) : ResponseEntity<Any>{
-        return ResponseEntity.status(201).body(user.let { usuarioService.addMeGustaLibro(user!!,id) })
-    }
+                        @PathVariable("id") id:UUID) =
+         ResponseEntity.status(201).body(user.let { usuarioService.addMeGustaLibro(user!!,id) })
+
     @ApiOperation(value = "Eliminar me gusta a un libro por su id",
         notes = "Este controlador permite eliminar un me gusta a un libro, indicando que usuario ha dado me gusta y a que libro")
     @ApiResponses(value = [

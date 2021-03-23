@@ -56,25 +56,10 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
             val uriBuilder = UriComponentsBuilder.fromHttpUrl(request.requestURL.toString())
 
             return ResponseEntity.ok().header("link", pagination.createLinkHeader(dtoList, uriBuilder))
-                    .body(dtoList)
+                .body(dtoList)
         }
-        /*@ApiOperation(
-                value = "Obtener todos los libros públicados en la aplicación",
-                notes = "Este controlador permite obtener de forma paginada una lista de los libros registrados en la aplicación, si no encuentra ningun libro devuelve un 400"
-        )
-        @ApiResponses(
-                value = [
-                    ApiResponse(code = 200, message = "Ok", response = LibroDetail::class),
-                    ApiResponse(code = 401, message = "Unauthorized", response = ApiError::class),
-                    ApiResponse(code = 400, message = "Bad Request", response = ApiError::class)
-                ]
-        )
-        @GetMapping("/")
-        fun getAllLibros(@PageableDefault(size = 10, page = 0) pageable: Pageable, request: HttpServletRequest): ResponseEntity<Page<LibroDetail>> {
-            val uriBuilder = UriComponentsBuilder.fromHttpUrl(request.requestURL.toString())
-            val result = libroService.getAllLibros(pageable)
-            return ResponseEntity.ok().header("link", pagination.createLinkHeader(result, uriBuilder)).body(result)
-        }*/
+    }
+
 
         @ApiOperation(
                 value = "Obtener un libro publicado en base a su idenficador",
@@ -163,4 +148,3 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
             return ResponseEntity.noContent().build()
         }
     }
-}

@@ -27,6 +27,18 @@ data class LibroDtoDetailAutor(
     @ApiModelProperty(value = "Título del libro",dataType = "java.lang.String",position = 2)
     val titulo: String
 )
+data class LibroDtoPublicaciones(
+    @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
+    val id: UUID,
+    @ApiModelProperty(value = "Título del libro",dataType = "java.lang.String",position = 2)
+    val titulo: String,
+    @ApiModelProperty(value = "Géneros del libro",dataType = "java.lang.String",position = 3)
+    val generos:String,
+    @ApiModelProperty(value = "Descripción del libro",dataType = "java.lang.String",position = 4)
+    val descripcion:String?,
+    @ApiModelProperty(value = "Valor si al usuario a dado me gusta al libro",dataType = "java.lang.Boolean",position = 5)
+    val meGustaUsuario:Boolean
+)
 data class LibroDetail(
     @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
     val id: UUID?,
@@ -49,5 +61,7 @@ fun Libro.toDtoAutor(): LibroDtoInicio = LibroDtoInicio(id!!,titulo,libroUsuario
 fun Libro.toDtoUnidades() = LibroDtoUnidades(id!!,titulo, libroUsuario.size)
 
 fun Libro.toDetailAutor() = LibroDtoDetailAutor(id!!,titulo)
+
+fun Libro.toDetailPublicacion(user:Usuario?) = LibroDtoPublicaciones(id!!,titulo,generos.map { it.nombre }.joinToString(" ,"),descripcion,likeLibroUsuario.contains(user))
 
 fun Libro.toDetailLibro() = LibroDetail(id,titulo,descripcion,autor?.toLibroCreate())

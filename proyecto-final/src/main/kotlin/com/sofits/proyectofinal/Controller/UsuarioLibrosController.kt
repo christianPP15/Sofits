@@ -48,8 +48,9 @@ class UsuarioLibrosController(val usuarioTieneLibroServicio: UsuarioTieneLibroSe
     @GetMapping("/{id}")
     fun getBookEquals(@ApiParam(value = "Identificador del libro", required = true,type = "string")
                       @PathVariable("id") id:UUID,
-                      @PageableDefault(size = 10,page = 0) pageable: Pageable) =
-        ResponseEntity.ok(usuarioTieneLibroServicio.getAllBooksEquals(pageable, id))
+                      @ApiParam(value = "Usuario que realiza la petición", required = true,type = "Usuario")
+                      @AuthenticationPrincipal user: Usuario?) =
+        ResponseEntity.ok(usuarioTieneLibroServicio.getAllBooksEquals(id,user))
 
     @ApiOperation(value = "Agregar los ejemplares de un libro",
         notes = "Este controlador permite agregar un nuevo libro a un usuario")

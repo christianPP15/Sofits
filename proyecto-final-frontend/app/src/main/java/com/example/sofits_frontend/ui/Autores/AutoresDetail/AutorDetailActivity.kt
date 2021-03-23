@@ -7,15 +7,12 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.sofits_frontend.Api.Resource
-import com.example.sofits_frontend.Api.SofitsService
 import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.AutorDetailResponse
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
 import com.example.sofits_frontend.common.MyApp
-import com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,7 +20,7 @@ class AutorDetailActivity : AppCompatActivity() {
 
     @Inject @Named("provideAutoresDetailsViewModel") lateinit var autoresDetailsViewModel: AutoresDetailsViewModel
 
-                        var result:AutorDetailResponse?=null
+    var result:AutorDetailResponse?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_autor_detail)
@@ -31,7 +28,7 @@ class AutorDetailActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         val id= intent.extras?.getString("idAutor")
         autoresDetailsViewModel.getAutorInfo(id!!)
-
+        val meGusta = findViewById<FloatingActionButton>(R.id.fab_add_book)
         autoresDetailsViewModel.AutoresData.observe(this, Observer {response->
             when (response){
                 is Resource.Success->{
@@ -46,14 +43,16 @@ class AutorDetailActivity : AppCompatActivity() {
                             crossfade(true)
                         }
                     }
-                    findViewById<TextView>(R.id.textView_Nombre_anio).text=result!!.nombre+ "\t"+result!!.nacimiento
-                    findViewById<TextView>(R.id.text_view_descripcion).text=result!!.biografia
+                    if (result!!.meGusta){
+                        meGusta.setImageResource(R.drawable.ic_corazon)
+                    }
+                    findViewById<TextView>(R.id.textView_tituloLibro_publicaciones).text=result!!.nombre+ "\t"+result!!.nacimiento
+                    findViewById<TextView>(R.id.text_view_descripcion_publicacion).text=result!!.biografia
                 }
             }
         })
-        /*supportFragmentManager.beginTransaction()
-            .add(R.id.contenedor,)*/
-        val meGusta = findViewById<FloatingActionButton>(R.id.fab_add_book)
+
+
         meGusta.setOnClickListener { view ->
             if (result!=null){
                 if (!result!!.meGusta){
