@@ -3,30 +3,41 @@ package com.example.sofits_frontend.ui.Registro
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.RegisterResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
-import com.example.sofits_frontend.ui.Login.LoginViewModel
+import com.example.sofits_frontend.util.URIPathHelper
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import javax.inject.Inject
 
 class RegistroActivity : AppCompatActivity() {
-    lateinit var uri:Uri
-    var PICK_IMAGEN_COUNT=0
+    private var button: Button? = null
+    val REQUEST_CODE = 100
+    var filePath : String? = null
+    var selectedImage :Uri? = null
     @Inject lateinit var registerViewModel: RegistroViewModel
+    val db = Firebase.firestore
+    val uriPathHelper = URIPathHelper()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
@@ -34,25 +45,47 @@ class RegistroActivity : AppCompatActivity() {
 
         var choose : Button = findViewById(R.id.button_choose_Imagen)
         choose.setOnClickListener {
-            pickImage()
-            val toast= Toast.makeText(applicationContext,uri.toString(),Toast.LENGTH_LONG)
-            toast.show()
+            openGalleryForImage()
         }
         val botonRegistro= findViewById<Button>(R.id.buton_register)
         botonRegistro.setOnClickListener {
             val registerData:RegisterRequest?= sendRegisterInfo()
             if(registerData!=null){
                 var registerDataResponse: RegisterResponse?
-                registerViewModel.doRegisterComplete(registerData)
+                if (filePath!=null && selectedImage!=null){
+                    var file: File = File(filePath)
+                    val requestFile = RequestBody.create(
+                        MediaType.parse(this?.contentResolver.getType(selectedImage!!)),
+                        file
+                    )
+
+                    registerViewModel.doRegisterComplete( MultipartBody.Part.createFormData("file","file",requestFile),registerData)
+                }else{
+                    findViewById<TextView>(R.id.textView_error_register).visibility= View.VISIBLE
+                }
+
                 registerViewModel.registerData.observe(this, Observer { response->
                     when(response) {
                         is Resource.Success -> {
                             registerDataResponse=response.data
                             if (registerDataResponse!=null){
+                                val user=hashMapOf(
+                                    "nombre" to registerDataResponse!!.user.nombre
+                                )
+                                db.collection("users")
+                                    .document(registerDataResponse!!.user.id)
+                                    .set(user)
+                                    .addOnSuccessListener { documentReference ->
+                                        Log.d("NEWUSERFIREBASE", "DocumentSnapshot added correctly")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("NEWUSERFIREBASE", "Error adding document", e)
+                                    }
                                 val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
                                 with(shared.edit()) {
                                     putString(getString(R.string.TOKEN_USER), registerDataResponse!!.token)
                                     putString(getString(R.string.TOKEN_REFRESCO),registerDataResponse!!.refreshToken)
+                                    putString(getString(R.string.IdentificadorUsuario),registerDataResponse!!.user.id)
                                     commit()
                                 }
                                 val navegar = Intent(this, MainActivity::class.java)
@@ -67,7 +100,29 @@ class RegistroActivity : AppCompatActivity() {
                 })
             }
         }
+
     }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            filePath= uriPathHelper.getPath(this, data?.data!!).toString()
+            selectedImage = data?.data
+        }
+    }
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent,REQUEST_CODE)
+    }
+
+
+
+
+
+
 
 
     private fun sendRegisterInfo(): RegisterRequest? {
@@ -94,22 +149,5 @@ class RegistroActivity : AppCompatActivity() {
             return null
         }
 
-    }
-    private fun pickImage(){
-        val intent = Intent()
-        intent.type="image/*"
-        intent.putExtra(Intent.ACTION_PICK,true)
-        intent.action= Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent,"Seleccionar Imagen"),PICK_IMAGEN_COUNT)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGEN_COUNT){
-            if (resultCode==Activity.RESULT_OK){
-                val uridata = data!!.data
-                uri= uridata!!
-            }
-        }
     }
 }

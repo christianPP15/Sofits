@@ -1,11 +1,13 @@
 package com.sofits.proyectofinal.Servicios
 
+
 import com.sofits.proyectofinal.DTO.AgregarLibroAUsuario
 import com.sofits.proyectofinal.DTO.LibrosUsuariosResponse
-import com.sofits.proyectofinal.DTO.toDto
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibroYaExiste
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
+import com.sofits.proyectofinal.DTO.*
+import com.sofits.proyectofinal.ErrorControl.*
 import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibro
 import com.sofits.proyectofinal.Modelos.UsuarioTieneLibroId
@@ -42,20 +44,24 @@ class UsuarioTieneLibroServicio(
      * @return Page de los ejemplares subidos
      */
     fun getMyBooks(pageable: Pageable, user: Usuario?) =
-        repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDto() }.takeIf { user != null }
+        repositorio.getAllBooksFromUser(pageable, user!!).map { it.toDtoAux() }.takeIf { user != null }
             ?: throw LibrosNotExists()
 
     /**
      * Obtener todos los ejemplares de un libro
-     * @param pageable Atributo que da la oportunidad de paginar los resultados de los libros
      * @param id Identificador del libro al que pertenecen los ejemplares
+     * @param user Usuario que realiza la petición
      * @throws LibroNotExist Si el libro no existe
      * @return Devuelve todos los ejemplares de un libro de forma paginada
      */
-    fun getAllBooksEquals(pageable: Pageable, id: UUID) =
-        repositorio.getAllBooksEquals(pageable, libroService.findById(id)
-                .orElseThrow { LibroNotExist(id) }).map { it.toDto() }.takeIf { libroService.existsById(id) }
-                ?: throw LibrosNotExists()
+    fun getAllBooksEquals( id: UUID,user: Usuario?): PublicacionesResponse {
+        val libro = libroService.findById(id).orElseThrow { LibroNotExist(id) }
+        val result=repositorio.getAllBooksEquals( libroService.findById(id)
+            .orElseThrow { LibroNotExist(id) }).map { it.toDtoAux() }.takeIf { libroService.existsById(id) }
+            ?: throw LibrosNotExists()
+        return PublicacionesResponse(libro.toDetailPublicacion(user),result)
+    }
+
 
     /**
      * Agregamos un nuevo ejemplar a un usuario
@@ -84,7 +90,7 @@ class UsuarioTieneLibroServicio(
             )
             val imagen=servicioImagenes.save(file)
             usuarioLibro.imagen=imagen
-            return repositorio.save(usuarioLibro).toDto()
+            return repositorio.save(usuarioLibro).toDtoAux()
         }
 
     }
@@ -99,7 +105,7 @@ class UsuarioTieneLibroServicio(
         val idLibroUsuario = UsuarioTieneLibroId(user.id!!, id)
         val publicacion = repositorio.findById(idLibroUsuario).orElseThrow { LibroNotExist(id) }
         publicacion.intercambiado = !publicacion.intercambiado
-        repositorio.save(publicacion).toDto()
+        repositorio.save(publicacion).toDtoAux()
     }
 
     /**
@@ -116,7 +122,7 @@ class UsuarioTieneLibroServicio(
             publicacion.edicion = libroAgregar.edicion.toInt()
             publicacion.estado = libroAgregar.estado
             publicacion.idioma = libroAgregar.idioma
-            repositorio.save(publicacion).toDto()
+            repositorio.save(publicacion).toDtoAux()
         }
     }
 
@@ -139,5 +145,10 @@ class UsuarioTieneLibroServicio(
         val id= UsuarioTieneLibroId(userId,libroId)
         if (existsById(id))
             repositorio.deleteById(id)
+    }
+
+    fun getPublicacionById(idLibro: UUID,idUsuario:UUID): LibrosUsuariosResponseDetail {
+        val id = UsuarioTieneLibroId(idUsuario,idLibro)
+        return repositorio.findById(id).orElseThrow { PublicacionNotExist(id) }.toDetalleDto()
     }
 }

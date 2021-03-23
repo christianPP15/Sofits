@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".ui.Libros.detallePublicacion.PublicacionDetalleActivity">
+
+    <ImageView
+        android:id="@+id/imageView_del_libro_detalle_publicacion"
+        android:layout_width="149dp"
+        android:layout_height="185dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_menu_book_24" />
+
+    <TextView
+        android:id="@+id/textView_titulo_libro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_del_libro_detalle_publicacion" />
+
+    <TextView
+        android:id="@+id/textView_estado_libro_detalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_titulo_libro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_titulo_libro"
+        app:layout_constraintTop_toTopOf="@+id/textView_titulo_libro" />
+
+    <TextView
+        android:id="@+id/textView_idioma_detail_publicacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/textView_titulo_libro"
+        app:layout_constraintTop_toBottomOf="@+id/textView_titulo_libro" />
+
+    <TextView
+        android:id="@+id/textView_edicion_detail_publicacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/textView_estado_libro_detalle"
+        app:layout_constraintTop_toBottomOf="@+id/textView_estado_libro_detalle" />
+
+    <TextView
+        android:id="@+id/textView_descripcion_detail_publicacion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/textView_edicion_detail_publicacion"
+        app:layout_constraintStart_toStartOf="@+id/textView_idioma_detail_publicacion"
+        app:layout_constraintTop_toBottomOf="@+id/textView_idioma_detail_publicacion" />
+
+    <Button
+        android:id="@+id/button_start_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/chat_button"
+        app:layout_constraintEnd_toEndOf="@+id/textView_descripcion_detail_publicacion"
+        app:layout_constraintStart_toStartOf="@+id/textView_descripcion_detail_publicacion"
+        app:layout_constraintTop_toBottomOf="@+id/textView_descripcion_detail_publicacion" />
+</androidx.constraintlayout.widget.ConstraintLayout>

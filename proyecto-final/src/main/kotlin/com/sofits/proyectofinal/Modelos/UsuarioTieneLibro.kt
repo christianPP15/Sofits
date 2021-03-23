@@ -115,11 +115,7 @@ interface UsuarioTieneLibroRepository: JpaRepository<UsuarioTieneLibro,UsuarioTi
     @Query("select e from UsuarioTieneLibro e where e.libroUsuario= :LIBRO and e.intercambiado = false")
     fun getAllBooksEquals(
         /**
-         * Atributo que permite paginar los resultados
-         */
-        pageable: Pageable,
-        /**
          * Libro a consultar los ejemplares
          */
-        @Param("LIBRO") libro:Libro): Page<UsuarioTieneLibro>
+        @Param("LIBRO") libro:Libro): List<UsuarioTieneLibro>
 }

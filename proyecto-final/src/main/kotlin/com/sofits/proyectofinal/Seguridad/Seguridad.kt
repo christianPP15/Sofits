@@ -105,7 +105,10 @@ class WebSecurityConfiguration(
                 "/swagger-ui.html",
                 "/swagger-ui/**",
                 "/webjars/**").permitAll()
-                .antMatchers("/autores/**","/libro/**","/user/book/{userId}/{LibroId}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/autores/","/libro/**","/user/book/{userId}/{LibroId}").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT,"/autores/{id}").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE,"/autores/id").hasRole("ADMIN")
+            .antMatchers("/autores/").hasRole("USER")
             .antMatchers(HttpMethod.POST, "/auth/login", "/auth/token", "/user/","/auth/register").permitAll()
             .anyRequest().hasRole("USER")
 

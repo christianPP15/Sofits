@@ -2,13 +2,13 @@ package com.sofits.proyectofinal.DTO
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.sofits.proyectofinal.Modelos.Autor
+import com.sofits.proyectofinal.Modelos.Usuario
 import com.sofits.proyectofinal.upload.ImagenWithoutHash
 import com.sofits.proyectofinal.upload.toDto
 import io.swagger.annotations.ApiModelProperty
 import java.time.LocalDate
 import java.util.*
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Past
 
 /**
  * Clase que define el modelo de respuesta con la información básica del autor
@@ -50,6 +50,33 @@ data class AutoresDetail(
     val nacimiento:LocalDate? = null,
     @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 5)
     val libros: List<LibroDtoInicio> = mutableListOf()
+)
+
+/**
+ * Data class para mostrar los datos de un autor
+ * @property id Identificador del autor
+ * @property nombre Nombre del autor
+ * @property biografia Biografía del autor
+ * @property nacimiento Fecha de nacimiento del autor
+ * @property libros Libros escritos por el autor
+ * @property meGusta Indica si al usuario le gusta o no el autor
+ */
+data class AutoresDetailMeGusta(
+    @ApiModelProperty(value = "Identificador del autor",dataType = "java.util.UUID",position = 1)
+    val id:UUID,
+    @ApiModelProperty(value = "Nombre del autor",dataType = "java.lang.String",position = 2)
+    val nombre: String,
+    @ApiModelProperty(value = "Biografía del autor",dataType = "java.lang.String",position = 3)
+    val biografia:String?,
+    @ApiModelProperty(value = "Fecha de nacimiento del autor",dataType = "java.util.LocalDate",position = 4)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    val nacimiento:LocalDate? = null,
+    @ApiModelProperty(value = "Imagen del autor",dataType = "ImagenWithoutHash",position = 7)
+    val imagen: ImagenWithoutHash? ,
+    @ApiModelProperty(value = "Libros escritos por el autor",dataType = "LibroDtoInicio",position = 5)
+    val libros: List<LibroDtoUnidades> = mutableListOf(),
+    @ApiModelProperty(value = "Indica si el autor le gusta a un usuario",dataType = "java.lang.Boolean",position = 6)
+    val meGusta:Boolean
 )
 
 /**
@@ -99,6 +126,7 @@ fun Autor.toLibroCreate() = AutorDeLibro(id!!,nombre)
  */
 fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDetailAutor() },imagen?.toDto())
 
+
 /**
  * Función que convierte un autor a AutoresDetail
  * @see AutoresDetail
@@ -106,7 +134,14 @@ fun Autor.toDto() = AutoresDto(id!!,nombre,libros.map { it.toDetailAutor() },ima
 fun Autor.toDetail() = AutoresDetail(id!!,nombre,Biografia, nacimiento,libros.map { it.toDtoAutor() })
 
 /**
- * Función que convierte un autor a AutorDatosBiograficos
+ * Función que convierte un autor a AutoresDetailMeGusta
+ * @see AutoresDetailMeGusta
+ */
+
+fun Autor.toDetailMeGusta(user: Usuario) = AutoresDetailMeGusta(id!!,nombre,Biografia, nacimiento,imagen?.toDto(),libros.map { it.toDtoUnidades() },likeAutorUsuario.contains(user))
+
+/**
+ * Función para convertir un autor a AutorDatosBiograficos
  * @see AutorDatosBiograficos
  */
 fun Autor.toCrateDto()= AutorDatosBiograficos(id!!,nombre,Biografia,nacimiento.toString(),imagen?.toDto())

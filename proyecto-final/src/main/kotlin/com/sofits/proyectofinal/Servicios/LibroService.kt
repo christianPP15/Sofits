@@ -6,6 +6,7 @@ import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
 import com.sofits.proyectofinal.Modelos.*
 import com.sofits.proyectofinal.Servicios.base.BaseService
+import org.hibernate.type.EntityType
 
 import org.springframework.data.domain.Page
 
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import java.util.*
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*
 
 /**
  * Clase estereotipada como servicio que se encarga de la gestión de los libros y que extiende de BaseService
@@ -104,7 +107,7 @@ class LibroService(
 
         val specTitulo : Specification<Libro> =
             Specification { root, query, criteriaBuilder ->
-                if (titulo.isEmpty){
+                if (!titulo.isEmpty){
                     criteriaBuilder.like(criteriaBuilder.lower(root.get("titulo")),"%" + titulo.get() + "%")
                 }else{
                     criteriaBuilder.isTrue(criteriaBuilder.literal(true))
@@ -113,29 +116,27 @@ class LibroService(
 
         val specAutor : Specification<Libro> =
             Specification { root, query, criteriaBuilder ->
-                if (autor.isEmpty){
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("autor.nombre")),"%" + autor.get() + "%")
+                if (!autor.isEmpty){
+                    val libroConGenero : Join<Libro, Autor> = root.join("autor")
+                    criteriaBuilder.like(criteriaBuilder.lower(libroConGenero.get("nombre")),"%" + autor.get() + "%")
+                    //criteriaBuilder.like(criteriaBuilder.lower(root.get("autor.nombre")),"%" + autor.get() + "%")
                 }else{
                     criteriaBuilder.isTrue(criteriaBuilder.literal(true))
                 }
             }
 
-       /* val specGenero : Specification<Libro> =
+       val specGenero : Specification<Libro> =
             Specification { root, query, criteriaBuilder ->
-                if (genero.isEmpty){
-                    val cq: CriteriaQuery<Libro> = criteriaBuilder.createQuery(Libro::class.java)
-                    val libro: Root<Libro> = query.from(Libro::class.java)
-                    val generos: ListJoin<Libro, GeneroLiterario> = libro.join(Libro::generos)
-                    cq.select(libro)
-                            .where(criteriaBuilder.equal(generos.get(GeneroLiterario::nombre),genero.get()))
+                if (!genero.isEmpty){
+                    val libroConGenero : Join<Libro, GeneroLiterario> = root.join("generos")
+                    criteriaBuilder.like(criteriaBuilder.lower(libroConGenero.get("nombre")),"%" + genero.get() + "%")
 
-                    //criteriaBuilder.like(criteriaBuilder.lower(root.get("generos.nombre")),"%" + genero.get() + "%")
                 }else{
                     criteriaBuilder.isTrue(criteriaBuilder.literal(true))
                 }
-            }*/
+            }
 
-        val consulta = specTitulo.and(specAutor)
+        val consulta = specTitulo.and(specAutor).and(specGenero)
         return this.repositorio.findAll(consulta,pageable)
     }
 }
