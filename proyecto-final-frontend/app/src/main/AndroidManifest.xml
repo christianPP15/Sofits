@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sofitsfrontend">
-        <activity android:name=".ui.Libros.detallePublicacion.PublicacionDetalleActivity"></activity>
+        <activity android:name=".ui.Chat.mensajes.ChatMensajeActivity"></activity>
+        <activity android:name=".ui.Libros.detallePublicacion.PublicacionDetalleActivity" />
         <activity android:name=".ui.Libros.detallePublicacion.DetailPublicacionActivity" />
         <activity
             android:name=".ui.Libros.PublicacionesActivity"

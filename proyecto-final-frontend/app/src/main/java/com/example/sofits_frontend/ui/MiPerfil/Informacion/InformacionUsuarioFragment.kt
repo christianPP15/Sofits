@@ -44,9 +44,7 @@ class InformacionUsuarioFragment : Fragment() {
                     comprobarValoracion(response.data!!.media)
                     textViewNombreUsuario?.text = usuario.nombre
                     if (usuario.imagen != null) {
-                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen) {
-                            addHeader("Authorization", "Client-ID ab62ffa461826e5")
-                        }
+                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen)
                     } else {
                         imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name=" + usuario.nombre)
                     }
