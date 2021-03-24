@@ -1,26 +1,44 @@
 package com.example.sofits_frontend.ui.MiPerfil.AddBook
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.opengl.Visibility
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.EditBook
+import com.example.sofits_frontend.Api.request.NuevoEjemplarRequest
 import com.example.sofits_frontend.Api.response.AutoresResponse.Autor
 import com.example.sofits_frontend.Api.response.AutoresResponse.Libro
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
+import com.example.sofits_frontend.util.URIPathHelper
+import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import javax.inject.Inject
 
 
 class SelectAutorNewBook : AppCompatActivity() {
     @Inject lateinit var addBookViewModel: AddBookViewModel
     lateinit var spinner:Spinner
+    val REQUEST_CODE = 100
+    var filePath : String? = null
+    var selectedImage : Uri? = null
+    val uriPathHelper = URIPathHelper()
     lateinit var autores:List<Autor>
     lateinit var spineerLibros: Spinner
     lateinit var introChooseLibro: TextView
@@ -29,10 +47,17 @@ class SelectAutorNewBook : AppCompatActivity() {
     lateinit var descripcion : TextView
     lateinit var idioma : TextView
     lateinit var botonCompletar: Button
+    lateinit var botonImagenes : Button
+    lateinit var imagenSubida : ImageView
+    var autorSeleccionado : Int =0
+    val context = this
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_select_autor_new_book)
+
+        botonImagenes=findViewById(R.id.buttonSubidaImagenesLibros)
         val idLibro= intent.extras?.getString("IdLibroEditar","")
         val estadoEditar = intent.extras?.getString("estado","")
         val idiomaEditar = intent.extras?.getString("idioma","")
@@ -47,6 +72,7 @@ class SelectAutorNewBook : AppCompatActivity() {
         edicion = findViewById(R.id.editTextNumber_edion)
         descripcion = findViewById(R.id.input_descripcion)
         botonCompletar=findViewById(R.id.button_add_book)
+        imagenSubida=findViewById(R.id.imageView_imagenSubida_libro)
         addBookViewModel.cargarAutores()
         if (idLibro!=null){
             idioma.visibility= View.VISIBLE
@@ -60,6 +86,8 @@ class SelectAutorNewBook : AppCompatActivity() {
             introChooseLibro.visibility= View.INVISIBLE
             descripcion.text=descripcionEditar
             estadoLibro.text=estadoEditar
+            botonImagenes.visibility=View.INVISIBLE
+            imagenSubida.visibility=View.INVISIBLE
             edicion.text=edicionEditar.toString()
             idioma.text=idiomaEditar
             botonCompletar.setOnClickListener {
@@ -93,6 +121,49 @@ class SelectAutorNewBook : AppCompatActivity() {
                     edicion.visibility= View.VISIBLE
                     descripcion.visibility= View.VISIBLE
                     botonCompletar.visibility = View.VISIBLE
+                    botonImagenes.visibility= View.VISIBLE
+                    imagenSubida.visibility=View.VISIBLE
+                    botonImagenes.setOnClickListener {
+                        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                        }
+                        openGalleryForImage()
+                    }
+                    botonCompletar.setOnClickListener {
+                        val nuevoEjemplar = devolverNuevoEjemplar()
+                        if (nuevoEjemplar!=null){
+                            if (filePath!=null && selectedImage!=null){
+                                var file = File(filePath)
+                                val requestFile = RequestBody.create(
+                                    MediaType.parse(context.contentResolver.getType(selectedImage!!)),
+                                    file
+                                )
+                                val jsonString = Gson().toJson(nuevoEjemplar)
+                                val resquestBodyData = RequestBody.create(MediaType.parse("application/json"), jsonString)
+                                val multipar= MultipartBody.Part.createFormData("file",file.name,requestFile)
+                                addBookViewModel.addNewBook(autores.get(autorSeleccionado).libros.get(position-1).id,multipar,resquestBodyData)
+                                addBookViewModel.InfoNewLibro.observe(context, Observer {response->
+                                    when(response){
+                                        is Resource.Success->{
+                                            val navegacion = Intent(context,MainActivity::class.java)
+                                            startActivity(navegacion)
+                                        }
+                                        is Resource.Error->{
+                                            Toast.makeText(context,"Ya existe una publicación para el libro seleccionado",Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                                })
+                            }else{
+                                val builder: AlertDialog.Builder? = context?.let {
+                                    AlertDialog.Builder(it)
+                                }
+                                builder?.setMessage("Seleccione una imagen para su publicación")
+                                    ?.setTitle("Imagen necesaria")
+                                val dialog: AlertDialog? = builder?.create()
+                                dialog?.show()
+                            }
+                        }
+                    }
                 }else{
                     idioma.visibility= View.INVISIBLE
                     estadoLibro.visibility= View.INVISIBLE
@@ -109,6 +180,7 @@ class SelectAutorNewBook : AppCompatActivity() {
 
             override fun onItemSelected(parentView: AdapterView<*>?,selectedItemView: View?,position: Int,id: Long) {
                 if (position!=0){
+                    autorSeleccionado=position-1
                     val libros= mutableListOf("Escoja un libro")
                     for(titulo in autores.get(position-1).libros.map { it.titulo })
                         libros.add(titulo)
@@ -133,6 +205,37 @@ class SelectAutorNewBook : AppCompatActivity() {
         ArrayAdapter(this, android.R.layout.simple_spinner_item,lista).also {adapter->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spineerLibros.adapter=adapter
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            imagenSubida.setImageURI(data?.data!!)
+            filePath= uriPathHelper.getPath(this, data?.data!!).toString()
+            selectedImage = data?.data
+        }
+    }
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent,REQUEST_CODE)
+    }
+
+    private fun devolverNuevoEjemplar(): NuevoEjemplarRequest? {
+        val estado=estadoLibro.text
+        val idiomaText= idioma.text
+        val edicionText = edicion.text
+        val descripcionText = descripcion.text
+        if (estado.isEmpty() || idiomaText.isEmpty() || edicionText.isEmpty() || descripcionText.isEmpty()){
+            if (estado.isEmpty()) estadoLibro.error="Describa el estado de conservación del libro"
+            if (idiomaText.isEmpty()) idioma.error="Introduzca el idioma del libro"
+            if (edicionText.isEmpty()) edicion.error="Introduzca a que edición pertenece el libro"
+            if (descripcionText.isEmpty()) descripcion.error="Introduzca datos de interés sobre el libro"
+            return null
+        }else{
+            return NuevoEjemplarRequest(descripcionText.toString(),estado.toString(),idiomaText.toString(),edicionText.toString())
         }
     }
 }

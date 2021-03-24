@@ -141,7 +141,7 @@ data class EditarLibroAUsuario(
     @ApiModelProperty(value = "Idioma del libro",dataType = "java.lang.String",position = 4)
     val idioma:String,
     @ApiModelProperty(value = "Edición del libro que publicamos",dataType = "java.lang.String",position = 5)
-    val edicion:String,
+    val edicion:String
 )
 
 /**
@@ -171,11 +171,6 @@ data class PublicacionesResponseDetail(
 fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
 
 
-/**
- * Función para convertir un ejemplar a LibrosUsuariosResponseMy
- * @see LibrosUsuariosResponseMy
- */
-fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
 /**
  * Función para convertir un ejemplar a LibrosUsuariosResponse
  * @see LibrosUsuariosResponse

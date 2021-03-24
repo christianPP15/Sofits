@@ -10,6 +10,7 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.Auto
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisValoraciones.MisValoracionesResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.PublicacionesResponse
+import com.example.sofits_frontend.Api.response.PublicacionesResponse.addEjemplar.NuevoEjemplarResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.detalles.DetallePublicacionResponse
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.meGustaLibro.AddMeGustaLibroResponse
 import okhttp3.MultipartBody
@@ -24,7 +25,7 @@ interface SofitsService {
 
     @Multipart
     @POST("auth/register")
-    suspend fun doRegister(@Part("file") file:MultipartBody.Part , @Part("newUser") registerRequest: RequestBody) : Response<RegisterResponse>
+    suspend fun doRegister(@Part file:MultipartBody.Part , @Part("newUser") registerRequest: RequestBody) : Response<RegisterResponse>
 
     @GET("user/book/")
     suspend fun getMyBooks() : Response<MiPerfilResponse>
@@ -64,4 +65,8 @@ interface SofitsService {
 
     @PUT("user/book/{id}")
     suspend fun editarLibro(@Path("id") id: String,@Body libroEditado:EditBook) : Response<NoContent>
+
+    @Multipart
+    @POST("user/book/{id}")
+    suspend fun addEjemplar(@Path("id") idLibro: String,@Part file:MultipartBody.Part , @Part("libro") registerRequest: RequestBody) : Response<NuevoEjemplarResponse>
 }

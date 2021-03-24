@@ -28,10 +28,14 @@ class NetworkModule (){
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(sofitsInterceptor: SofitsInterceptor):OkHttpClient = with(
+    fun provideOkHttpClient(sofitsInterceptor: SofitsInterceptor/*,loggingInterceptor: HttpLoggingInterceptor*/):OkHttpClient {
+        //loggingInterceptor.level=HttpLoggingInterceptor.Level.BODY
+       return with(
             OkHttpClient.Builder()){
             addInterceptor(sofitsInterceptor)
+            //addInterceptor(loggingInterceptor)
             build()
+        }
     }
 
     @Singleton
@@ -47,10 +51,19 @@ class NetworkModule (){
     @Singleton
     @Provides
     @Named("sofitServiceWithoutInterceptor")
-    fun provideTheSofitsServiceWithoutInterceptor(@Named("apiUrl") url:String) : SofitsService = Retrofit.Builder()
-        .baseUrl(url)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create(SofitsService::class.java)
+    fun provideTheSofitsServiceWithoutInterceptor(@Named("apiUrl") url:String) : SofitsService {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)
+
+        return  Retrofit.Builder()
+            .baseUrl(url)
+            .client(httpClient.build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build().create(SofitsService::class.java)
+    }
 
     @Singleton
     @Provides

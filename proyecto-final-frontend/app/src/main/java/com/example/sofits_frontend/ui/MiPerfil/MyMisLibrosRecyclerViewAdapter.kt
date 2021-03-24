@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.LibrosSubidos
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
@@ -29,8 +30,12 @@ class MyMisLibrosRecyclerViewAdapter constructor(val ctx:Context) : RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        if (item.imagenWithoutHash!=null){
-            holder.imagenLibroUsuario.load(Constantes.imageURL+item.imagenWithoutHash.idImagen)
+        if (item.imagen!=null){
+            holder.imagenLibroUsuario.load(Constantes.imageURL+item.imagen.idImagen+".png"){
+                crossfade(true)
+            }
+        }else{
+
         }
         holder.nombreLibro.text=item.libro.titulo
         holder.contraint.setOnClickListener {

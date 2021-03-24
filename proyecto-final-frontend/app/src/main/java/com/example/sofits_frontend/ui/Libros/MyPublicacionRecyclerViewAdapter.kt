@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import coil.load
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.LibrosUsuariosResponse
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.Constantes
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutorDetailActivity
 import com.example.sofits_frontend.ui.Libros.detallePublicacion.PublicacionDetalleActivity
 import javax.inject.Inject
@@ -29,6 +30,8 @@ class MyPublicacionRecyclerViewAdapter constructor(val ctx:Context) : RecyclerVi
         val item = values[position]
         if (item.imagen==null){
             holder.imageView.load("https://eu.ui-avatars.com/api/?size=300&name="+item.usuario.nombre)
+        }else{
+            holder.imageView.load(Constantes.imageURL+item.imagen.idImagen+".png")
         }
         if (item.intercambiado!=true){
             holder.nombreUsuario.text=item.usuario.nombre
