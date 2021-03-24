@@ -53,18 +53,10 @@ class NetworkModule (){
     @Named("sofitServiceWithoutInterceptor")
     fun provideTheSofitsServiceWithoutInterceptor(@Named("apiUrl") url:String) : SofitsService {
         val logging = HttpLoggingInterceptor()
-// set your desired log level
-// set your desired log level
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
-// add your other interceptors …
-
-// add logging as last interceptor
-// add your other interceptors …
-
-// add logging as last interceptor
-        httpClient.addInterceptor(logging) // <-- th
+        httpClient.addInterceptor(logging)
 
         return  Retrofit.Builder()
             .baseUrl(url)

@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         (this.applicationContext as MyApp).appComponent.inject(this)
+        supportActionBar?.hide()
         val shared = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
         val token=shared.getString(getString(R.string.TOKEN_USER), "")
         if (token==""){

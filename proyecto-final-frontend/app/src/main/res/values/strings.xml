@@ -37,4 +37,5 @@
     <string name="Editar">Editar</string>
     <string name="EliminarEditarTitle">Eliminar/Editar</string>
     <string name="EliminarEditarPregunta">Deseas eliminar o editar la publicación</string>
+    <string name="seleccionImagen">Seleccione una imagen</string>
 </resources>

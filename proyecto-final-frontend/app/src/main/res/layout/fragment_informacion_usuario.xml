@@ -22,12 +22,10 @@
         android:id="@+id/textView_nombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:maxWidth="200dp"
         android:lines="2"
+        android:maxWidth="200dp"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="@+id/imageView_perfilUsuarioImagen"
         app:layout_constraintStart_toStartOf="@+id/imageView_perfilUsuarioImagen"
         app:layout_constraintTop_toBottomOf="@+id/imageView_perfilUsuarioImagen" />
@@ -89,8 +87,8 @@
 
     <ImageView
         android:id="@+id/imageView_perfilUsuarioImagen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="121dp"
+        android:layout_height="98dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />

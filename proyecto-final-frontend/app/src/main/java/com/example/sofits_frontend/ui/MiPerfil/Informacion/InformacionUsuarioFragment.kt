@@ -45,12 +45,12 @@ class InformacionUsuarioFragment : Fragment() {
                     comprobarValoracion(response.data!!.media)
                     textViewNombreUsuario?.text = usuario.nombre
                     if (usuario.imagen != null) {
-                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen){
+                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen+".png"){
                             crossfade(true)
                             transformations(CircleCropTransformation())
                         }
                     } else {
-                        imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name=" + usuario.nombre+".png"){
+                        imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name=" + usuario.nombre){
                             crossfade(true)
                             transformations(CircleCropTransformation())
                         }

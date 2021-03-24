@@ -1,8 +1,10 @@
 package com.example.sofits_frontend.ui.Registro
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -36,17 +38,32 @@ class RegistroActivity : AppCompatActivity() {
     val REQUEST_CODE = 100
     var filePath : String? = null
     var selectedImage :Uri? = null
+    lateinit var emailInput : TextView
+    lateinit var nombreUsuario: TextView
+    lateinit var password : TextView
+    lateinit var passwordRepeat: TextView
+    lateinit var fecha: TextView
     @Inject lateinit var registerViewModel: RegistroViewModel
     val db = Firebase.firestore
     val uriPathHelper = URIPathHelper()
     lateinit var imagenSubidaUsuario :ImageView
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_registro)
         imagenSubidaUsuario=findViewById(R.id.imageView_subidaUsuario)
         var choose : Button = findViewById(R.id.button_choose_Imagen)
+        emailInput=findViewById<TextView>(R.id.input_register_email)
+        nombreUsuario = findViewById<TextView>(R.id.input_nombre_registro)
+        password = findViewById<TextView>(R.id.input_password_register)
+        passwordRepeat= findViewById<TextView>(R.id.input_password_repeat_register)
+        fecha= findViewById<TextView>(R.id.input_fecha_registro)
         choose.setOnClickListener {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+            }
             openGalleryForImage()
         }
         val botonRegistro= findViewById<Button>(R.id.buton_register)
@@ -97,8 +114,10 @@ class RegistroActivity : AppCompatActivity() {
                             }
                         }
                         is Resource.Error -> {
-                            val toast= Toast.makeText(applicationContext,response.message,Toast.LENGTH_LONG)
-                            toast.show()
+                            password.error="Las contraseñas deben tener un mínimo de 5 carácteres y ser iguales"
+                            passwordRepeat.error="Las contraseñas deben tener un mínimo de 5 carácteres y ser iguales"
+                            emailInput.error="Introduzca un email válido"
+
                         }
                     }
                 })
@@ -124,18 +143,7 @@ class RegistroActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
-
     private fun sendRegisterInfo(): RegisterRequest? {
-        val emailInput = findViewById<TextView>(R.id.input_register_email)
-        val nombreUsuario = findViewById<TextView>(R.id.input_nombre_registro)
-        val password = findViewById<TextView>(R.id.input_password_register)
-        val passwordRepeat= findViewById<TextView>(R.id.input_password_repeat_register)
-        val fecha= findViewById<TextView>(R.id.input_fecha_registro)
         if (emailInput.text.isNotBlank() && nombreUsuario.text.isNotBlank() && password.text.isNotBlank() && passwordRepeat.text.isNotBlank() && fecha.text.isNotBlank()){
             if (password.text.toString()==passwordRepeat.text.toString()){
                 return RegisterRequest(emailInput.text.toString(),

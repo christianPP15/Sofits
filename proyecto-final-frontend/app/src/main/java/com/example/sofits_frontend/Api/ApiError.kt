@@ -5,3 +5,8 @@ data class ApiError(
     val fecha: String,
     val mensaje: String
 )
+data class ApiValidationSubError(
+    val campo : String,
+    val valorRechazado : Any?,
+    val mensaje : String?
+)
