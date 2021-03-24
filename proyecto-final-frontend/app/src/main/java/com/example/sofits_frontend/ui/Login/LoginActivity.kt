@@ -55,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
                                         putString(getString(R.string.TOKEN_USER), loginData!!.token)
                                         putString(getString(R.string.TOKEN_REFRESCO),loginData!!.refreshToken)
                                         putString(getString(R.string.IdentificadorUsuario),loginData!!.user.id)
+                                        putString(getString(R.string.rolesUsuario),loginData!!.user.roles)
                                         commit()
                                     }
                                     findViewById<EditText>(R.id.input_email_login).text.clear()

@@ -39,7 +39,14 @@
     <string name="EliminarEditarPregunta">Deseas eliminar o editar la publicación</string>
     <string name="seleccionImagen">Seleccione una imagen</string>
     <string name="estadoLibro">Estado de conservación del libro</string>
-    <string name="IdiomaLibro" >Idioma</string>
+    <string name="IdiomaLibro">Idioma</string>
     <string name="EdicionLibro">Edición</string>
     <string name="InformacionLibro">Información relevante</string>
+    <string name="rolesUsuario">rolesUsuario</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="InputNombreAutor">Nombre del autor</string>
+    <string name="nacimientoAutor">Fecha de nacimiento del autor</string>
+    <string name="inputBiografia">Datos biográficos del autor</string>
+    <string name="EleccionImagen">Escoger imagen para el autor</string>
 </resources>

@@ -30,7 +30,10 @@ class MisLibrosFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApp).appComponent.inject(this)
     }
-
+    override fun onResume() {
+        super.onResume()
+        misLibrosViewModel.getMyInfo()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

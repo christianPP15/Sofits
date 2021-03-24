@@ -1,6 +1,7 @@
 package com.example.sofits_frontend.ui.Autores.AutoresDetail
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -33,9 +34,9 @@ class AutorDetailActivity : AppCompatActivity() {
             when (response){
                 is Resource.Success->{
                  result=response.data!!
-                    findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).title = result!!.nombre
+                    findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).visibility= View.INVISIBLE
                     if (result?.imagen!=null){
-                        findViewById<ImageView>(R.id.toolbarImage).load(Constantes.imageURL+result!!.imagen!!.idImagen){
+                        findViewById<ImageView>(R.id.toolbarImage).load(Constantes.imageURL+result!!.imagen!!.idImagen+".png"){
                             crossfade(true)
                         }
                     }else{

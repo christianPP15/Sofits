@@ -10,6 +10,7 @@ data class UserRegisterResponse(
     val fechaNacimiento: String,
     val id: String,
     val imagen: Imagen,
+    val roles: String,
     val nombre: String
 )
 data class Imagen(
@@ -25,5 +26,6 @@ data class LoginResponse(
 data class Userlogin(
     val email: String,
     val id: String,
-    val nombre: String
+    val nombre: String,
+    val roles: String
 )

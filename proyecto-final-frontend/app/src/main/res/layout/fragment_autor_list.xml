@@ -10,4 +10,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.Autores.AutoresFragment"
-    tools:listitem="@layout/fragment_autor" />
+    tools:listitem="@layout/fragment_autor" >
+
+</androidx.recyclerview.widget.RecyclerView>

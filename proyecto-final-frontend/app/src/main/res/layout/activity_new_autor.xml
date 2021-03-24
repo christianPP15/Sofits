@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    tools:context=".ui.Autores.AddAutor.NewAutorActivity">
+
+    <EditText
+        android:id="@+id/editText_nombreAutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/InputNombreAutor"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextDate_autor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/nacimientoAutor"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="@+id/editText_nombreAutor"
+        app:layout_constraintStart_toStartOf="@+id/editText_nombreAutor"
+        app:layout_constraintTop_toBottomOf="@+id/editText_nombreAutor" />
+
+    <EditText
+        android:id="@+id/editTextTextMultiLine_biografia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/inputBiografia"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:maxLines="5"
+        app:layout_constraintEnd_toEndOf="@+id/editTextDate_autor"
+        app:layout_constraintStart_toStartOf="@+id/editTextDate_autor"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate_autor" />
+
+    <Button
+        android:id="@+id/button_imagen_autor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/EleccionImagen"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTextMultiLine_biografia"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextMultiLine_biografia"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLine_biografia" />
+
+    <ImageView
+        android:id="@+id/imageView_autorAdd"
+        android:layout_width="193dp"
+        android:layout_height="219dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/button_imagen_autor"
+        app:layout_constraintStart_toStartOf="@+id/button_imagen_autor"
+        app:layout_constraintTop_toBottomOf="@+id/button_imagen_autor"
+        app:srcCompat="@drawable/ic_escritor"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/button_confirmar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/buton_completar"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_autorAdd"
+        app:layout_constraintStart_toStartOf="@+id/imageView_autorAdd"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_autorAdd" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,8 +63,9 @@ class RegistroActivity : AppCompatActivity() {
         choose.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                openGalleryForImage()
             }
-            openGalleryForImage()
+
         }
         val botonRegistro= findViewById<Button>(R.id.buton_register)
         botonRegistro.setOnClickListener {
@@ -107,6 +108,7 @@ class RegistroActivity : AppCompatActivity() {
                                     putString(getString(R.string.TOKEN_USER), registerDataResponse!!.token)
                                     putString(getString(R.string.TOKEN_REFRESCO),registerDataResponse!!.refreshToken)
                                     putString(getString(R.string.IdentificadorUsuario),registerDataResponse!!.user.id)
+                                    putString(getString(R.string.rolesUsuario),registerDataResponse!!.user.roles)
                                     commit()
                                 }
                                 val navegar = Intent(this, MainActivity::class.java)

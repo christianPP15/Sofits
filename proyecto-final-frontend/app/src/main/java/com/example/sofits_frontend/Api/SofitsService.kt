@@ -5,6 +5,7 @@ import com.example.sofits_frontend.Api.request.LoginRequest
 import com.example.sofits_frontend.Api.request.RegisterRequest
 import com.example.sofits_frontend.Api.response.AuthResponse.LoginResponse
 import com.example.sofits_frontend.Api.response.AuthResponse.RegisterResponse
+import com.example.sofits_frontend.Api.response.AutoresResponse.AddAutor.AddAutorResponse
 import com.example.sofits_frontend.Api.response.AutoresResponse.AutoresResponse
 import com.example.sofits_frontend.Api.response.AutoresResponse.DetailAutor.AutorDetailResponse
 import com.example.sofits_frontend.Api.response.MiPerfilResponse.MisLibros.MiPerfilResponse
@@ -69,4 +70,8 @@ interface SofitsService {
     @Multipart
     @POST("user/book/{id}")
     suspend fun addEjemplar(@Path("id") idLibro: String,@Part file:MultipartBody.Part , @Part("libro") registerRequest: RequestBody) : Response<NuevoEjemplarResponse>
+
+    @Multipart
+    @POST("autores/")
+    suspend fun addAutor(@Part file: MultipartBody.Part,@Part("nuevoAutor") autor : RequestBody) : Response<AddAutorResponse>
 }
