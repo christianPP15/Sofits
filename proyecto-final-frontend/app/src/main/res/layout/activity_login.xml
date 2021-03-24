@@ -46,7 +46,7 @@
         android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:background="#9A1F1F"
         android:text="Acceder"
         app:layout_constraintEnd_toEndOf="@+id/input_password_login"
@@ -59,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/opcion_registro"
-        android:textSize="9sp"
         app:layout_constraintStart_toStartOf="@+id/input_password_login"
         app:layout_constraintTop_toBottomOf="@+id/input_password_login" />
 

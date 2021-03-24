@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -23,6 +24,7 @@ import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.util.URIPathHelper
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -37,12 +39,12 @@ class RegistroActivity : AppCompatActivity() {
     @Inject lateinit var registerViewModel: RegistroViewModel
     val db = Firebase.firestore
     val uriPathHelper = URIPathHelper()
-
+    lateinit var imagenSubidaUsuario :ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (this.applicationContext as MyApp).appComponent.inject(this)
         setContentView(R.layout.activity_registro)
-
+        imagenSubidaUsuario=findViewById(R.id.imageView_subidaUsuario)
         var choose : Button = findViewById(R.id.button_choose_Imagen)
         choose.setOnClickListener {
             openGalleryForImage()
@@ -58,7 +60,10 @@ class RegistroActivity : AppCompatActivity() {
                         MediaType.parse(this?.contentResolver.getType(selectedImage!!)),
                         file
                     )
-                    //registerViewModel.doRegisterComplete( MultipartBody.Part.createFormData("file","file",requestFile),registerData)
+                    val jsonString = Gson().toJson(registerData)
+                    val resquestBodyData = RequestBody.create(MediaType.parse("application/json"), jsonString)
+                    val multipar=MultipartBody.Part.createFormData("file",file.name,requestFile)
+                    registerViewModel.doRegisterComplete(multipar ,resquestBodyData)
                 }else{
                     findViewById<TextView>(R.id.textView_error_register).visibility= View.VISIBLE
                 }
@@ -106,6 +111,7 @@ class RegistroActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            imagenSubidaUsuario.setImageURI(data?.data!!)
             filePath= uriPathHelper.getPath(this, data?.data!!).toString()
             selectedImage = data?.data
         }

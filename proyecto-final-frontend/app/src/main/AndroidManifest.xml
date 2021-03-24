@@ -15,22 +15,15 @@
         android:networkSecurityConfig="@xml/networksecurityconfig"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Sofitsfrontend">
         <activity android:name=".ui.Chat.mensajes.ChatMensajeActivity"></activity>
         <activity android:name=".ui.Libros.detallePublicacion.PublicacionDetalleActivity" />
-        <activity android:name=".ui.Libros.detallePublicacion.DetailPublicacionActivity" />
         <activity
             android:name=".ui.Libros.PublicacionesActivity"
             android:label="@string/title_activity_publicaciones"
             android:theme="@style/Theme.Sofitsfrontend.NoActionBar" />
-        <activity android:name=".ui.Libros.LibrosPublicadosActivity" />
-        <activity
-            android:name=".ui.MiPerfil.pepe.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Sofitsfrontend.NoActionBar"
-            tools:ignore="MissingClass" />
         <activity android:name=".ui.MiPerfil.AddBook.SelectAutorNewBook" />
-        <activity android:name=".ui.MiPerfil.AddBook.AddBookUser" />
         <activity
             android:name=".ui.Autores.AutoresDetail.AutorDetailActivity"
             android:label="@string/title_activity_autor_detail"

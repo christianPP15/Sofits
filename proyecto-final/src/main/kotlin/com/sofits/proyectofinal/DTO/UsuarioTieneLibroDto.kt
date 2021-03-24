@@ -172,11 +172,6 @@ fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDet
 
 
 /**
- * Función para convertir un ejemplar a LibrosUsuariosResponseMy
- * @see LibrosUsuariosResponseMy
- */
-fun UsuarioTieneLibro.toDtoMyBook() =LibrosUsuariosResponseMy(libroUsuario.toDetailAutor(),usuarioLibro.toDtoLibro(),DescripccionLibro,estado,edicion,idioma,intercambiado,imagen?.toDto())
-/**
  * Función para convertir un ejemplar a LibrosUsuariosResponse
  * @see LibrosUsuariosResponse
  */

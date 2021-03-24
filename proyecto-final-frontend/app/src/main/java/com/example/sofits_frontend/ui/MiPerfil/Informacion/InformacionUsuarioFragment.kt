@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.Constantes
@@ -44,9 +45,15 @@ class InformacionUsuarioFragment : Fragment() {
                     comprobarValoracion(response.data!!.media)
                     textViewNombreUsuario?.text = usuario.nombre
                     if (usuario.imagen != null) {
-                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen)
+                        imagenUsuario!!.load(Constantes.imageURL + usuario.imagen.idImagen){
+                            crossfade(true)
+                            transformations(CircleCropTransformation())
+                        }
                     } else {
-                        imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name=" + usuario.nombre)
+                        imagenUsuario!!.load("https://eu.ui-avatars.com/api/?size=300&name=" + usuario.nombre+".png"){
+                            crossfade(true)
+                            transformations(CircleCropTransformation())
+                        }
                     }
                 }
             }

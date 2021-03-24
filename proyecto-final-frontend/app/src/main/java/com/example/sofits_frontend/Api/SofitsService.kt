@@ -24,7 +24,7 @@ interface SofitsService {
 
     @Multipart
     @POST("auth/register")
-    suspend fun doRegister(@Part("file") file:MultipartBody.Part , @Part("newUser") registerRequest: RequestBody) : Response<RegisterResponse>
+    suspend fun doRegister(@Part file:MultipartBody.Part , @Part("newUser") registerRequest: RequestBody) : Response<RegisterResponse>
 
     @GET("user/book/")
     suspend fun getMyBooks() : Response<MiPerfilResponse>

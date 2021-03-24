@@ -29,7 +29,7 @@ class MyAutoresRecyclerViewAdapter  constructor(val ctx:Context) : RecyclerView.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         if (item.imagen!=null){
-            holder.imagenAutor.load(Constantes.imageURL+item.imagen.idImagen)
+            holder.imagenAutor.load(Constantes.imageURL+item.imagen.idImagen+".png")
         }else{
             holder.imagenAutor.load("https://eu.ui-avatars.com/api/?size=300&name="+item.nombre)
         }

@@ -150,6 +150,13 @@ class UsuarioTieneLibroServicio(
             repositorio.deleteById(id)
     }
 
+    /**
+     * Obtener una publicación en base al id del libro y del usuario
+     * @param idLibro Identificador del libro
+     * @param idUsuario Identificador del usuario
+     * @return Una publicación
+     * @throws PublicacionNotExist Si la publicación no existe
+     */
     fun getPublicacionById(idLibro: UUID,idUsuario:UUID): LibrosUsuariosResponseDetail {
         val id = UsuarioTieneLibroId(idUsuario,idLibro)
         return repositorio.findById(id).orElseThrow { PublicacionNotExist(id) }.toDetalleDto()
