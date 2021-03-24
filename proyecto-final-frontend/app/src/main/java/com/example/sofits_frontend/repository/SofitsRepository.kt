@@ -56,6 +56,8 @@ class SofitsRepository @Inject constructor(@Named("sofitServiceWithoutIntercepto
 
     suspend fun editarLibro(id: String,editBook: EditBook) : Response<NoContent> = sofitsServiceConToken.editarLibro(id,editBook)
 
+    suspend fun addEjemplar(id: String, file: MultipartBody.Part, newBook:RequestBody) = sofitsServiceConToken.addEjemplar(id,file,newBook)
+
     fun parseError(response:Response<*>): ApiError{
         val jsonObject = JSONObject(response.errorBody()?.string())
         return ApiError(jsonObject.getString("estado"),jsonObject.getString("fecha"),jsonObject.getString("mensaje"))

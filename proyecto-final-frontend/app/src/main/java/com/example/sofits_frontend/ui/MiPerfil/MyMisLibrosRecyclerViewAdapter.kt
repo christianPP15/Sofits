@@ -30,8 +30,8 @@ class MyMisLibrosRecyclerViewAdapter constructor(val ctx:Context) : RecyclerView
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        if (item.imagenWithoutHash!=null){
-            holder.imagenLibroUsuario.load(Constantes.imageURL+item.imagenWithoutHash.idImagen+".png"){
+        if (item.imagen!=null){
+            holder.imagenLibroUsuario.load(Constantes.imageURL+item.imagen.idImagen+".png"){
                 crossfade(true)
             }
         }else{

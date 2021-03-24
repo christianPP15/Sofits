@@ -2,6 +2,7 @@ package com.example.sofits_frontend.ui.MiPerfil.AddBook
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.request.EditBook
+import com.example.sofits_frontend.Api.request.NuevoEjemplarRequest
 import com.example.sofits_frontend.Api.response.AutoresResponse.Autor
 import com.example.sofits_frontend.Api.response.AutoresResponse.Libro
 import com.example.sofits_frontend.MainActivity
@@ -47,6 +49,8 @@ class SelectAutorNewBook : AppCompatActivity() {
     lateinit var botonCompletar: Button
     lateinit var botonImagenes : Button
     lateinit var imagenSubida : ImageView
+    var autorSeleccionado : Int =0
+    val context = this
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,18 +130,38 @@ class SelectAutorNewBook : AppCompatActivity() {
                         openGalleryForImage()
                     }
                     botonCompletar.setOnClickListener {
-                        if (filePath!=null && selectedImage!=null){
-                            var file = File(filePath)
-                            val requestFile = RequestBody.create(
-                                MediaType.parse(this?.contentResolver.getType(selectedImage!!)),
-                                file
-                            )
-                            //val jsonString = Gson().toJson()
-                            //val resquestBodyData = RequestBody.create(MediaType.parse("application/json"), jsonString)
-                            val multipar= MultipartBody.Part.createFormData("file",file.name,requestFile)
-
-                        }else{
-
+                        val nuevoEjemplar = devolverNuevoEjemplar()
+                        if (nuevoEjemplar!=null){
+                            if (filePath!=null && selectedImage!=null){
+                                var file = File(filePath)
+                                val requestFile = RequestBody.create(
+                                    MediaType.parse(context.contentResolver.getType(selectedImage!!)),
+                                    file
+                                )
+                                val jsonString = Gson().toJson(nuevoEjemplar)
+                                val resquestBodyData = RequestBody.create(MediaType.parse("application/json"), jsonString)
+                                val multipar= MultipartBody.Part.createFormData("file",file.name,requestFile)
+                                addBookViewModel.addNewBook(autores.get(autorSeleccionado).libros.get(position-1).id,multipar,resquestBodyData)
+                                addBookViewModel.InfoNewLibro.observe(context, Observer {response->
+                                    when(response){
+                                        is Resource.Success->{
+                                            val navegacion = Intent(context,MainActivity::class.java)
+                                            startActivity(navegacion)
+                                        }
+                                        is Resource.Error->{
+                                            Toast.makeText(context,"Ya existe una publicación para el libro seleccionado",Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                                })
+                            }else{
+                                val builder: AlertDialog.Builder? = context?.let {
+                                    AlertDialog.Builder(it)
+                                }
+                                builder?.setMessage("Seleccione una imagen para su publicación")
+                                    ?.setTitle("Imagen necesaria")
+                                val dialog: AlertDialog? = builder?.create()
+                                dialog?.show()
+                            }
                         }
                     }
                 }else{
@@ -156,6 +180,7 @@ class SelectAutorNewBook : AppCompatActivity() {
 
             override fun onItemSelected(parentView: AdapterView<*>?,selectedItemView: View?,position: Int,id: Long) {
                 if (position!=0){
+                    autorSeleccionado=position-1
                     val libros= mutableListOf("Escoja un libro")
                     for(titulo in autores.get(position-1).libros.map { it.titulo })
                         libros.add(titulo)
@@ -196,5 +221,21 @@ class SelectAutorNewBook : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent,REQUEST_CODE)
+    }
+
+    private fun devolverNuevoEjemplar(): NuevoEjemplarRequest? {
+        val estado=estadoLibro.text
+        val idiomaText= idioma.text
+        val edicionText = edicion.text
+        val descripcionText = descripcion.text
+        if (estado.isEmpty() || idiomaText.isEmpty() || edicionText.isEmpty() || descripcionText.isEmpty()){
+            if (estado.isEmpty()) estadoLibro.error="Describa el estado de conservación del libro"
+            if (idiomaText.isEmpty()) idioma.error="Introduzca el idioma del libro"
+            if (edicionText.isEmpty()) edicion.error="Introduzca a que edición pertenece el libro"
+            if (descripcionText.isEmpty()) descripcion.error="Introduzca datos de interés sobre el libro"
+            return null
+        }else{
+            return NuevoEjemplarRequest(descripcionText.toString(),estado.toString(),idiomaText.toString(),edicionText.toString())
+        }
     }
 }

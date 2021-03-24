@@ -16,6 +16,7 @@ import com.example.sofits_frontend.Api.Resource
 import com.example.sofits_frontend.Api.response.PublicacionesResponse.detalles.DetallePublicacionResponse
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.Constantes
 import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.ui.MiPerfil.AddBook.SelectAutorNewBook
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -51,6 +52,8 @@ class PublicacionDetalleActivity : AppCompatActivity() {
                         result = response.data!!
                         if (response.data!!.imagen==null){
                             imagen.load("https://eu.ui-avatars.com/api/?name="+result.libro.titulo)
+                        }else{
+                            imagen.load(Constantes.imageURL+response.data.imagen!!.idImagen+".png")
                         }
                         titulo.text=result.libro.titulo
                         estado.text=result.estado
@@ -105,6 +108,8 @@ class PublicacionDetalleActivity : AppCompatActivity() {
                         result= response.data!!
                         if (response.data!!.imagen==null){
                             imagen.load("https://eu.ui-avatars.com/api/?name="+result.libro.titulo)
+                        }else{
+                            imagen.load(Constantes.imageURL+result.imagen!!.idImagen+".png")
                         }
                         titulo.text=result.libro.titulo
                         estado.text=result.estado

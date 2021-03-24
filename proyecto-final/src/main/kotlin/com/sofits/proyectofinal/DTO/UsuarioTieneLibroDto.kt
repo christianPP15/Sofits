@@ -141,7 +141,7 @@ data class EditarLibroAUsuario(
     @ApiModelProperty(value = "Idioma del libro",dataType = "java.lang.String",position = 4)
     val idioma:String,
     @ApiModelProperty(value = "Edición del libro que publicamos",dataType = "java.lang.String",position = 5)
-    val edicion:String,
+    val edicion:String
 )
 
 /**
