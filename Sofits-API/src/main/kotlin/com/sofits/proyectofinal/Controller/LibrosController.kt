@@ -147,4 +147,52 @@ class LibrosController(val libroService: LibroService,private val pagination: Pa
             libroService.removeLibro(id)
             return ResponseEntity.noContent().build()
         }
+    @ApiOperation(
+        value = "Agrega un género a un libro",
+        notes = "Este controlador permite agregar un género a un libro"
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(code = 201, message = "Created" , response = LibroDtoDetailAutor::class),
+            ApiResponse(code = 401, message = "Unauthorized", response = ApiError::class),
+            ApiResponse(code = 400, message = "Bad Request", response = ApiError::class)
+        ]
+    )
+    @PostMapping("/{idLibro}/{idGenero}")
+    fun addGeneroLibro( @ApiParam(
+        value = "Identificador del libro tipo UUID para agregar",
+        required = true,
+        type = "string"
+    )@PathVariable("idLibro") idlibro:UUID, @ApiParam(
+        value = "Identificador del genero tipo UUID para agregar",
+        required = true,
+        type = "string"
+    )@PathVariable("idGenero") idGenero:UUID) =
+            ResponseEntity.status(201).body(libroService.addGeneroLibro(idlibro,idGenero))
+
+    @ApiOperation(
+        value = "Elimina un género a un libro",
+        notes = "Este controlador permite eliminar un género a un libro"
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(code = 201, message = "No content" ),
+            ApiResponse(code = 401, message = "Unauthorized", response = ApiError::class),
+            ApiResponse(code = 400, message = "Bad Request", response = ApiError::class)
+        ]
+    )
+        @DeleteMapping("/{idLibro}/{idGenero}")
+        fun removeGeneroLibro( @ApiParam(
+        value = "Identificador del libro tipo UUID para llevar a cabo su borrado",
+        required = true,
+        type = "string"
+    )@PathVariable("idLibro") idlibro:UUID, @ApiParam(
+        value = "Identificador del genero tipo UUID para llevar a cabo su borrado",
+        required = true,
+        type = "string"
+    )@PathVariable("idGenero") idGenero:UUID) : ResponseEntity<Any> {
+            libroService.removeGeneroLibro(idlibro,idGenero)
+            return ResponseEntity.noContent().build()
+        }
+
     }
