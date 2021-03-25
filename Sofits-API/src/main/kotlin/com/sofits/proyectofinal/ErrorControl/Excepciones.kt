@@ -60,3 +60,12 @@ data class LibroYaExiste(val mensaje: String ="El libro que está intentando agr
  */
 data class SearchLibroNoResultException(val mensaje: String ="No se encuentran libros con esas características"): EntityNotFoundExceptionControl(mensaje)
 
+/**
+ * Error para cuándo no existen géneros
+ */
+data class NoExistGender(val mensaje: String="No existen géneros aún") :EntityNotFoundExceptionControl(mensaje)
+
+/**
+ * Error para cuándo no existen géneros con el id proporcionado
+ */
+data class NoExistGenderById(val id:UUID,val mensaje: String="No existen géneros aún con el id $id") :EntityNotFoundExceptionControl(mensaje)

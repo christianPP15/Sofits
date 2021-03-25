@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sofits-frontend</string>
+    <string name="app_name">Sofits</string>
     <string name="title_inicio">Inicio</string>
     <string name="title_autores">Autores</string>
     <string name="title_perfil">Perfil</string>
@@ -50,4 +50,5 @@
     <string name="inputBiografia">Datos biográficos del autor</string>
     <string name="EleccionImagen">Escoger imagen para el autor</string>
     <string name="SelectDate">Fecha de nacimiento</string>
+    <string name="chatVacio">Aqui aparecerán tus conversaciones con los demás usuarios</string>
 </resources>

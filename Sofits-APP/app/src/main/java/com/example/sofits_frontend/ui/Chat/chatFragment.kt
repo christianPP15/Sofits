@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.example.sofits_frontend.Api.response.ChatResponse.chatsResponse
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
@@ -42,11 +43,12 @@ class chatFragment : Fragment() {
             adapter = mychatRecyclerViewAdapter
         }
         val shared = activity?.getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
+        val idUsuario = shared?.getString(getString(R.string.IdentificadorUsuario), "")
         val result: MutableList<chatsResponse> = mutableListOf()
         db.collection("chats")
             .whereEqualTo(
                 "idUsuario1",
-                shared?.getString(getString(R.string.IdentificadorUsuario), "")
+                idUsuario
             )
             .get()
             .addOnSuccessListener { chats ->
@@ -58,6 +60,10 @@ class chatFragment : Fragment() {
                             document.data!!.get("mensajes") as List<String>
                     ))
                 }
+                if (result.isEmpty())
+                    view.findViewById<TextView>(R.id.textView_chat_vacio).visibility=View.VISIBLE
+                else
+                    view.findViewById<TextView>(R.id.textView_chat_vacio).visibility=View.INVISIBLE
                 mychatRecyclerViewAdapter.setData(result)
             }
             .addOnFailureListener { ex ->

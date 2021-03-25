@@ -31,9 +31,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         val sharedPref = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
         val lupa = findViewById<Button>(R.id.searchFilter)
-        lupa.setOnClickListener {
-            
-        }
+
         token = sharedPref.getString(getString(R.string.TOKEN_USER), "")!!
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

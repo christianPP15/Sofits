@@ -23,7 +23,7 @@ import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
-@RestControllerAdvice
+@RestController
 @RequestMapping("/autores")
 class AutoresController (val autoresServicio:AutorService,private val paginationLinksUtils: PaginationLinksUtils){
 

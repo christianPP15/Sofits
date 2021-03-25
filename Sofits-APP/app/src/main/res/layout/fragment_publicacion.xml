@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/imageView_imagenUsuario"
-            android:layout_width="146dp"
-            android:layout_height="155dp"
+            android:layout_width="201dp"
+            android:layout_height="225dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_menu_book_24" />
