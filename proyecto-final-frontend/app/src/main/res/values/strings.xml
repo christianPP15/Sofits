@@ -49,4 +49,5 @@
     <string name="nacimientoAutor">Fecha de nacimiento del autor</string>
     <string name="inputBiografia">Datos biográficos del autor</string>
     <string name="EleccionImagen">Escoger imagen para el autor</string>
+    <string name="SelectDate">Fecha de nacimiento</string>
 </resources>
