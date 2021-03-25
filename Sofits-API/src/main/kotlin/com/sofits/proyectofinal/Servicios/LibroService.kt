@@ -4,6 +4,7 @@ import com.sofits.proyectofinal.DTO.*
 import com.sofits.proyectofinal.ErrorControl.AutorNotExist
 import com.sofits.proyectofinal.ErrorControl.LibroNotExist
 import com.sofits.proyectofinal.ErrorControl.LibrosNotExists
+import com.sofits.proyectofinal.ErrorControl.NoExistGender
 import com.sofits.proyectofinal.Modelos.*
 import com.sofits.proyectofinal.Servicios.base.BaseService
 import org.hibernate.type.EntityType
@@ -25,6 +26,10 @@ import javax.persistence.criteria.*
  */
 @Service
 class LibroService(
+    /**
+     * Repositorio de los géneros
+     */
+    val generosService: GeneroLiterarioRepository,
     /**
      * Repositorio de los autores
      * @see AutorRepository
@@ -103,6 +108,13 @@ class LibroService(
         }
     }
 
+    /**
+     * Método para obtener los libros filtrandolos por el nombre del autor su género o su titulo
+     * @param titulo Título del libro
+     * @param autor Nombre del autor
+     * @param genero Genero del autor
+     * @param pageable Parámetro que permite paginar los resultados
+     */
     fun findByArgs(titulo:Optional<String>, autor:Optional<String>, genero: Optional<String>, pageable: Pageable): Page<Libro?> {
 
         val specTitulo : Specification<Libro> =
@@ -138,5 +150,29 @@ class LibroService(
 
         val consulta = specTitulo.and(specAutor).and(specGenero)
         return this.repositorio.findAll(consulta,pageable)
+    }
+
+    /**
+     * Función para agregar un género a un libro
+     * @param idLibro Identificador del libro
+     * @param idGenero Identificador del genero
+     */
+    fun addGeneroLibro(idLibro:UUID, idGenero:UUID): LibroDtoDetailAutor {
+        val libro = repositorio.findById(idLibro).orElseThrow { LibroNotExist(idLibro) }
+        val genero = generosService.findById(idGenero).orElseThrow { NoExistGender(idGenero.toString()) }
+        libro.generos.add(genero)
+        generosService.save(genero)
+        return repositorio.save(libro).toDetailAutor()
+    }
+    /**
+     * Función para eliminar un género a un libro
+     * @param idLibro Identificador del libro
+     * @param idGenero Identificador del genero
+     */
+    fun removeGeneroLibro(idLibro:UUID, idGenero:UUID) {
+        val libro = repositorio.findById(idLibro).orElseThrow { LibroNotExist(idLibro) }
+        val genero = generosService.findById(idGenero).orElseThrow { NoExistGender(idGenero.toString()) }
+        libro.generos.remove(genero)
+        generosService.save(genero)
     }
 }
