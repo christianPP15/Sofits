@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16px"
+    tools:context=".ui.Registro.RegistroActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="38dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView_register"
+                android:layout_width="151dp"
+                android:layout_height="137dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/logo" />
+
+            <EditText
+                android:id="@+id/input_register_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/input_email"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="@+id/textView_error_register"
+                app:layout_constraintStart_toStartOf="@+id/textView_error_register"
+                app:layout_constraintTop_toBottomOf="@+id/textView_error_register" />
+
+            <Button
+                android:id="@+id/buton_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Registrarme"
+                app:layout_constraintEnd_toEndOf="@+id/imageView_subidaUsuario"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="@+id/imageView_subidaUsuario"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_subidaUsuario" />
+
+            <EditText
+                android:id="@+id/input_password_repeat_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Repita la contraseña"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="@+id/input_password_register"
+                app:layout_constraintStart_toStartOf="@+id/input_password_register"
+                app:layout_constraintTop_toBottomOf="@+id/input_password_register" />
+
+            <EditText
+                android:id="@+id/input_password_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="@+id/input_fecha_registro"
+                app:layout_constraintStart_toStartOf="@+id/input_fecha_registro"
+                app:layout_constraintTop_toBottomOf="@+id/input_fecha_registro" />
+
+            <Button
+                android:id="@+id/button_choose_Imagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Elegir Imagen de perfil"
+                app:layout_constraintEnd_toEndOf="@+id/input_password_repeat_register"
+                app:layout_constraintStart_toStartOf="@+id/input_password_repeat_register"
+                app:layout_constraintTop_toBottomOf="@+id/input_password_repeat_register" />
+
+            <EditText
+                android:id="@+id/input_nombre_registro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Nombre de usuario"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="@+id/input_register_email"
+                app:layout_constraintStart_toStartOf="@+id/input_register_email"
+                app:layout_constraintTop_toBottomOf="@+id/input_register_email" />
+
+            <ImageView
+                android:id="@+id/imageView_subidaUsuario"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="24dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/button_choose_Imagen"
+                app:layout_constraintStart_toStartOf="@+id/button_choose_Imagen"
+                app:layout_constraintTop_toBottomOf="@+id/button_choose_Imagen"
+                tools:srcCompat="@drawable/ic_user__1_"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView_error_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/error_registro"
+                android:textColor="@android:color/holo_red_light"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_register"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/input_fecha_registro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/SelectDate"
+                app:layout_constraintEnd_toEndOf="@+id/input_nombre_registro"
+                app:layout_constraintStart_toStartOf="@+id/input_nombre_registro"
+                app:layout_constraintTop_toBottomOf="@+id/input_nombre_registro" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
