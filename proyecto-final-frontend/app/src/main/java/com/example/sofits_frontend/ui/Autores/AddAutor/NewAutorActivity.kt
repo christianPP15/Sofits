@@ -9,13 +9,16 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.sofits_frontend.Api.request.AutorAddRequest
 import com.example.sofits_frontend.Api.response.AutoresResponse.AddAutor.AddAutorResponse
+import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
+import com.example.sofits_frontend.common.MyApp
 import com.example.sofits_frontend.util.URIPathHelper
 import com.google.gson.Gson
 import okhttp3.MediaType
@@ -35,11 +38,12 @@ class NewAutorActivity : AppCompatActivity() {
     lateinit var botonAddImagen :Button
     lateinit var imagenSubida : ImageView
     val uriPathHelper = URIPathHelper()
-    lateinit var botonConfirmar : ImageView
+    lateinit var botonConfirmar : Button
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_autor)
+        (this.applicationContext as MyApp).appComponent.inject(this)
         nombreAutor= findViewById(R.id.editText_nombreAutor)
         bio = findViewById(R.id.editTextTextMultiLine_biografia)
         fecha = findViewById(R.id.editTextDate_autor)
@@ -49,8 +53,8 @@ class NewAutorActivity : AppCompatActivity() {
         botonAddImagen.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-                openGalleryForImage()
             }
+            openGalleryForImage()
         }
         botonConfirmar.setOnClickListener {
             val autor = getAutorData()
@@ -65,6 +69,8 @@ class NewAutorActivity : AppCompatActivity() {
                     val resquestBodyData = RequestBody.create(MediaType.parse("application/json"), jsonString)
                     val multipar= MultipartBody.Part.createFormData("file",file.name,requestFile)
                     addAutorViewModel.addAutor(multipar ,resquestBodyData)
+                    var navigation = Intent(this,MainActivity::class.java)
+                    startActivity(navigation)
                 }else{
                     val builder: AlertDialog.Builder? = this?.let {
                         AlertDialog.Builder(it)
@@ -84,6 +90,7 @@ class NewAutorActivity : AppCompatActivity() {
             imagenSubida.setImageURI(data?.data!!)
             filePath= uriPathHelper.getPath(this, data?.data!!).toString()
             selectedImage = data?.data
+            imagenSubida.visibility= View.VISIBLE
         }
     }
 

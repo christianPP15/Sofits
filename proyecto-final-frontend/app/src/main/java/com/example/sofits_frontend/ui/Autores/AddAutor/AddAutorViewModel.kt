@@ -15,7 +15,7 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
-class AddAutorViewModel @Inject constructor(private var sofitsRepository: SofitsRepository)  : ViewModel(){
+class AddAutorViewModel @Inject constructor(var sofitsRepository: SofitsRepository)  : ViewModel(){
 
     var autorResponse: MutableLiveData<Resource<AddAutorResponse>> = MutableLiveData()
     val autorData: LiveData<Resource<AddAutorResponse>>

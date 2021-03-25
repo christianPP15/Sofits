@@ -58,8 +58,8 @@
 
     <ImageView
         android:id="@+id/imageView_autorAdd"
-        android:layout_width="193dp"
-        android:layout_height="219dp"
+        android:layout_width="191dp"
+        android:layout_height="181dp"
         android:layout_marginTop="16dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/button_imagen_autor"

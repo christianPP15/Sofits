@@ -1,6 +1,7 @@
 package com.example.sofits_frontend.di
 
 import com.example.sofits_frontend.Api.NetworkModule
+import com.example.sofits_frontend.ui.Autores.AddAutor.NewAutorActivity
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.AutorDetailActivity
 import com.example.sofits_frontend.ui.Autores.AutoresDetail.LibrosAutor.LibrosAutorDetalleFragment
 import com.example.sofits_frontend.ui.Autores.AutoresFragment
@@ -32,4 +33,5 @@ interface ApplicationComponent {
     fun inject (publicacionFragment: PublicacionFragment)
     fun inject (publicacionesActivity: PublicacionesActivity)
     fun inject(publicacionDetalleActivity: PublicacionDetalleActivity)
+    fun inject(newAutorActivity: NewAutorActivity)
 }
