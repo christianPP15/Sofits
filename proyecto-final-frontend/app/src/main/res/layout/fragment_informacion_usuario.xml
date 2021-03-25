@@ -112,4 +112,6 @@
         android:text="@string/mis_libros_favoritos"
         app:layout_constraintStart_toEndOf="@+id/button_autoresFavoritos"
         app:layout_constraintTop_toBottomOf="@+id/textView_nombreUsuario" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,7 +42,7 @@ data class LibrosNotExists(val mensaje: String="No existen libros aún") : Entit
 /**
  * Error para cuándo no se ha encontrado una publicación un el id proporcionado
  */
-data class PublicacionNotExist(val id:UsuarioTieneLibroId): EntityNotFoundExceptionControl("No existen publicaciones para el id $id")
+data class PublicacionNotExist(val id:UsuarioTieneLibroId): EntityNotFoundExceptionControl("No existen publicaciones para el id del libro ${id.libro_id} y el usuario ${id.usuario_id}")
 
 /**
  * Error para cuándo no existe una valoración de un usuario hacia el otro

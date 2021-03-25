@@ -9,142 +9,150 @@
     tools:context=".ui.MiPerfil.AddBook.SelectAutorNewBook">
 
 
-    <Button
-        android:id="@+id/button_add_book"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/buton_completar"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/buttonSubidaImagenesLibros"
-        app:layout_constraintStart_toStartOf="@+id/buttonSubidaImagenesLibros"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSubidaImagenesLibros"
-        tools:visibility="visible" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
-            android:id="@+id/chooseAutor"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Escoge un autor"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical" >
 
-        <Spinner
-            android:id="@+id/spinner_autor"
-            android:layout_width="0dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chooseAutor" />
+            <Spinner
+                android:id="@+id/spinner_autor"
+                android:layout_width="0dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/chooseAutor"
+                app:layout_constraintTop_toBottomOf="@+id/chooseAutor" />
 
-    <TextView
-        android:id="@+id/chooseLibro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Escoge un libro"
-        android:textSize="20sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/spinner_autor"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_autor"
-        tools:visibility="visible" />
+            <TextView
+                android:id="@+id/chooseLibro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Escoge un libro"
+                android:textSize="20sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_autor"
+                tools:visibility="visible" />
 
-    <Spinner
-        android:id="@+id/spinner_libros"
-        android:layout_width="0dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseLibro"
-        tools:visibility="visible" />
+            <Spinner
+                android:id="@+id/spinner_libros"
+                android:layout_width="0dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="16dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/chooseLibro"
+                app:layout_constraintTop_toBottomOf="@+id/chooseLibro"
+                tools:visibility="visible" />
 
-    <EditText
-        android:id="@+id/input_estado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/estadoLibro"
-        android:inputType="textPersonName"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/spinner_libros"
-        app:layout_constraintStart_toStartOf="@+id/spinner_libros"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_libros"
-        tools:visibility="visible" />
+            <EditText
+                android:id="@+id/input_estado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/estadoLibro"
+                android:inputType="textPersonName"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/spinner_libros"
+                app:layout_constraintStart_toStartOf="@+id/spinner_libros"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_libros"
+                tools:visibility="visible" />
 
-    <EditText
-        android:id="@+id/input_idioma"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/IdiomaLibro"
-        android:inputType="textPersonName"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/input_estado"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/input_estado"
-        app:layout_constraintTop_toBottomOf="@+id/input_estado"
-        tools:visibility="visible" />
+            <TextView
+                android:id="@+id/chooseAutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Escoge un autor"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextNumber_edion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/EdicionLibro"
-        android:inputType="number"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/input_idioma"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/input_idioma"
-        app:layout_constraintTop_toBottomOf="@+id/input_idioma"
-        tools:visibility="visible" />
+            <EditText
+                android:id="@+id/input_descripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/InformacionLibro"
+                android:inputType="textMultiLine"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/editTextNumber_edion"
+                app:layout_constraintStart_toStartOf="@+id/editTextNumber_edion"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNumber_edion"
+                tools:visibility="visible" />
 
-    <EditText
-        android:id="@+id/input_descripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/InformacionLibro"
-        android:inputType="textMultiLine"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/editTextNumber_edion"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextNumber_edion"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber_edion"
-        tools:visibility="visible" />
+            <EditText
+                android:id="@+id/editTextNumber_edion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/EdicionLibro"
+                android:inputType="number"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/input_idioma"
+                app:layout_constraintStart_toStartOf="@+id/input_idioma"
+                app:layout_constraintTop_toBottomOf="@+id/input_idioma"
+                tools:visibility="visible" />
 
-    <Button
-        android:id="@+id/buttonSubidaImagenesLibros"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/seleccionImagen"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/input_descripcion"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/input_descripcion"
-        app:layout_constraintTop_toBottomOf="@+id/input_descripcion"
-        tools:visibility="visible" />
+            <ImageView
+                android:id="@+id/imageView_imagenSubida_libro"
+                android:layout_width="142dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="24dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/buttonSubidaImagenesLibros"
+                app:layout_constraintStart_toStartOf="@+id/buttonSubidaImagenesLibros"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSubidaImagenesLibros"
+                app:srcCompat="@drawable/ic_baseline_menu_book_24"
+                tools:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/imageView_imagenSubida_libro"
-        android:layout_width="64dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="24dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonSubidaImagenesLibros"
-        app:layout_constraintTop_toBottomOf="@+id/input_descripcion"
-        app:srcCompat="@drawable/ic_baseline_menu_book_24"
-        tools:visibility="visible" />
+            <Button
+                android:id="@+id/buttonSubidaImagenesLibros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/seleccionImagen"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/input_descripcion"
+                app:layout_constraintStart_toStartOf="@+id/input_descripcion"
+                app:layout_constraintTop_toBottomOf="@+id/input_descripcion"
+                tools:visibility="visible" />
+
+            <EditText
+                android:id="@+id/input_idioma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="@string/IdiomaLibro"
+                android:inputType="textPersonName"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/input_estado"
+                app:layout_constraintStart_toStartOf="@+id/input_estado"
+                app:layout_constraintTop_toBottomOf="@+id/input_estado"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/button_add_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/buton_completar"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/imageView_imagenSubida_libro"
+                app:layout_constraintStart_toStartOf="@+id/imageView_imagenSubida_libro"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_imagenSubida_libro"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
