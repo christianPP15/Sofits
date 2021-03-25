@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -19,19 +20,21 @@ import com.example.sofits_frontend.Api.response.AutoresResponse.AddAutor.AddAuto
 import com.example.sofits_frontend.MainActivity
 import com.example.sofits_frontend.R
 import com.example.sofits_frontend.common.MyApp
+import com.example.sofits_frontend.util.DatePickerFragment
 import com.example.sofits_frontend.util.URIPathHelper
 import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 
-class NewAutorActivity : AppCompatActivity() {
+class NewAutorActivity : AppCompatActivity(), DatePickerFragment.DatePickerListener {
     lateinit var nombreAutor : TextView
     @Inject lateinit var addAutorViewModel: AddAutorViewModel
     lateinit var bio: TextView
-    lateinit var fecha :TextView
+    lateinit var fecha :Button
     val REQUEST_CODE = 100
     var filePath : String? = null
     var selectedImage : Uri? = null
@@ -55,6 +58,9 @@ class NewAutorActivity : AppCompatActivity() {
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
             }
             openGalleryForImage()
+        }
+        fecha.setOnClickListener {
+            showDatePickerDialog()
         }
         botonConfirmar.setOnClickListener {
             val autor = getAutorData()
@@ -109,5 +115,29 @@ class NewAutorActivity : AppCompatActivity() {
         }else{
             return AutorAddRequest(nombreAutor.text.toString(),bio.text.toString(),fecha.text.toString())
         }
+    }
+    fun showDatePickerDialog() {
+        val newFragment = DatePickerFragment()
+        newFragment.show(supportFragmentManager, "datePicker")
+    }
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR,year)
+        cal.set(Calendar.MONTH,month)
+        cal.set(Calendar.DAY_OF_MONTH,day)
+        var year = cal.get(Calendar.YEAR);
+        var month:String
+        var day :String
+        if(cal.get(Calendar.MONTH) < 10){
+            month = "0" + cal.get(Calendar.MONTH).toString()
+        }else{
+            month=cal.get(Calendar.MONTH).toString()
+        }
+        if(cal.get(Calendar.DAY_OF_MONTH) < 10){
+            day  = "0" + cal.get(Calendar.DAY_OF_MONTH).toString()
+        }else{
+            day= cal.get(Calendar.DAY_OF_MONTH).toString()
+        }
+        fecha.text= "$day/$month/$year"
     }
 }

@@ -20,18 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextDate_autor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="@string/nacimientoAutor"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="@+id/editText_nombreAutor"
-        app:layout_constraintStart_toStartOf="@+id/editText_nombreAutor"
-        app:layout_constraintTop_toBottomOf="@+id/editText_nombreAutor" />
-
-    <EditText
         android:id="@+id/editTextTextMultiLine_biografia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,4 +65,14 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView_autorAdd"
         app:layout_constraintStart_toStartOf="@+id/imageView_autorAdd"
         app:layout_constraintTop_toBottomOf="@+id/imageView_autorAdd" />
+
+    <Button
+        android:id="@+id/editTextDate_autor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/nacimientoAutor"
+        app:layout_constraintEnd_toEndOf="@+id/editText_nombreAutor"
+        app:layout_constraintStart_toStartOf="@+id/editText_nombreAutor"
+        app:layout_constraintTop_toBottomOf="@+id/editText_nombreAutor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

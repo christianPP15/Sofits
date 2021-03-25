@@ -12,6 +12,7 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Button
 import com.example.sofits_frontend.ui.Login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         val sharedPref = getSharedPreferences(getString(R.string.TOKEN), Context.MODE_PRIVATE)
+        val lupa = findViewById<Button>(R.id.searchFilter)
+        lupa.setOnClickListener {
+            
+        }
         token = sharedPref.getString(getString(R.string.TOKEN_USER), "")!!
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

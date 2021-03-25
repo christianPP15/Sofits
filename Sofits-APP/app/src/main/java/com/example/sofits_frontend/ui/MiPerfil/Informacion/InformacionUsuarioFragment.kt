@@ -70,23 +70,24 @@ class InformacionUsuarioFragment : Fragment() {
         when (valoracion.roundToInt()) {
             1 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
-                estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
-                estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
-                estrella4?.setImageResource(R.drawable.ic_estrella_rellena)
             }
             2 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
-                estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
             }
             3 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
+                estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
             }
             4 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
+                estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
+                estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
+                estrella4?.setImageResource(R.drawable.ic_estrella_rellena)
+                estrella5?.setImageResource(R.drawable.ic_estrella_rellena)
             }
-            0 -> {
+            0,5 -> {
                 estrella1?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella2?.setImageResource(R.drawable.ic_estrella_rellena)
                 estrella3?.setImageResource(R.drawable.ic_estrella_rellena)
