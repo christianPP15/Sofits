@@ -64,8 +64,8 @@ class RegistroActivity : AppCompatActivity() , DatePickerFragment.DatePickerList
         choose.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-                openGalleryForImage()
             }
+            openGalleryForImage()
         }
         fecha.setOnClickListener {
             showDatePickerDialog()
@@ -177,7 +177,19 @@ class RegistroActivity : AppCompatActivity() , DatePickerFragment.DatePickerList
         cal.set(Calendar.YEAR,year)
         cal.set(Calendar.MONTH,month)
         cal.set(Calendar.DAY_OF_MONTH,day)
-        val date = DateFormat.getDateInstance().format(cal.time)
-        fecha.text=date
+        var year = cal.get(Calendar.YEAR);
+        var month:String
+        var day :String
+        if(cal.get(Calendar.MONTH) < 10){
+            month = "0" + cal.get(Calendar.MONTH).toString()
+        }else{
+            month=cal.get(Calendar.MONTH).toString()
+        }
+        if(cal.get(Calendar.DAY_OF_MONTH) < 10){
+            day  = "0" + cal.get(Calendar.DAY_OF_MONTH).toString()
+        }else{
+            day= cal.get(Calendar.DAY_OF_MONTH).toString()
+        }
+        fecha.text= "$day/$month/$year"
     }
 }

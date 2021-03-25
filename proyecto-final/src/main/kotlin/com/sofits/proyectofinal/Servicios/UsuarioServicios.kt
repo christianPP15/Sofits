@@ -48,7 +48,7 @@ class UserService(
         return Optional.of(
             with(newUser) {
                 repo.save(Usuario(email, encoder.encode(password), nombre, LocalDate.parse(newUser.fechaNacimiento,
-                    DateTimeFormatter.ofPattern("d/MM/yyyy")) ,listOf("USER"),null))
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy")) ,listOf("USER"),null))
             }
 
         )
