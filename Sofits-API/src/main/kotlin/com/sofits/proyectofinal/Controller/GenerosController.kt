@@ -60,7 +60,7 @@ class GenerosController (val generosService: GenerosService){
     @PostMapping("/")
     fun addGenero(
         @ApiParam(value = "Atributo que indica el nombre del nuevo género", required = true, type = "string")
-        @RequestPart nombre:String) = ResponseEntity.ok(generosService.addGenero(nombre))
+        @RequestPart nombre:String) = ResponseEntity.status(201).body(generosService.addGenero(nombre))
 
     @ApiOperation(
         value = "Editar un género literario en base a su id",
